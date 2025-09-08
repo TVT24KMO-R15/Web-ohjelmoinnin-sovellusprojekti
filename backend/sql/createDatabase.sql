@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public.groupposts
     movieid bigint,
     postdate date DEFAULT CURRENT_DATE,
     PRIMARY KEY (groupid),
-    CONSTRAINT uniquepk UNIQUE (postid)
+    CONSTRAINT "uniqPKGroupPosts" UNIQUE (postid)
 );
 
 CREATE TABLE IF NOT EXISTS public.favoritemovies
