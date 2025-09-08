@@ -1,0 +1,1 @@
+// for all user table sql queries
