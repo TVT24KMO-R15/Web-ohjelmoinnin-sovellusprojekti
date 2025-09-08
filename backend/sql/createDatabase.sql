@@ -5,12 +5,12 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS public."user"
 (
-    userid integer NOT NULL,
+    userid serial,
     username character varying(32) NOT NULL,
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
     "registrationDate" date DEFAULT CURRENT_DATE,
-    CONSTRAINT "USERID PRIMARYKEY" PRIMARY KEY (userid),
+    PRIMARY KEY (userid),
     CONSTRAINT "UniqueUsernamesOnly" UNIQUE (username),
     CONSTRAINT "UniqueEmailsOnly" UNIQUE (email)
 );
@@ -20,7 +20,7 @@ COMMENT ON COLUMN public."user".username
 
 CREATE TABLE IF NOT EXISTS public."group"
 (
-    groupid integer,
+    groupid serial,
     ownerid integer,
     groupname character varying(32) NOT NULL,
     groupdescription character varying(255),
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS public."user-group-linker"
 
 CREATE TABLE IF NOT EXISTS public.review
 (
-    reviewid integer,
+    reviewid serial,
     movieid integer NOT NULL,
     stars integer NOT NULL,
     useremail character varying(32) NOT NULL,
@@ -47,18 +47,18 @@ CREATE TABLE IF NOT EXISTS public.review
 
 CREATE TABLE IF NOT EXISTS public.groupposts
 (
-    postid bigint,
-    groupid bigint NOT NULL,
+    postid serial,
+    groupid integer NOT NULL,
     posttext character varying(1000),
-    movieid bigint,
+    movieid integer,
     postdate date DEFAULT CURRENT_DATE,
-    PRIMARY KEY (groupid),
+    PRIMARY KEY (postid),
     CONSTRAINT "uniqPKGroupPosts" UNIQUE (postid)
 );
 
 CREATE TABLE IF NOT EXISTS public.favoritemovies
 (
-    favmovieid integer NOT NULL,
+    favmovieid serial,
     userid integer NOT NULL,
     movieid integer NOT NULL,
     PRIMARY KEY (favmovieid),
