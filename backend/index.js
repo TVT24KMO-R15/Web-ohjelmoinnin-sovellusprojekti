@@ -3,8 +3,8 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 
-// -- file imports --
-// import someroute from './routes/someroute.js'
+// -- route imports --
+import usersRouter from './routes/accountRouter.js'
 
 dotenv.config()
 
@@ -15,7 +15,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 // -- routes
-// app.use('/someroute', someroute)
+app.use('/users', usersRouter)
 
 // -- middleware
 app.listen(process.env.PORT, () => {
