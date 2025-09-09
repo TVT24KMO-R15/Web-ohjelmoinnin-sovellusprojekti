@@ -4,6 +4,6 @@ import { fetchPopularMovies, searchMovie } from "../controllers/tmdbController.j
 const router = express.Router();
 
 router.get("/popular", fetchPopularMovies); // /url/api/tmdb/popular
-router.get("/search/:moviename", searchMovie); // /url/api/tmdb/name
+router.get("/search/:moviename", searchMovie); // /url/api/tmdb/search/name
 
 export default router;
