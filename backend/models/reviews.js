@@ -1,0 +1,1 @@
+// for all review table sql queries

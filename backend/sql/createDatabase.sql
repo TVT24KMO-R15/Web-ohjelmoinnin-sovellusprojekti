@@ -3,24 +3,24 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public."user"
+CREATE TABLE IF NOT EXISTS public.account
 (
-    userid integer NOT NULL,
+    accountid serial,
     username character varying(32) NOT NULL,
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
     "registrationDate" date DEFAULT CURRENT_DATE,
-    CONSTRAINT "USERID PRIMARYKEY" PRIMARY KEY (userid),
+    PRIMARY KEY (accountid),
     CONSTRAINT "UniqueUsernamesOnly" UNIQUE (username),
     CONSTRAINT "UniqueEmailsOnly" UNIQUE (email)
 );
 
-COMMENT ON COLUMN public."user".username
+COMMENT ON COLUMN public.account.username
     IS '32 username length constraint, also add unique somewhere somehow';
 
 CREATE TABLE IF NOT EXISTS public."group"
 (
-    groupid integer,
+    groupid serial,
     ownerid integer,
     groupname character varying(32) NOT NULL,
     groupdescription character varying(255),
@@ -31,12 +31,12 @@ CREATE TABLE IF NOT EXISTS public."group"
 CREATE TABLE IF NOT EXISTS public."user-group-linker"
 (
     groupid integer,
-    userid integer
+    accountid integer
 );
 
 CREATE TABLE IF NOT EXISTS public.review
 (
-    reviewid integer,
+    reviewid serial,
     movieid integer NOT NULL,
     stars integer NOT NULL,
     useremail character varying(32) NOT NULL,
@@ -47,27 +47,27 @@ CREATE TABLE IF NOT EXISTS public.review
 
 CREATE TABLE IF NOT EXISTS public.groupposts
 (
-    postid bigint,
-    groupid bigint NOT NULL,
+    postid serial,
+    groupid integer NOT NULL,
     posttext character varying(1000),
-    movieid bigint,
+    movieid integer,
     postdate date DEFAULT CURRENT_DATE,
-    PRIMARY KEY (groupid),
-    CONSTRAINT uniquepk UNIQUE (postid)
+    PRIMARY KEY (postid),
+    CONSTRAINT "uniqPKGroupPosts" UNIQUE (postid)
 );
 
 CREATE TABLE IF NOT EXISTS public.favoritemovies
 (
-    favmovieid integer NOT NULL,
-    userid integer NOT NULL,
+    favmovieid serial,
+    accountid integer NOT NULL,
     movieid integer NOT NULL,
     PRIMARY KEY (favmovieid),
     CONSTRAINT uniquepk UNIQUE (favmovieid)
 );
 
 ALTER TABLE IF EXISTS public."user-group-linker"
-    ADD CONSTRAINT userid FOREIGN KEY (userid)
-    REFERENCES public."user" (userid) MATCH SIMPLE
+    ADD CONSTRAINT accountid FOREIGN KEY (accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE CASCADE
     NOT VALID;
@@ -83,7 +83,7 @@ ALTER TABLE IF EXISTS public."user-group-linker"
 
 ALTER TABLE IF EXISTS public.review
     ADD CONSTRAINT "userEmailInReview" FOREIGN KEY (useremail)
-    REFERENCES public."user" (email) MATCH SIMPLE
+    REFERENCES public.account (email) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
@@ -98,8 +98,8 @@ ALTER TABLE IF EXISTS public.groupposts
 
 
 ALTER TABLE IF EXISTS public.favoritemovies
-    ADD CONSTRAINT userid FOREIGN KEY (userid)
-    REFERENCES public."user" (userid) MATCH SIMPLE
+    ADD CONSTRAINT accountid FOREIGN KEY (accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
