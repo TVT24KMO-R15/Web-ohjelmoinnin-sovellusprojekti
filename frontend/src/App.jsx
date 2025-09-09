@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import Groups from './pages/Groups'
 import SingleGroup from './pages/SingleGroup'
+import Movies from './pages/Movies'
 import SingleMovie from './pages/SingleMovie'
 import Reviews from './pages/Reviews'
 
@@ -20,8 +21,9 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/groups" exact element={<Groups />} />
-          <Route path="/group/:groupId" element={<SingleGroup />} />
-          <Route path="/movie/:movieId" element={<SingleMovie />} />
+          <Route path="/groups/:groupId" element={<SingleGroup />} />
+          <Route path="/movies" exact element={<Movies />} />
+          <Route path="/movies/:movieId" element={<SingleMovie />} />
           <Route path="/reviews" exact element={<Reviews />} />
           <Route path="/*" exact element={<NotFound />}/>
         </Routes>
