@@ -10,7 +10,7 @@ export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false); // Sivuvalikko, joka on käytössä vain kapeille näytöille
   const [signinOpen, setSigninOpen] = useState(false); // Kirjautumisikkuna
   const [search, setSearch] = useState(""); // Haku
-  const [visible, setVisible] = React.useState(false); // Hakupainikkeen näkyvyys
+  const [visible, setVisible] = useState(false); // Hakupainikkeen näkyvyys
 
     useEffect(() => {
     const handleResize = () => {
