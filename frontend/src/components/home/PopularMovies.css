@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,*::before,*::after {
+    box-sizing: border-box;
+}
+
+div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: calc(100vw - 4em);
+}
+
+article {
+    flex: 25%;
+    padding: 2em;
+}
+
+article img {
+    
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+article h3 {
+    text-align: center;
+}
+
+.popularmovielink {
+    color: #000;
+    text-decoration: none;
+}
+
+.discovermoremovies {
+    text-decoration: none;
+    background-color: #000;
+    color: gold;
+    padding: 1em;
+    border: 2px solid gold;
+    border-radius: 1em;
+}
+
+@media only screen and (max-width: 1200px) {
+    article {
+        flex: 50%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    article {
+        flex: 100%;
+    }
+}
