@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 
 // -- route imports --
 import usersRouter from './routes/accountRouter.js'
+import tmdbRouter from './routes/tmdbRouter.js'
 
 dotenv.config()
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({extended: false}))
 
 // -- routes
 app.use('/users', usersRouter)
+app.use('/api/tmdb', tmdbRouter) // url/api/tmdb
 
 // -- middleware
 app.listen(process.env.PORT, () => {
