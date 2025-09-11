@@ -1,0 +1,136 @@
+*{
+  margin: 0;
+  padding: 0;
+  font-family: Proxima Nova, sans-serif;
+}
+body {
+  min-height: 100vh;
+}
+.signin-btn {
+  margin-left: 10px;
+  margin-right: 10px;
+  background: #ffffff;
+  color: #000;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  border: 0;
+}
+.signin-btn:hover {
+  background: #b30000;
+  color: #fff;
+}
+.show-search{
+  padding: 10px 12px;
+  border: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+  background:#000;
+}
+.search-bar {
+  margin-left: 10px;
+  margin-right: 10px;
+  position: relative;
+  display: inline-block;
+}
+.search-bar input {
+  padding-right: 32px; 
+  padding-left: 8px;
+  height: 36px;
+  border-radius: 8px;
+  border: 0px;
+}
+.search-bar .search-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+nav{
+  background-color: black;
+}
+nav ul{
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+nav li{
+  height: 64px;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+nav a{
+  padding: 10px 12px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  background: #000000;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 0;
+}
+nav a:hover{
+  background: #333;
+  color: #fff;
+}
+nav li:first-child{
+  margin-right: auto;
+}
+.sidebar{
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  z-index: 999;
+  background-color: #000;
+  
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.sidebar.open {
+  display: flex;
+}
+.sidebar li{
+  width: 100%;
+}
+.sidebar a{
+  width: 100%;
+}
+.menu-btn{
+  display: none;
+}
+@media (min-width: 801px) {
+  .show-search.close {
+    display: none !important;
+  }
+}
+@media(max-width: 800px){
+  .hideOnMobile{
+    display: none;
+  }
+  
+  .menu-btn{
+    display: block;
+  }
+}
+@media(max-width: 400px){
+  .sidebar{
+    width: 100%;
+  }
+}
