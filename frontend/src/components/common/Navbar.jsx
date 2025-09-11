@@ -29,8 +29,10 @@ export default function Navbar() {
 
   /* Hakulogiikka (kesken) */
   const handleSubmit = (e) => {
+    <Link to="/search"/>
     console.log("Searching for:", e);
-    }; 
+  }; 
+
   return (
     /* Sivuvalikko */
     <nav>
@@ -70,6 +72,7 @@ export default function Navbar() {
         type="search"
         value={search}
         onChange={e => setSearch(e.target.value)}
+        onKeyUp={e => {if (e.key ==='Enter')handleSubmit(search)}}
       />
       <button 
         type="button"
