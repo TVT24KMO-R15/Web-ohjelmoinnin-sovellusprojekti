@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './Navbar.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export default function Navbar() {
   const close_btn = (<svg xmlns="http://www.w3.org/2000/svg" className="close-btn" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>);
   const menu_btn = (<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>);
@@ -11,6 +11,7 @@ export default function Navbar() {
   const [signinOpen, setSigninOpen] = useState(false); // Kirjautumisikkuna
   const [search, setSearch] = useState(""); // Haku
   const [visible, setVisible] = useState(false); // Hakupainikkeen näkyvyys
+  const navigate = useNavigate();
 
     useEffect(() => {
     const handleResize = () => {
@@ -29,8 +30,9 @@ export default function Navbar() {
 
   /* Hakulogiikka (kesken) */
   const handleSubmit = (e) => {
-    <Link to="/search"/>
+    if(!e.trim()) return; // if text empty
     console.log("Searching for:", e);
+    navigate("/search", {state:{e}})
   }; 
 
   return (
