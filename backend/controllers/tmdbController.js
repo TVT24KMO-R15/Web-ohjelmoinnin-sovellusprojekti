@@ -1,4 +1,4 @@
-import { getPopularMovies, searchForMovie } from "../services/tmdbService.js";
+import { getPopularMovies, searchForMovie, getMovieDetails } from "../services/tmdbService.js";
 
 const fetchPopularMovies = async(req, res, next) => {
   try {
@@ -22,4 +22,14 @@ const searchMovie = async (req, res, next) => {
   }
 }
 
-export { fetchPopularMovies, searchMovie }
+const detailMovie = async (req, res, next) => {
+  const movieId = (req.params.movieId)
+  try {
+    const details = await getMovieDetails(movieId)
+    return res.status(200).json(details)
+  } catch (err) {
+    return next (err)
+  }
+}
+
+export { fetchPopularMovies, searchMovie, detailMovie }

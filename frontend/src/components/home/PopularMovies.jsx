@@ -15,7 +15,7 @@ export default function PopularMovies() {
       .then(response => {
         console.log(response.data)
         let shortList = [] //shortlist contains first 4 movies from popular movies
-        for (let index = 0; index < 4; index++) {
+        for (let index = 0; index < 8; index++) {
           const element = response.data.results[index];
           shortList.push(element)
           
@@ -26,14 +26,14 @@ export default function PopularMovies() {
   }, [])
 
   return (
-    <>
-      <h2>Popular Movies</h2>
-      <div>
+    <section className='popularMoviesSection'>
+      <h2 className='sectionTitle'>Popular Movies</h2>
+      <div className='popularMoviesDiv'>
 
         {
 
           movies.map(item => (
-            <article key={item.id} >
+            <article key={item.id} className='popularMoviesArticle'>
               <Link to={`/movies/${item.id}`} className='popularmovielink'>
                 <img src={"https://image.tmdb.org/t/p/w500" + item["poster_path"]}></img>
                 <h3>{item.title}</h3>
@@ -45,6 +45,6 @@ export default function PopularMovies() {
         
       </div>
       <Link to="/movies" className='discovermoremovies'>Discover more movies</Link>
-    </>
+    </section>
   )
 }
