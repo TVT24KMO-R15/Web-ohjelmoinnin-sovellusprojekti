@@ -28,7 +28,7 @@ export default function Navbar() {
   }, []);
 
   /* Hakulogiikka (kesken) */
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     console.log("Searching for:", e);
     }; 
   return (
