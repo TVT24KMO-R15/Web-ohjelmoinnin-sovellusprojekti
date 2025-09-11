@@ -1,34 +1,37 @@
-* {
+.sectionTitle {
     margin: 0;
     padding: 0;
 }
 
-*,*::before,*::after {
+ .popularMoviesDiv *, .popularMoviesDiv::after, .popularMoviesDiv::before{
     box-sizing: border-box;
-}
+    margin: 0;
+    padding: 0;
+ }
 
-div {
+ .popularMoviesDiv {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: calc(100vw - 4em);
+    margin-bottom: 2em;
 }
 
-article {
-    flex: 25%;
-    padding: 2em;
+.popularMoviesArticle {
+    flex: 12%;
+    padding: 1em;
 }
 
-article img {
+.popularMoviesArticle img {
     display: block;
-    margin: auto;
+    margin: auto !important;
     height: 300px;
-    width: 70%;
+    width: 75%;
     object-fit: cover;
     object-position: center;
 }
 
-article h3 {
+.popularMoviesArticle h3 {
     text-align: center;
 }
 
@@ -38,23 +41,33 @@ article h3 {
 }
 
 .discovermoremovies {
+    box-sizing: border-box;
     text-decoration: none;
     background-color: #000;
     color: gold;
-    padding: 1em;
+    padding: 1em !important;
+    margin-top: 1em;
     margin-bottom: 2em;
     border: 2px solid gold;
     border-radius: 1em;
 }
 
+.popularMoviesSection {
+    margin-bottom: 4em;
+}
+
 @media only screen and (max-width: 1200px) {
-    article {
-        flex: 50%;
+    .popularMoviesArticle {
+        flex: 25%;
+    }
+    .popularMoviesArticle img {
+        height: 250px;
+        width: 70%;
     }
 }
 
 @media only screen and (max-width: 800px) {
-    article {
-        flex: 100%;
+    .popularMoviesArticle {
+        flex: 50%;
     }
 }
