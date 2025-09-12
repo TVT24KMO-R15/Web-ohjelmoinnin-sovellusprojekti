@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
     <div>Home</div>
-    <PopularMovies reqUrl={"http://localhost:3000/api/tmdb/popular"}/>
+    <PopularMovies reqUrl={"http://localhost:3000/api/tmdb/popular"} sectionTitle={"Popular Movies"}/>
     <Finnkino />
     <ExtraLinks />
     <LatestReviews />

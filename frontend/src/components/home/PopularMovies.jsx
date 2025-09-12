@@ -3,13 +3,14 @@ import axios from "axios"
 import './PopularMovies.css'
 import { Link } from 'react-router-dom'
 
-export default function PopularMovies({reqUrl, sectionTitle}) {
+export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
   //const [movie, setMovie] = useState('')
   const [movies, setMovies] = useState([])
-
+  const [maxResults] = useState(resultLimit ? resultLimit : "8") // if passing a limit of results to this component, use that, else 8
 
   useEffect(() => {
     setMovies([]) // cleanup list from previous searches
+    if (!(reqUrl)) return // loading /search/ directly passes null as url, break here to avoid breaking
     const address = reqUrl // get address from parameter for flexibility
 
     axios.get(address)
@@ -17,7 +18,7 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
         console.log("Axios request response data from" + address +" : ")
         console.log(response.data)
         const results = Array.isArray(response.data?.results) ? response.data.results : []
-        const limit = Math.min(8, results.length) // limit results from 0-8 dependent on api results
+        const limit = Math.min(maxResults, results.length) // limit results from 0-x dependent on api results
         setMovies(results.slice(0, limit))
       })
       // catch axios issues
@@ -25,12 +26,14 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
         console.error('Failed to fetch movies', err)
         setMovies([])
       })
-  }, [reqUrl])
+  }, [reqUrl, maxResults])
+
+  // If passed text into this component ? (check if search results are empty ? show not found : show text from prop) : show nothing
+  const displayTitle = sectionTitle ? ((reqUrl?.includes('/tmdb/search') && movies.length === 0) ? 'No results found' : sectionTitle) : ""
 
   return (
     <section className='popularMoviesSection'>
-      {/* if passing title to this section as a prop from elsewhere (reusing this component in search), show that instead of "Popular movies" */}
-      <h2 className='sectionTitle'>{sectionTitle ? sectionTitle : "Popular Movies"}</h2>
+      <h2 className='sectionTitle'>{displayTitle}</h2>
       <div className='popularMoviesDiv'>
 
         {
