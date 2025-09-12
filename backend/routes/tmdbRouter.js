@@ -1,9 +1,10 @@
 import express from "express";
-import { fetchPopularMovies, searchMovie } from "../controllers/tmdbController.js";
+import { fetchPopularMovies, searchMovie, detailMovie } from "../controllers/tmdbController.js";
 
 const router = express.Router();
 
 router.get("/popular", fetchPopularMovies); // /url/api/tmdb/popular
 router.get("/search/:moviename", searchMovie); // /url/api/tmdb/search/name
+router.get("/details/:movieId", detailMovie); // /url/api/tmdb/details/movieid
 
 export default router;

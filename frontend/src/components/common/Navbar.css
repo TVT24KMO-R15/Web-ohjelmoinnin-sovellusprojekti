@@ -17,34 +17,6 @@ body {
   background: #b30000;
   color: white;
 }
-.show-search{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.search-bar {
-  margin-left: 10px;
-  margin-right: 10px;
-  position: relative;
-  display: inline-block;
-}
-.search-bar input {
-  padding-right: 32px; 
-  padding-left: 8px;
-  height: 36px;
-  border-radius: 8px;
-  border: 0px;
-}
-.search-bar .search-icon {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: white;
-}
 nav{
   background-color: black;
 }
@@ -109,11 +81,6 @@ nav li:first-child{
   display: none;
   align-items: center;
   justify-content: center;
-}
-@media (min-width: 801px) {
-  .show-search.close {
-    display: none !important;
-  }
 }
 @media(max-width: 800px){
   .hideOnMobile{
