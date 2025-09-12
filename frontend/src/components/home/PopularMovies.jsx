@@ -7,12 +7,14 @@ export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
   //const [movie, setMovie] = useState('')
   const [movies, setMovies] = useState([])
   const [maxResults] = useState(resultLimit ? resultLimit : "8") // if passing a limit of results to this component, use that, else 8
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setMovies([]) // cleanup list from previous searches
     if (!(reqUrl)) return // loading /search/ directly passes null as url, break here to avoid breaking
     const address = reqUrl // get address from parameter for flexibility
 
+    setLoading(true)
     axios.get(address)
       .then(response => {
         console.log("Axios request response data from" + address +" : ")
@@ -26,10 +28,11 @@ export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
         console.error('Failed to fetch movies', err)
         setMovies([])
       })
+      .finally(() => setLoading(false))
   }, [reqUrl, maxResults])
 
   // If passed text into this component ? (check if search results are empty ? show not found : show text from prop) : show nothing
-  const displayTitle = sectionTitle ? ((reqUrl?.includes('/tmdb/search') && movies.length === 0) ? 'No results found' : sectionTitle) : ""
+  const displayTitle = sectionTitle ? ((reqUrl?.includes('/tmdb/search') && !loading && movies.length === 0) ? 'No results found' : sectionTitle) : ""
 
   return (
     <section className='popularMoviesSection'>
