@@ -1,16 +1,11 @@
-*{
-  margin: 0;
-  padding: 0;
-  font-family: Proxima Nova, sans-serif;
-}
 body {
   min-height: 100vh;
 }
 .signin-btn {
   margin-left: 10px;
   margin-right: 10px;
-  background: #ffffff;
-  color: #000;
+  background: white;
+  color: black;
   padding: 10px 12px;
   border-radius: 8px;
   text-decoration: none;
@@ -20,14 +15,12 @@ body {
 }
 .signin-btn:hover {
   background: #b30000;
-  color: #fff;
+  color: white;
 }
 .show-search{
-  padding: 10px 12px;
-  border: 0;
-  margin-left: 10px;
-  margin-right: 10px;
-  background:#000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .search-bar {
   margin-left: 10px;
@@ -75,8 +68,8 @@ nav a{
   text-decoration: none;
   display: flex;
   align-items: center;
-  color: #ffffff;
-  background: #000000;
+  color: white;
+  background: black;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 700;
@@ -84,7 +77,7 @@ nav a{
 }
 nav a:hover{
   background: #333;
-  color: #fff;
+  color: white;
 }
 nav li:first-child{
   margin-right: auto;
@@ -96,7 +89,7 @@ nav li:first-child{
   height: 100vh;
   width: 250px;
   z-index: 999;
-  background-color: #000;
+  background-color: black;
   
   display: none;
   flex-direction: column;
@@ -114,6 +107,8 @@ nav li:first-child{
 }
 .menu-btn{
   display: none;
+  align-items: center;
+  justify-content: center;
 }
 @media (min-width: 801px) {
   .show-search.close {
@@ -124,9 +119,19 @@ nav li:first-child{
   .hideOnMobile{
     display: none;
   }
-  
-  .menu-btn{
-    display: block;
+  .menu-btn, .show-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  .search-bar{
+    width: 100%
+  }
+  nav ul {
+    justify-content: center;
+    gap: 0;
   }
 }
 @media(max-width: 400px){
