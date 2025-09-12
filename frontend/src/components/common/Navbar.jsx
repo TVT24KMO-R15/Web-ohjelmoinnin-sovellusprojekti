@@ -6,8 +6,8 @@ import SearchBar from './SearchBar';
 
 
 export default function Navbar() {
-  const close_btn = (<svg xmlns="http://www.w3.org/2000/svg" className="close-btn" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>);
-  const menu_btn = (<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>);
+  const closeIcon = (<svg xmlns="http://www.w3.org/2000/svg" className="close-btn" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>);
+  const menuIcon = (<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>);
         
   const [sidebarOpen, setSidebarOpen] = useState(false); // Sivuvalikko, joka on käytössä vain kapeille näytöille
   const [signinOpen, setSigninOpen] = useState(false); // Kirjautumisikkuna
@@ -34,54 +34,23 @@ export default function Navbar() {
           <li className="menu-btn" onClick={() => setSidebarOpen(true)}>
             {menuIcon}
           </li>
-
           {/* Venyvä hakupainike */}
-          <div>
-            <li
-              className={`show-search ${visible ? "close" : ""}`}
-              onClick={() => setVisible(!visible)}
-            >
-              {visible ? closeIcon : searchIcon}
-            </li>
-
-            {visible && (
-              <div className="search-bar">
-                <input
-                  type="search"
-                  value={search}
-                  onChange={e => setSearch(e.target.value)} />
-                <button
-                  type="button"
-                  className="search-icon"
-                  onClick={() => handleSubmit(search)}
-                >
-                  {searchIconDark}
-                </button>
-              </div>
-            )}
-          </div>
+              <SearchBar searchDestination={'/search'}/>
 
           {/* Sisäänkirjautumisnappi */}
           <button className="signin-btn"
             onClick={() => setSigninOpen(true)}>
             Sign in
           </button>
-        </ul>
-      </nav>
+          </ul>
+          </nav>
       
-      {/* Näytä modal vain jos signinOpen === true */}
-      {signinOpen && <Signin onClose={() => setSigninOpen(false)} />}
+          {/* Näytä modal vain jos signinOpen === true */}
+          {signinOpen && <Signin onClose={() => setSigninOpen(false)} />}
 
-      </>
-    {/* Venyvä hakupainike */}
-    <SearchBar searchDestination={'/search'}/>
-    {/* Sisäänkirjautumisikkuna (kesken) */}
-        <button className={`signin-btn ${signinOpen ? 'active' : ''}`} 
-            onClick={() => setSigninOpen(!signinOpen)}>
-          Sign in
-        </button>
-      </ul>
-    </nav>
+   
+
+    </>
   )
 }
 

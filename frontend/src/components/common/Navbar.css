@@ -93,9 +93,6 @@ nav li:first-child{
     margin: 0 10px;
     cursor: pointer;
   }
-  .search-bar{
-    width: 100%
-  }
   nav ul {
     justify-content: center;
     gap: 0;
