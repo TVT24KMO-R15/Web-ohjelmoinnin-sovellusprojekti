@@ -30,5 +30,13 @@ const searchForMovie = async (name) => {
   return response.data
 }
 
+const getMovieDetails = async (movieId) => {
+  console.log("Getting details for movie " + movieId)
+  const url= `${TMDB_BASE_URL}/movie/${movieId}?language=en-US`
+  const options = getOptions(url)
+  const response = await axios.request(options)
+  return response.data
+}
 
-export { getPopularMovies, searchForMovie }
+
+export { getPopularMovies, searchForMovie, getMovieDetails }
