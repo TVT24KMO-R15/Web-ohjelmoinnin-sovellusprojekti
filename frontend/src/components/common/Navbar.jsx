@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Navbar.css'
-import Signin from './Signin';
+import Authentication from './Authentication';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
@@ -46,7 +46,7 @@ export default function Navbar() {
           </nav>
       
           {/* Näytä modal vain jos signinOpen === true */}
-          {signinOpen && <Signin onClose={() => setSigninOpen(false)} />}
+          {signinOpen && <Authentication onClose={() => setSigninOpen(false)} />}
 
    
 
