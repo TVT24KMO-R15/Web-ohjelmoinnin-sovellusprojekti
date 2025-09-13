@@ -1,5 +1,7 @@
 .sectionTitle {
     margin: 0;
+    margin-bottom: 1em;
+    margin-top: 1em;
     padding: 0;
 }
 
@@ -33,12 +35,6 @@
     border-radius: 1em;
 }
 
-/*
-.popularMoviesArticle img:hover {
-    border: 4px solid gold;
-
-}
-*/ 
 .popularMoviesArticle h3 {
     text-align: center;
 }
