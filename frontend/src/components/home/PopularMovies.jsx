@@ -44,9 +44,10 @@ export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
           movies.map(item => (
             console.log("current item being iterated: "),
             console.log(item),
+            
             <article key={item.id} className='popularMoviesArticle'>
               <Link to={`/movies/${item.id}`} className='popularmovielink'>
-                <img src={"https://image.tmdb.org/t/p/w500" + item["poster_path"]}></img>
+                {(item["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + item["poster_path"]}></img> : <img src={"../src/assets/noPoster.png"}></img>} 
                 <h3>{item.title}</h3>
               </Link>
             </article>
@@ -55,8 +56,7 @@ export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
         }
         
       </div>
-      {/* todo this is annoying when reusing component maybe move elsewhere */}
-      <Link to="/movies" className='discovermoremovies'>Discover more movies</Link>
+      
     </section>
   )
 }

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './Finnkino.css'
+import FKTheatreDetails from './FKTheatreDetails'
 
-function Finnkinohaku() {
+function Finnkinohaku( {onTheatreSelect}) {
   const [areas, setAreas] = useState([])
   const getFinnkinoTheaters = (xml) => {
     
@@ -36,25 +37,31 @@ function Finnkinohaku() {
 
     },[])
   
+
+
+    //<option value="">Select a theatre</option> Jos tarvii kieliä
     return (
-      <select>
-        {
-          areas.map(area => (
-            //Warning: Each child in a list should have a unique “key” prop.(( key={area.id}))
-            <option key={area.id}>{area.name}</option>
-          ))
-        }
-      </select>
+      <select onChange={(e) => onTheatreSelect(e.target.value)}>
+      
+      {areas.map((area) => (
+        <option key={area.id} value={area.id}>
+          {area.name}
+        </option>
+      ))}
+    </select>
     )
   
 }
   
   
   export default function Finnkino() {
+    const [selectedTheatre, setSelectedTheatre] = useState(null)
     return (
-    <div>Finnkinon lista 
+    <div>
+      <p>Finnkinon lista </p>
       
-      <Finnkinohaku />
+      <Finnkinohaku onTheatreSelect={setSelectedTheatre} />
+      <FKTheatreDetails theatreId={selectedTheatre} />
       
 
     </div>

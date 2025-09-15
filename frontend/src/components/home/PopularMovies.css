@@ -1,5 +1,7 @@
 .sectionTitle {
     margin: 0;
+    margin-bottom: 1em;
+    margin-top: 1em;
     padding: 0;
 }
 
@@ -26,6 +28,7 @@
     display: block;
     margin: auto !important;
     height: 300px;
+    max-width: 400px;
     width: 75%;
     object-fit: cover;
     object-position: center;
@@ -41,17 +44,11 @@
     text-decoration: none;
 }
 
-.discovermoremovies {
-    box-sizing: border-box;
-    text-decoration: none;
-    background-color: #000;
-    color: gold;
-    padding: 1em !important;
-    margin-top: 1em;
-    margin-bottom: 2em;
-    border: 2px solid gold;
-    border-radius: 1em;
+.popularmovielink:hover img {
+    border: 4px solid gold;
 }
+
+
 
 .popularMoviesSection {
     margin-bottom: 4em;

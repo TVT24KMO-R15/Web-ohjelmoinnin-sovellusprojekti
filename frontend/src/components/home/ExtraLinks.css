@@ -1,0 +1,50 @@
+.extraLinksDiv * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.extraLinksDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100vw;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    background-color: #44413d;
+    position: relative;
+    left: -2em;
+}
+
+.extraLink {
+    flex: 25%;
+    max-width: 20%;
+    color: #000;
+    text-decoration: none;
+    border: 2px solid gold;
+    border-radius: 1em;
+    margin: auto;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    background-color: white;
+}
+
+.extraLink:hover {
+    background-color: goldenrod;
+}
+
+.extraLinkH3 {
+    padding: 1em;
+}
+
+.extraLinkP {
+    padding-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+@media only screen and (max-width: 1200px) {
+    .extraLink {
+        max-width: 32%;
+    }
+}
