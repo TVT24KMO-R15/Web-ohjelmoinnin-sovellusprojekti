@@ -1,41 +1,87 @@
-import './Authentication.css'
-export default function Authentication({ onClose, authenticationMode }) {  
-  const { user, setUser, signUp, signIn } = useUser()
-  const navigate = useNavigate()
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const signFunction = authenticationMode === AuthenticationMode.SignUp ? signUp : signIn
-    signFunction().then(() => {
-      navigate(authenticationMode === AuthenticationMode.SignUp ? '/signin' : '/')
-    })
-    .catch(error => {
-      alert(error)
-    })
-  }
+import React, { useState } from 'react';
+import './Authentication.css';
+
+export default function Authentication({ onClose }) {
+  const [mode, setMode] = useState('login'); 
+  const [user, setUser] = useState({ name: '', email: '', password: '', confirm: '' });
+  const isSignup = mode === 'signup';
+
+  const handleChange = e => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    // Kirjautumislogiikka (kesken)
+    alert(`${isSignup ? 'Sign up' : 'Login'}: ${user.email}`);
+  };
+
   return (
     <div className="signin open">
-<div><button onClick={onClose} className="close-signin-btn">
-  <svg xmlns="http://www.w3.org/2000/svg" className="close-btn" height="24px" viewBox="0 -960 960 960" width="24px" fill="#333"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
-</button></div>
-      <h3>{authenticationMode === AuthenticationMode.SignIn ? 'Sign in' : 'Sign up'}</h3>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input 
-        type="text"
-        value = {userInfo.email}
-        onChange={e => setUser({...user, email: e.target.value})}
+      <form className="auth-modal" onSubmit={handleSubmit}>
+        <div className="auth-header">
+          <button
+            type="button"
+            className={`auth-tab${!isSignup ? ' active' : ''}`}
+            onClick={() => setMode('login')}
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            className={`auth-tab${isSignup ? ' active' : ''}`}
+            onClick={() => setMode('signup')}
+          >
+            Sign up
+          </button>
+        </div>
+        <div className="auth-fields">
+          <div className="field">
+            {isSignup && (
+           <p>Username</p>
+          )}
+           {isSignup && (
+            <input
+              type="username"
+              name="username"
+              value={user.name}
+              onChange={handleChange}
+              placeholder="Username"
+              required
+            />
+          )}
+          </div>
+          <div className="field">
+            <p>Email</p>
+            <input
+            type="email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+            placeholder="Email"
+            required
           />
-         <label>Password</label>
-        <input
-          placeholder='Password'
-          type='password'
-          value={user.password}
-          onChange={e => setUser({...user, password: e.target.value})}
-        />
-        <button type='submit'>{authenticationMode === AuthenticationMode.SignIn ? 'Login' : 'Submit'}</button>
-        <Link to={authenticationMode === AuthenticationMode.SignIn ? '/signup' : '/signin'}>
-          {authenticationMode === AuthenticationMode.SignIn ? 'No account? Sign up' : 'Already signed up? Sign in'}
-        </Link>
+          </div>
+          <div className="field">
+            <p>Password</p>
+          <input
+            type="password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+          />
+          </div>
+        </div>
+        <button className="auth-submit" type="submit">
+          {isSignup ? 'Sign up' : 'Login'}
+        </button>
+        <button onClick={onClose} className="close-signin-btn" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" className="close-btn" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000">
+          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+        </svg>
+      </button>
       </form>
     </div>
   );
