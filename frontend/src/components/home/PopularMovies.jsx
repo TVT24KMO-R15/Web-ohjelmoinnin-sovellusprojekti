@@ -17,8 +17,8 @@ export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
     setLoading(true)
     axios.get(address)
       .then(response => {
-        console.log("Axios request response data from" + address +" : ")
-        console.log(response.data)
+        // console.log("Axios request response data from" + address +" : ")
+        // console.log(response.data)
         const results = Array.isArray(response.data?.results) ? response.data.results : []
         const limit = Math.min(maxResults, results.length) // limit results from 0-x dependent on api results
         setMovies(results.slice(0, limit))
@@ -42,8 +42,8 @@ export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
         {
 
           movies.map(item => (
-            console.log("current item being iterated: "),
-            console.log(item),
+            // console.log("current item being iterated: "),
+            // console.log(item),
             
             <article key={item.id} className='popularMoviesArticle'>
               <Link to={`/movies/${item.id}`} className='popularmovielink'>
