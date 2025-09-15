@@ -11,7 +11,7 @@ export default function SingleMovie() {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(`/api/tmdb/details/${movieId}`); // backendin details route
+        const res = await axios.get(`http://localhost:3000/api/tmdb/details/${movieId}`) // backendin details route
         setMovie(res.data);
       } catch (err) {
         console.error(err);
@@ -29,21 +29,77 @@ export default function SingleMovie() {
   if (!movie) return <div>Elokuvaa ei löytynyt</div>;
 
   return (
-  <div style={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-      <div style={{ flex: '0 0 50%' }}>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          style={{ width: '100%', height: 'auto', display: 'block' }}
-        />
+  <div style={{ 
+  position: 'relative', 
+  minHeight: '100vh', 
+  padding: '2rem', 
+  color: 'white', 
+  textShadow: '2px 2px 6px rgba(0,0,0,1)' 
+  }}>
+
+  {movie.backdrop_path && (
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        opacity: 0.5,
+        zIndex: 0
+      }}
+    />
+  )}
+
+  <div style={{ display: 'flex', position: 'relative', zIndex: 1 }}>
+    <div style={{ flex: '0 0 30%' }}>
+      <img
+        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        alt={movie.title}
+        style={{
+          width: '100%',
+          height: 'auto',
+          maxHeight: '90vh',
+          objectFit: 'contain',
+          display: 'block'
+        }}
+      />
+    </div>
+
+    <div style={{ marginLeft: '1rem', flex: '1', display: 'block' }}>
+      
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <h1>{movie.original_title}</h1>
+        <button 
+          style={{
+            padding: '0.5rem 1rem',
+            backgroundColor: '#000000ff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+          onClick={() => addToFavourites(movie)}
+        >
+          Add to favourites
+        </button>
       </div>
 
-      <div style={{ marginLeft: '1rem' }}>
-        <h1>Elokuva:{movie.title}</h1>
-        <p>Julkaisuvuosi: {movie.release_date}</p>
-        <p>Arvostelu: {movie.vote_average}</p>
-        <p>Kuvaus: {movie.overview}</p>
-      </div>
+      <p><b>Release date:</b> {movie.release_date}</p>
+      <p><b>Runtime:</b> {movie.runtime} minutes</p>
+      <p><b>Genres:</b> {movie.genres.map(g => g.name).join(', ')}</p>
+      <p><b>TMDB user score:</b> {movie.vote_average} ({movie.vote_count} votes)</p>
+      <p><b>Overview:</b> {movie.overview}</p>
+      {movie.belongs_to_collection && (
+        <div>
+          <p><b>Collection:</b> {movie.belongs_to_collection.name}</p>
+        </div>
+      )}
     </div>
-  );
-}
+  </div>
+</div>
+
+)}
