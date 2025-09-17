@@ -85,6 +85,7 @@ ALTER TABLE IF EXISTS public.user_group_linker
 
 
 ALTER TABLE IF EXISTS public.review
+    ADD CONSTRAINT "stars_range" CHECK (stars BETWEEN 1 AND 5),
     ADD CONSTRAINT "accountID_movieReview" FOREIGN KEY (fk_accountid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
