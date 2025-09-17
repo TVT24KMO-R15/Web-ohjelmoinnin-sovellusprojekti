@@ -1,10 +1,14 @@
 // for all account table http endpoints
 import { selectAllAccounts, sendSignUp, accountLogin } from "../models/account.js"
-import { hash } from "bcrypt"
+import { hash, compare } from "bcrypt"
+import jwt from 'jsonwebtoken'
+
+const { sign } = jwt
 
 const getAllAccounts = async (req, res, next) => {
     try {
         const result = await selectAllAccounts()
+        console.log("get all accounts")
         return res.status(200).json(result.rows || [])
     } catch (error) {
         return next (error) // send error to middleware in index.js
@@ -12,16 +16,16 @@ const getAllAccounts = async (req, res, next) => {
 }
 
 const accountSignIn = async (req, res, next) => {
-    const { user } = req.body
-    if (!user || !user.email || !user.password) {
-        const error = new Error('Email and password are required')
-        error.status = 400
-        return next(error)
-    }
-    
+    const { account } = req.body
     try {
-        const result = await accountLogin(user.email)
-        if (err) return next(err)
+        if (!account || !account.email || !account.password) {
+            const error = new Error('Email and password are required')
+            error.status = 400
+            return next(error)
+        }
+
+        const result = await accountLogin(account.email)
+        // if (err) return next(err)
 
         if (result.rows.lenght === 0) {
             const error = new Error('User not found')
@@ -31,7 +35,7 @@ const accountSignIn = async (req, res, next) => {
 
         const dbUser = result.rows[0]
 
-        compare(user.password, dbUser.password, (err, isMatch) => {
+        compare(account.password, dbUser.password, (err, isMatch) => {
             if (err) return next(err)
 
             if (!isMatch) {
@@ -41,7 +45,7 @@ const accountSignIn = async (req, res, next) => {
             }
         })
 
-        const token = sign({ user: dbUser.email }, process.env.JWT_SECRET_KEY)
+        const token = sign({ account: dbUser.email }, process.env.JWT_SECRET_KEY)
         res.status(200).json({
             id: dbUser.id,
             email: dbUser.email,
