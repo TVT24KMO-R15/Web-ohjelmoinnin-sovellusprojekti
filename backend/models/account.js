@@ -5,4 +5,10 @@ const selectAllAccounts = async () => {
     return await pool.query("select * from account")
 }
 
-export { selectAllAccounts }
+const sendSignUp = async (email, pass, uname) => {
+    return await pool.query("INSERT INTO account (email, password, username) VALUES ($1, $2, $3) RETURNING * " ,
+        [email, pass, uname]
+    )
+}
+
+export { selectAllAccounts, sendSignUp }
