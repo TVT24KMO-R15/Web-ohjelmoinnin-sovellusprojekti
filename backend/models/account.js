@@ -6,7 +6,6 @@ const selectAllAccounts = async () => {
 }
 
 const accountLogin = async ( email ) => {
-    console.log('sql query')
     return await pool.query(`SELECT * FROM account WHERE email = $1`, [email]
     )
 }

@@ -25,7 +25,6 @@ const accountSignIn = async (req, res, next) => {
         }
 
         const result = await accountLogin(account.email)
-        // if (err) return next(err)
 
         if (result.rows.lenght === 0) {
             const error = new Error('User not found')

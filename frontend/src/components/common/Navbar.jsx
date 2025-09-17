@@ -15,10 +15,10 @@ export default function Navbar() {
     /* Sivuvalikko */
     <nav>
        <ul className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <li onClick={() => setSidebarOpen(false)}><Link to="#">
+        <li onClick={() => setSidebarOpen(false)}><article className='sidebarButton'>
         {close_btn}
-        </Link></li>
-        <li><Link to="/movies">Movies</Link></li>
+        </article></li>
+        <li><Link to="/search">Movies</Link></li>
         <li><Link to="/groups">Groups</Link></li>
         <li><Link to="/reviews">Reviews</Link></li>
         <li className="Sign_in" onClick={() => setSigninOpen(true)}><Link to="#">Sign in</Link></li>
@@ -26,13 +26,13 @@ export default function Navbar() {
       <ul>
     {/* Normaali valikko */}
   <li><Link to="/">Home</Link></li>
-  <li className="btn hideOnMobile"><Link to="/movies">Movies</Link></li>
+  <li className="btn hideOnMobile"><Link to="/search">Movies</Link></li>
   <li className="btn hideOnMobile"><Link to="/groups">Groups</Link></li>
   <li className="btn hideOnMobile"><Link to="/reviews">Reviews</Link></li>
         <li className="menu-btn" onClick={() => setSidebarOpen(true)}> 
-          <Link to="#">
+          <article className='sidebarButton'>
             {menu_btn}
-          </Link>
+          </article>
         </li>
 
     {/* Venyvä hakupainike */}

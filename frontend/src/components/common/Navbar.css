@@ -25,6 +25,7 @@ body {
 nav{
   background-color: black;
 }
+
 nav ul{
   width: 100%;
   list-style: none;
@@ -85,6 +86,14 @@ nav li:first-child{
 .menu-btn{
   display: none;
 }
+.sidebarButton {
+  margin-top: 1em;
+}
+
+.sidebarButton :hover {
+  cursor: pointer;
+}
+
 @media(max-width: 800px){
   .hideOnMobile{
     display: none;
