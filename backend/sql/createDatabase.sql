@@ -50,8 +50,7 @@ CREATE TABLE IF NOT EXISTS public.groupposts
     posttext character varying(1000),
     movieid integer,
     postdate date DEFAULT CURRENT_DATE,
-    PRIMARY KEY (postid),
-    CONSTRAINT "uniqPKGroupPosts" UNIQUE (postid)
+    PRIMARY KEY (postid)
 );
 
 CREATE TABLE IF NOT EXISTS public.favoritemovies
@@ -60,7 +59,7 @@ CREATE TABLE IF NOT EXISTS public.favoritemovies
     fk_accountid integer NOT NULL,
     movieid integer NOT NULL,
     PRIMARY KEY (favmovieid),
-    CONSTRAINT uniquepk UNIQUE (favmovieid)
+    CONSTRAINT uq_favorites_account_movie UNIQUE (fk_accountid, movieid)
 );
 
 ALTER TABLE IF EXISTS public.groups
@@ -89,20 +88,20 @@ ALTER TABLE IF EXISTS public.review
     ADD CONSTRAINT "accountID_movieReview" FOREIGN KEY (fk_accountid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.groupposts
     ADD CONSTRAINT groupid FOREIGN KEY (fk_groupid)
     REFERENCES public.groups (groupid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.favoritemovies
     ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+    ON DELETE CASCADE;
 
 END;
