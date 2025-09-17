@@ -13,6 +13,7 @@ export default function Navbar() {
   const [signinOpen, setSigninOpen] = useState(false); // Kirjautumisikkuna
 
   return (
+<<<<<<< HEAD
     <>
     {/* Sivuvalikko */}
       <nav>
@@ -36,6 +37,30 @@ export default function Navbar() {
           </li>
           {/* Venyvä hakupainike */}
               <SearchBar searchDestination={'/search'}/>
+=======
+    /* Sivuvalikko */
+    <nav>
+       <ul className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <li onClick={() => setSidebarOpen(false)}><article className='sidebarButton'>
+        {close_btn}
+        </article></li>
+        <li><Link to="/search">Movies</Link></li>
+        <li><Link to="/groups">Groups</Link></li>
+        <li><Link to="/reviews">Reviews</Link></li>
+        <li className="Sign_in" onClick={() => setSigninOpen(true)}><Link to="#">Sign in</Link></li>
+      </ul>
+      <ul>
+    {/* Normaali valikko */}
+  <li><Link to="/">Home</Link></li>
+  <li className="btn hideOnMobile"><Link to="/search">Movies</Link></li>
+  <li className="btn hideOnMobile"><Link to="/groups">Groups</Link></li>
+  <li className="btn hideOnMobile"><Link to="/reviews">Reviews</Link></li>
+        <li className="menu-btn" onClick={() => setSidebarOpen(true)}> 
+          <article className='sidebarButton'>
+            {menu_btn}
+          </article>
+        </li>
+>>>>>>> 1fa0954fb2b3ae56b90b95e882cdf619012d212e
 
           {/* Sisäänkirjautumisnappi */}
           <button className="signin-btn"
