@@ -26,8 +26,8 @@ const accountSignIn = async (req, res, next) => {
 
         const result = await accountLogin(account.email)
 
-        if (result.rows.lenght === 0) {
-            const error = new Error('User not found')
+        if (result.rows.length === 0) {
+            const error = new Error('Invalid email or password')
             error.status = 404
             return next(error)
         }
@@ -38,18 +38,20 @@ const accountSignIn = async (req, res, next) => {
             if (err) return next(err)
 
             if (!isMatch) {
-                const error = new Error('Invalid password')
+                const error = new Error('Invalid email or password')
                 error.status = 401
                 return next(error)
             }
+
+            const token = sign({ account: dbUser.email }, process.env.JWT_SECRET_KEY)
+            res.status(200).json({
+                id: dbUser.id,
+                email: dbUser.email,
+                token
+            })
         })
 
-        const token = sign({ account: dbUser.email }, process.env.JWT_SECRET_KEY)
-        res.status(200).json({
-            id: dbUser.id,
-            email: dbUser.email,
-            token
-        })
+        
 
     } catch (error) {
         return next(error)
