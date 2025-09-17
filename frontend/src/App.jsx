@@ -11,14 +11,14 @@ import Movies from './pages/Movies'
 import SingleMovie from './pages/SingleMovie'
 import Reviews from './pages/Reviews'
 import MovieSearch from './pages/MovieSearch.jsx'
-
 import { Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
     <>
-      <Header />
+      
       <Navbar />
+      <Header />
       <div id="container">
         <Routes>
           <Route path="/" exact element={<Home />} />

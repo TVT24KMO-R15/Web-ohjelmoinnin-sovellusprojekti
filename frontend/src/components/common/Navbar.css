@@ -16,6 +16,7 @@ body {
 .signin-btn:hover {
   background: #b30000;
   color: white;
+  cursor: pointer;
 }
 nav{
   background-color: black;
