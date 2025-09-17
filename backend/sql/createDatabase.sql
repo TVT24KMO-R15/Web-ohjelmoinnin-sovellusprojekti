@@ -15,23 +15,21 @@ CREATE TABLE IF NOT EXISTS public.account
     CONSTRAINT "UniqueEmailsOnly" UNIQUE (email)
 );
 
-COMMENT ON COLUMN public.account.username
-    IS '32 username length constraint, also add unique somewhere somehow';
-
-CREATE TABLE IF NOT EXISTS public."group"
+CREATE TABLE IF NOT EXISTS public.groups
 (
     groupid serial,
-    ownerid integer,
+    fk_ownerid integer NOT NULL,
     groupname character varying(32) NOT NULL,
-    groupdescription character varying(255),
+    groupdescription text,
     PRIMARY KEY (groupid),
     CONSTRAINT "UniqueGroupNamesOnly" UNIQUE (groupname)
 );
 
-CREATE TABLE IF NOT EXISTS public."user-group-linker"
+CREATE TABLE IF NOT EXISTS public.user_group_linker
 (
-    groupid integer,
-    accountid integer
+    fk_groupid integer NOT NULL,
+    fk_accountid integer NOT NULL,
+    PRIMARY KEY (fk_groupid, fk_accountid)
 );
 
 CREATE TABLE IF NOT EXISTS public.review
@@ -39,7 +37,7 @@ CREATE TABLE IF NOT EXISTS public.review
     reviewid serial,
     movieid integer NOT NULL,
     stars integer NOT NULL,
-    useremail character varying(32) NOT NULL,
+    fk_accountid integer NOT NULL,
     reviewtext character varying(1000),
     reviewdate date NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY (reviewid)
@@ -48,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public.review
 CREATE TABLE IF NOT EXISTS public.groupposts
 (
     postid serial,
-    groupid integer NOT NULL,
+    fk_groupid integer NOT NULL,
     posttext character varying(1000),
     movieid integer,
     postdate date DEFAULT CURRENT_DATE,
@@ -59,49 +57,51 @@ CREATE TABLE IF NOT EXISTS public.groupposts
 CREATE TABLE IF NOT EXISTS public.favoritemovies
 (
     favmovieid serial,
-    accountid integer NOT NULL,
+    fk_accountid integer NOT NULL,
     movieid integer NOT NULL,
     PRIMARY KEY (favmovieid),
     CONSTRAINT uniquepk UNIQUE (favmovieid)
 );
 
-ALTER TABLE IF EXISTS public."user-group-linker"
-    ADD CONSTRAINT accountid FOREIGN KEY (accountid)
+ALTER TABLE IF EXISTS public.groups
+    ADD CONSTRAINT "groupOwnerID" FOREIGN KEY (fk_ownerid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE CASCADE
-    NOT VALID;
+    ON DELETE RESTRICT;
 
 
-ALTER TABLE IF EXISTS public."user-group-linker"
-    ADD CONSTRAINT groupid FOREIGN KEY (groupid)
-    REFERENCES public."group" (groupid) MATCH SIMPLE
+ALTER TABLE IF EXISTS public.user_group_linker
+    ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE CASCADE
-    NOT VALID;
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public.user_group_linker
+    ADD CONSTRAINT fk_groupid FOREIGN KEY (fk_groupid)
+    REFERENCES public.groups (groupid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.review
-    ADD CONSTRAINT "userEmailInReview" FOREIGN KEY (useremail)
-    REFERENCES public.account (email) MATCH SIMPLE
+    ADD CONSTRAINT "accountID_movieReview" FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
+    ON DELETE NO ACTION;
 
 
 ALTER TABLE IF EXISTS public.groupposts
-    ADD CONSTRAINT groupid FOREIGN KEY (groupid)
-    REFERENCES public."group" (groupid) MATCH SIMPLE
+    ADD CONSTRAINT groupid FOREIGN KEY (fk_groupid)
+    REFERENCES public.groups (groupid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
+    ON DELETE NO ACTION;
 
 
 ALTER TABLE IF EXISTS public.favoritemovies
-    ADD CONSTRAINT accountid FOREIGN KEY (accountid)
+    ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
+    ON DELETE NO ACTION;
 
 END;
