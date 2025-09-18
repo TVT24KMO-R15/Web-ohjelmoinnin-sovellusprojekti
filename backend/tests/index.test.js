@@ -31,8 +31,8 @@ describe("Testing tmdb backend functionality", () => {
 })
 
 describe("Testing user management", () => {
-    const user1 = { email: "test01@test.com", password: "password01", userName: "testUser01" }
-    const user2 = { email: "test02@test.com", password: "password02", userName: "testUser02" }
+    const user1 = { email: "test01@test.com", password: "password01", username: "testUser01" }
+    const user2 = { email: "test02@test.com", password: "password02", username: "testUser02" }
     before(() => {
         initializeTestDb()
         // insertTestUser(user2)
@@ -47,7 +47,7 @@ describe("Testing user management", () => {
         })
         const data = await response.json()
         expect(response.status).to.equal(201)
-        expect(data).to.include.all.keys(["id", "email", "userName"])
+        expect(data).to.include.all.keys(["id", "email", "username"])
         expect(data.email).to.equal(user1.email)
     })
 

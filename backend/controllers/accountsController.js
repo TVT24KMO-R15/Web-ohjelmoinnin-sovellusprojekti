@@ -66,7 +66,7 @@ USAGE:
         {
             "email": "log@in.pass",
             "password": "pass",
-            "userName": "name"
+            "username": "name"
         }
     }
 */
@@ -75,18 +75,18 @@ const postRegister = async (req, res, next) => {
     const { account } = req.body
 
     try { 
-        if (!account || !account.email || !account.password || !account.userName) {
+        if (!account || !account.email || !account.password || !account.username) {
             return next(new Error("Email, username and password are required"))
         }
 
         const hashedPassword = await hash(account.password, 10)
         // query result contains: accountid, username, email, password and registrationDate
-        const result = await sendSignUp(account.email, hashedPassword, account.userName)
+        const result = await sendSignUp(account.email, hashedPassword, account.username)
         
         res.status(201).json({
             id: result.rows[0].accountid, 
             email: account.email,
-            userName: account.userName
+            username: account.username
         })
     console.log("Registered successfully")
     } catch  (error) {
