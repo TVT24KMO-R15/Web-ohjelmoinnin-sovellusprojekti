@@ -2,7 +2,7 @@
 import pkg from 'pg'
 import dotenv from 'dotenv'
 
-const dbEnvironment = process.env.NODE_ENV || 'dev' // db environment will be testing or dev
+const dbEnvironment = process.env.NODE_ENV || 'development' // db environment will be testing or dev
 
 dotenv.config()
 
