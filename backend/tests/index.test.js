@@ -2,9 +2,6 @@ import { expect } from "chai"
 import { initializeTestDb, insertTestUser } from "../helpers/testDbHelper.js"
 
 describe("Testing tmdb backend functionality", () => {
-    before(() => {
-        initializeTestDb()
-    })
 
     it("should get popular movies", async () => {
         const response = await fetch("http://localhost:3000/api/tmdb/popular")
@@ -34,9 +31,11 @@ describe("Testing tmdb backend functionality", () => {
 })
 
 describe("Testing user management", () => {
-    const user = { email: "test01@test.com", password: "password01", userName: "testUser01" }
+    const user1 = { email: "test01@test.com", password: "password01", userName: "testUser01" }
+    const user2 = { email: "test02@test.com", password: "password02", userName: "testUser02" }
     before(() => {
-        insertTestUser(user)
+        initializeTestDb()
+        // insertTestUser(user2)
     })
 
     it("should register", async () => {
@@ -44,23 +43,23 @@ describe("Testing user management", () => {
         const response = await fetch("http://localhost:3000/users/register", {
             method: "post",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ account: user })
+            body: JSON.stringify({ account: user1 })
         })
         const data = await response.json()
         expect(response.status).to.equal(201)
         expect(data).to.include.all.keys(["id", "email", "userName"])
-        expect(data.email).to.equal(newUser.email)
+        expect(data.email).to.equal(user1.email)
     })
 
     it('should log in', async () => {
         const response = await fetch("http://localhost:3000/users/signin", {
             method: "post",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ account: user })
+            body: JSON.stringify({ account: user1 })
         })
         const data = await response.json()
         expect(response.status).to.equal(200)
         expect(data).to.include.all.keys(["id", "email", "token"])
-        expect(data.email).to.equal(user.email)
+        expect(data.email).to.equal(user1.email)
     })
 })
