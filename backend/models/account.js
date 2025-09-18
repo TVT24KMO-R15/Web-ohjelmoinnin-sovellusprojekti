@@ -16,4 +16,18 @@ const sendSignUp = async (email, pass, uname) => {
     )
 }
 
-export { selectAllAccounts, sendSignUp, accountLogin }
+// get only password from account, used for verifying password on account deletion request,
+// todo could secure this further by requiring maybe email and username aswell
+const getPasswordByID = async (accountID) => {
+    return await pool.query("SELECT password FROM account WHERE accountid=$1" ,
+        [accountID]
+    )
+}
+
+const getAccountIDByUsernameEmail = async (username, email) => {
+    return await pool.query("SELECT accountid FROM account WHERE username=($1) AND email=($2)" ,
+        [username, email]
+    )
+}
+
+export { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail }

@@ -1,5 +1,5 @@
 // for all account table http endpoints
-import { selectAllAccounts, sendSignUp, accountLogin } from "../models/account.js"
+import { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 
@@ -95,4 +95,77 @@ const postRegister = async (req, res, next) => {
     }
 }
 
-export { getAllAccounts, postRegister, accountSignIn }
+
+
+/* USAGE:
+POST http://localhost:3000/users/delete
+    { "account": 
+        {
+            "email": "x",
+            "password": "y",
+            "username": "z"
+        }
+    }
+    ^^ these parameters should come from frontend when a user requests account deletion, ask for password verification?
+*/
+
+const postDelete = async (req, res, next) => {
+    try {
+        const { account } = req.body
+
+        const resultAccountID = await getAccountIDByUsernameEmail(account.username, account.email)
+        console.log("result account id ")
+        console.log(resultAccountID)
+
+        // if result has nothing, logging resultAccountID: rows: [],
+        if (!resultAccountID.rows[0]) {
+            const error = new Error(`Couldnt get accountID with username ${account.username} and email ${account.email}`)
+            error.status = 404
+            return next(error)
+        }
+
+        const accountID = resultAccountID.rows[0].accountid
+
+        // getting password with primary key ID
+        
+        /*
+        const dbPassword = await getPasswordByID(1)
+        
+        if (dbPassword.rows.length === 0) {
+            const error = new Error('Couldnt get dbPassword for account deletion')
+            error.status = 404
+            return next(error)
+        }
+        const password = dbPassword.Result.rows[0]
+
+        console.log("dbpass:")
+        console.log(dbPass)
+        */
+
+
+        // console.log("password: ")
+        // console.log(password)
+        // verify 
+        // compare(account.password, dbPass, (err, isMatch) => {
+        //     console.log(`Comparing: \n${account.password}\nto\n${dbPass}`)
+        //     if (err) return next(err)
+
+        //     if (!isMatch) {
+        //         const error = new Error('Passwords do not match')
+        //         error.status = 401
+        //         return next(error)
+        //     }
+
+        //     res.status(200).json({
+        //         // "Account deleted successfully"
+        //     })
+        // })
+
+
+    } catch (error) {
+        console.log("postDelete in accountsController.js throwing error")
+        return next (error)
+    }
+}
+
+export { getAllAccounts, postRegister, accountSignIn, postDelete }
