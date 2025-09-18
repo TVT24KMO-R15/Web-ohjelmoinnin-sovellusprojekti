@@ -1,5 +1,5 @@
 // for all account table http endpoints
-import { selectAllAccounts, sendSignUp, accountLogin } from "../models/account.js"
+import { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 
@@ -66,7 +66,7 @@ USAGE:
         {
             "email": "log@in.pass",
             "password": "pass",
-            "userName": "name"
+            "username": "name"
         }
     }
 */
@@ -75,18 +75,18 @@ const postRegister = async (req, res, next) => {
     const { account } = req.body
 
     try { 
-        if (!account || !account.email || !account.password || !account.userName) {
+        if (!account || !account.email || !account.password || !account.username) {
             return next(new Error("Email, username and password are required"))
         }
 
         const hashedPassword = await hash(account.password, 10)
         // query result contains: accountid, username, email, password and registrationDate
-        const result = await sendSignUp(account.email, hashedPassword, account.userName)
+        const result = await sendSignUp(account.email, hashedPassword, account.username)
         
         res.status(201).json({
             id: result.rows[0].accountid, 
             email: account.email,
-            userName: account.userName
+            username: account.username
         })
     console.log("Registered successfully")
     } catch  (error) {
@@ -95,4 +95,70 @@ const postRegister = async (req, res, next) => {
     }
 }
 
-export { getAllAccounts, postRegister, accountSignIn }
+
+
+/* USAGE:
+POST http://localhost:3000/users/delete
+    { "account": 
+        {
+            "email": "x",
+            "password": "y",
+            "username": "z"
+        }
+    }
+    ^^ these parameters should come from frontend when a user requests account deletion, ask for password verification?
+*/
+
+const postDelete = async (req, res, next) => {
+    try {
+        const { account } = req.body
+
+        const resultAccountID = await getAccountIDByUsernameEmail(account.username, account.email)
+        // console.log("result account id ")
+        // console.log(resultAccountID)
+
+        // if result has nothing, logging empty resultAccountID: rows: [],
+        if (!resultAccountID.rows[0]) {
+            const error = new Error(`Couldnt get accountID with username ${account.username} and email ${account.email}`)
+            error.status = 404
+            return next(error)
+        }
+        const accountID = resultAccountID.rows[0].accountid
+
+        const resultDBPassword = await getPasswordByID(accountID)
+        // console.log("reult from db query get passwd by id: ")
+        // console.log(resultDBPassword)
+        
+        if (resultDBPassword.rows.length === 0 || !resultDBPassword.rows[0]) {
+            const error = new Error('Couldnt get dbPassword for account deletion')
+            error.status = 404
+            return next(error)
+        }
+        const dbPassword = resultDBPassword.rows[0].password
+
+
+        // when deleting account, check that password from user input and database match
+        const isMatch = await compare (account.password, dbPassword)
+        
+        if (!isMatch) {
+            const error = new Error('Passwords do not match, cant delete account')
+            error.status = 401
+            return next(error)
+        }
+
+        // point of no return
+        if (isMatch) {
+            console.log("deleting account with id: " + accountID)
+            const result = await deleteAccount(accountID)
+            res.status(200).json({
+                status: "success" 
+            })
+        }
+
+    } catch (error) {
+        console.log("postDelete in accountsController.js throwing error")
+        return next (error)
+    }
+}
+
+export { getAllAccounts, postRegister, accountSignIn, postDelete }
