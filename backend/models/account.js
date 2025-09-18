@@ -30,4 +30,10 @@ const getAccountIDByUsernameEmail = async (username, email) => {
     )
 }
 
-export { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail }
+const deleteAccount = async (accountID) => {
+    return await pool.query("DELETE FROM account WHERE accountid=$1" , 
+        [accountID]
+    )
+}
+
+export { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount }

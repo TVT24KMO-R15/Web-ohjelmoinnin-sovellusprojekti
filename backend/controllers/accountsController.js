@@ -1,5 +1,5 @@
 // for all account table http endpoints
-import { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail } from "../models/account.js"
+import { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 
@@ -138,18 +138,22 @@ const postDelete = async (req, res, next) => {
 
 
         // when deleting account, check that password from user input and database match
-        compare(account.password, dbPassword, (err, isMatch) => {
-            console.log(`Comparing: \n${account.password}\nto\n${dbPassword}`)
-            if (err) return next(err)
+        const isMatch = await compare (account.password, dbPassword)
+        
+        if (!isMatch) {
+            const error = new Error('Passwords do not match, cant delete account')
+            error.status = 401
+            return next(error)
+        }
 
-            if (!isMatch) {
-                const error = new Error('Passwords do not match, cant delete account')
-                error.status = 401
-                return next(error)
-            }
-            res.status(200)
-        })
-
+        // point of no return
+        if (isMatch) {
+            console.log("deleting account with id: " + accountID)
+            const result = await deleteAccount(accountID)
+            res.status(200).json({
+                status: "success" 
+            })
+        }
 
     } catch (error) {
         console.log("postDelete in accountsController.js throwing error")
