@@ -1,0 +1,4 @@
+pgAdmin 4 erd tool doesnt allow range constraints to be inserted, so add this:
+    ADD CONSTRAINT "stars_range" CHECK (stars BETWEEN 1 AND 5),
+to:
+ALTER TABLE IF EXISTS public.review
