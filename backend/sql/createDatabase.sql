@@ -3,6 +3,22 @@
 BEGIN;
 
 
+ALTER TABLE IF EXISTS public.groups DROP CONSTRAINT IF EXISTS "groupOwnerID";
+
+ALTER TABLE IF EXISTS public.user_group_linker DROP CONSTRAINT IF EXISTS fk_accountid;
+
+ALTER TABLE IF EXISTS public.user_group_linker DROP CONSTRAINT IF EXISTS fk_groupid;
+
+ALTER TABLE IF EXISTS public.review DROP CONSTRAINT IF EXISTS "accountID_movieReview";
+
+ALTER TABLE IF EXISTS public.groupposts DROP CONSTRAINT IF EXISTS groupid;
+
+ALTER TABLE IF EXISTS public.favoritemovies DROP CONSTRAINT IF EXISTS fk_accountid;
+
+
+
+DROP TABLE IF EXISTS public.account;
+
 CREATE TABLE IF NOT EXISTS public.account
 (
     accountid serial,
@@ -15,6 +31,8 @@ CREATE TABLE IF NOT EXISTS public.account
     CONSTRAINT "UniqueEmailsOnly" UNIQUE (email)
 );
 
+DROP TABLE IF EXISTS public.groups;
+
 CREATE TABLE IF NOT EXISTS public.groups
 (
     groupid serial,
@@ -25,12 +43,16 @@ CREATE TABLE IF NOT EXISTS public.groups
     CONSTRAINT "UniqueGroupNamesOnly" UNIQUE (groupname)
 );
 
+DROP TABLE IF EXISTS public.user_group_linker;
+
 CREATE TABLE IF NOT EXISTS public.user_group_linker
 (
     fk_groupid integer NOT NULL,
     fk_accountid integer NOT NULL,
     PRIMARY KEY (fk_groupid, fk_accountid)
 );
+
+DROP TABLE IF EXISTS public.review;
 
 CREATE TABLE IF NOT EXISTS public.review
 (
@@ -43,6 +65,8 @@ CREATE TABLE IF NOT EXISTS public.review
     PRIMARY KEY (reviewid)
 );
 
+DROP TABLE IF EXISTS public.groupposts;
+
 CREATE TABLE IF NOT EXISTS public.groupposts
 (
     postid serial,
@@ -52,6 +76,8 @@ CREATE TABLE IF NOT EXISTS public.groupposts
     postdate date DEFAULT CURRENT_DATE,
     PRIMARY KEY (postid)
 );
+
+DROP TABLE IF EXISTS public.favoritemovies;
 
 CREATE TABLE IF NOT EXISTS public.favoritemovies
 (
