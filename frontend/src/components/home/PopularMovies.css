@@ -1,0 +1,71 @@
+.sectionTitle {
+    margin: 0;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    padding: 0;
+}
+
+ .popularMoviesDiv *, .popularMoviesDiv::after, .popularMoviesDiv::before{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+ }
+
+ .popularMoviesDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: calc(100vw - 4em);
+    margin-bottom: 2em;
+}
+
+.popularMoviesArticle {
+    flex: 12%;
+    padding: 1em;
+}
+
+.popularMoviesArticle img {
+    display: block;
+    margin: auto !important;
+    height: 300px;
+    max-width: 400px;
+    width: 75%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 1em;
+}
+
+.popularMoviesArticle h3 {
+    text-align: center;
+}
+
+.popularmovielink {
+    color: #000;
+    text-decoration: none;
+}
+
+.popularmovielink:hover img {
+    border: 4px solid gold;
+}
+
+
+
+.popularMoviesSection {
+    margin-bottom: 4em;
+}
+
+@media only screen and (max-width: 1200px) {
+    .popularMoviesArticle {
+        flex: 25%;
+    }
+    .popularMoviesArticle img {
+        height: 250px;
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .popularMoviesArticle {
+        flex: 50%;
+    }
+}

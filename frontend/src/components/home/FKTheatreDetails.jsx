@@ -18,7 +18,7 @@ function FKTheatreDetails({ theatreId, startDate, endDate, onSortedChange }) {
 
         const tempDetails = Array.from(shows).map((show) => ({
           image: show.getElementsByTagName("EventSmallImagePortrait")[0]?.textContent || "",
-          title: show.getElementsByTagName("Title")[0]?.textContent || "",
+          title: show.getElementsByTagName("OriginalTitle")[0]?.textContent || "",
           year: show.getElementsByTagName("ProductionYear")[0]?.textContent || "",
           rating: show.getElementsByTagName("Rating")[0]?.textContent || "",
           genres: show.getElementsByTagName("Genres")[0]?.textContent || "",

@@ -3,6 +3,22 @@
 BEGIN;
 
 
+ALTER TABLE IF EXISTS public.groups DROP CONSTRAINT IF EXISTS "groupOwnerID";
+
+ALTER TABLE IF EXISTS public.user_group_linker DROP CONSTRAINT IF EXISTS fk_accountid;
+
+ALTER TABLE IF EXISTS public.user_group_linker DROP CONSTRAINT IF EXISTS fk_groupid;
+
+ALTER TABLE IF EXISTS public.review DROP CONSTRAINT IF EXISTS "accountID_movieReview";
+
+ALTER TABLE IF EXISTS public.groupposts DROP CONSTRAINT IF EXISTS groupid;
+
+ALTER TABLE IF EXISTS public.favoritemovies DROP CONSTRAINT IF EXISTS fk_accountid;
+
+
+
+DROP TABLE IF EXISTS public.account;
+
 CREATE TABLE IF NOT EXISTS public.account
 (
     accountid serial,
@@ -15,93 +31,103 @@ CREATE TABLE IF NOT EXISTS public.account
     CONSTRAINT "UniqueEmailsOnly" UNIQUE (email)
 );
 
-COMMENT ON COLUMN public.account.username
-    IS '32 username length constraint, also add unique somewhere somehow';
+DROP TABLE IF EXISTS public.groups;
 
-CREATE TABLE IF NOT EXISTS public."group"
+CREATE TABLE IF NOT EXISTS public.groups
 (
     groupid serial,
-    ownerid integer,
+    fk_ownerid integer NOT NULL,
     groupname character varying(32) NOT NULL,
-    groupdescription character varying(255),
+    groupdescription text,
     PRIMARY KEY (groupid),
     CONSTRAINT "UniqueGroupNamesOnly" UNIQUE (groupname)
 );
 
-CREATE TABLE IF NOT EXISTS public."user-group-linker"
+DROP TABLE IF EXISTS public.user_group_linker;
+
+CREATE TABLE IF NOT EXISTS public.user_group_linker
 (
-    groupid integer,
-    accountid integer
+    fk_groupid integer NOT NULL,
+    fk_accountid integer NOT NULL,
+    PRIMARY KEY (fk_groupid, fk_accountid)
 );
+
+DROP TABLE IF EXISTS public.review;
 
 CREATE TABLE IF NOT EXISTS public.review
 (
     reviewid serial,
     movieid integer NOT NULL,
     stars integer NOT NULL,
-    useremail character varying(32) NOT NULL,
+    fk_accountid integer NOT NULL,
     reviewtext character varying(1000),
     reviewdate date NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY (reviewid)
 );
 
+DROP TABLE IF EXISTS public.groupposts;
+
 CREATE TABLE IF NOT EXISTS public.groupposts
 (
     postid serial,
-    groupid integer NOT NULL,
+    fk_groupid integer NOT NULL,
     posttext character varying(1000),
     movieid integer,
     postdate date DEFAULT CURRENT_DATE,
-    PRIMARY KEY (postid),
-    CONSTRAINT "uniqPKGroupPosts" UNIQUE (postid)
+    PRIMARY KEY (postid)
 );
+
+DROP TABLE IF EXISTS public.favoritemovies;
 
 CREATE TABLE IF NOT EXISTS public.favoritemovies
 (
     favmovieid serial,
-    accountid integer NOT NULL,
+    fk_accountid integer NOT NULL,
     movieid integer NOT NULL,
     PRIMARY KEY (favmovieid),
-    CONSTRAINT uniquepk UNIQUE (favmovieid)
+    CONSTRAINT uq_favorites_account_movie UNIQUE (fk_accountid, movieid)
 );
 
-ALTER TABLE IF EXISTS public."user-group-linker"
-    ADD CONSTRAINT accountid FOREIGN KEY (accountid)
+ALTER TABLE IF EXISTS public.groups
+    ADD CONSTRAINT "groupOwnerID" FOREIGN KEY (fk_ownerid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE CASCADE
-    NOT VALID;
+    ON DELETE RESTRICT;
 
 
-ALTER TABLE IF EXISTS public."user-group-linker"
-    ADD CONSTRAINT groupid FOREIGN KEY (groupid)
-    REFERENCES public."group" (groupid) MATCH SIMPLE
+ALTER TABLE IF EXISTS public.user_group_linker
+    ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE CASCADE
-    NOT VALID;
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public.user_group_linker
+    ADD CONSTRAINT fk_groupid FOREIGN KEY (fk_groupid)
+    REFERENCES public.groups (groupid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.review
-    ADD CONSTRAINT "userEmailInReview" FOREIGN KEY (useremail)
-    REFERENCES public.account (email) MATCH SIMPLE
+    ADD CONSTRAINT "stars_range" CHECK (stars BETWEEN 1 AND 5),
+    ADD CONSTRAINT "accountID_movieReview" FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.groupposts
-    ADD CONSTRAINT groupid FOREIGN KEY (groupid)
-    REFERENCES public."group" (groupid) MATCH SIMPLE
+    ADD CONSTRAINT groupid FOREIGN KEY (fk_groupid)
+    REFERENCES public.groups (groupid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
+    ON DELETE CASCADE;
 
 
 ALTER TABLE IF EXISTS public.favoritemovies
-    ADD CONSTRAINT accountid FOREIGN KEY (accountid)
+    ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
+    ON DELETE CASCADE;
 
 END;

@@ -7,6 +7,8 @@ import FKDataRangePicker from '../components/home/FKDataRangePicker';
 import FKTheatreDetails from '../components/home/FKTheatreDetails';
 import dayjs from "dayjs";
 
+import { Link } from 'react-router-dom'
+import DiscoverMoreMoviesButton from '../components/home/DiscoverMoreMoviesButton'
 
 
 export default function Home() {
@@ -21,8 +23,8 @@ export default function Home() {
         
   return (
     <>
-      <div>Home</div>
-      <PopularMovies />
+        <PopularMovies reqUrl={"http://localhost:3000/api/tmdb/popular"} sectionTitle={"Popular Movies"}/>
+    <DiscoverMoreMoviesButton />
       <Finnkino setSelectedTheatreId={setSelectedTheatreId}/>
       <FKDataRangePicker
       

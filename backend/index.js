@@ -33,5 +33,5 @@ app.use((err, req, res, next) => {
             status: errCode
         }
     })
-    console.log("ERROR RECEIVED TO index.js: " + err.message + "\nHTTP Code: " + err.status) // dont use fallback here incase something failed
+    console.log("ERROR MESSAGE FROM index.js: " + err.message + "\nHTTP Code: " + errCode)
 })
