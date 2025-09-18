@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development nodemon index.js"
+    "test": "cross-env NODE_ENV=test mocha ./tests/*.test.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "testStart": "cross-env NODE_ENV=test node index.js"
   },
   "keywords": [],
   "author": "",
@@ -21,5 +22,9 @@
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.10",
     "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "chai": "^6.0.1",
+    "mocha": "^11.7.2"
   }
 }

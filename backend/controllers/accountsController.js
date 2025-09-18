@@ -45,7 +45,7 @@ const accountSignIn = async (req, res, next) => {
 
             const token = sign({ account: dbUser.email }, process.env.JWT_SECRET_KEY)
             res.status(200).json({
-                id: dbUser.id,
+                id: dbUser.accountid,
                 email: dbUser.email,
                 token
             })
@@ -82,9 +82,9 @@ const postRegister = async (req, res, next) => {
         const hashedPassword = await hash(account.password, 10)
         // query result contains: accountid, username, email, password and registrationDate
         const result = await sendSignUp(account.email, hashedPassword, account.userName)
-
+        
         res.status(201).json({
-            id: result.rows[0].id, 
+            id: result.rows[0].accountid, 
             email: account.email,
             userName: account.userName
         })
