@@ -114,52 +114,41 @@ const postDelete = async (req, res, next) => {
         const { account } = req.body
 
         const resultAccountID = await getAccountIDByUsernameEmail(account.username, account.email)
-        console.log("result account id ")
-        console.log(resultAccountID)
+        // console.log("result account id ")
+        // console.log(resultAccountID)
 
-        // if result has nothing, logging resultAccountID: rows: [],
+        // if result has nothing, logging empty resultAccountID: rows: [],
         if (!resultAccountID.rows[0]) {
             const error = new Error(`Couldnt get accountID with username ${account.username} and email ${account.email}`)
             error.status = 404
             return next(error)
         }
-
         const accountID = resultAccountID.rows[0].accountid
 
-        // getting password with primary key ID
+        const resultDBPassword = await getPasswordByID(accountID)
+        // console.log("reult from db query get passwd by id: ")
+        // console.log(resultDBPassword)
         
-        /*
-        const dbPassword = await getPasswordByID(1)
-        
-        if (dbPassword.rows.length === 0) {
+        if (resultDBPassword.rows.length === 0 || !resultDBPassword.rows[0]) {
             const error = new Error('Couldnt get dbPassword for account deletion')
             error.status = 404
             return next(error)
         }
-        const password = dbPassword.Result.rows[0]
-
-        console.log("dbpass:")
-        console.log(dbPass)
-        */
+        const dbPassword = resultDBPassword.rows[0].password
 
 
-        // console.log("password: ")
-        // console.log(password)
-        // verify 
-        // compare(account.password, dbPass, (err, isMatch) => {
-        //     console.log(`Comparing: \n${account.password}\nto\n${dbPass}`)
-        //     if (err) return next(err)
+        // when deleting account, check that password from user input and database match
+        compare(account.password, dbPassword, (err, isMatch) => {
+            console.log(`Comparing: \n${account.password}\nto\n${dbPassword}`)
+            if (err) return next(err)
 
-        //     if (!isMatch) {
-        //         const error = new Error('Passwords do not match')
-        //         error.status = 401
-        //         return next(error)
-        //     }
-
-        //     res.status(200).json({
-        //         // "Account deleted successfully"
-        //     })
-        // })
+            if (!isMatch) {
+                const error = new Error('Passwords do not match, cant delete account')
+                error.status = 401
+                return next(error)
+            }
+            res.status(200)
+        })
 
 
     } catch (error) {
