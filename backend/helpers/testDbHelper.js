@@ -23,7 +23,7 @@ const insertTestUser = (user) => {
             console.log('Error hashing password:', err)
             return
         }
-        pool.query(`INSERT INTO account (email, userName, password) VALUES ($1, $2, $3)`, [user.email, user.userName, hashedPassword],
+        pool.query(`INSERT INTO account (email, username, password) VALUES ($1, $2, $3)`, [user.email, user.username, hashedPassword],
         (err, result) => {
             if (err) {
                 console.log('Error inserting test user:', err)
