@@ -14,8 +14,9 @@ const searchMovie = async (req, res, next) => {
   // console.log("searchmovie request params" + req.params)
   // console.log(req.params.moviename)
   const movieName = (req.params.moviename)
+  const page = (req.params.page)
   try {
-    const searchResults = await searchForMovie(movieName)
+    const searchResults = await searchForMovie(movieName, page)
     return res.status(200).json(searchResults)
   } catch (err) {
     return next (err)
