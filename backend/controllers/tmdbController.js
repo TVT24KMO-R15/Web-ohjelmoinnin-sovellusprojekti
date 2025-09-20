@@ -1,8 +1,21 @@
 import { getPopularMovies, searchForMovie, getMovieDetails } from "../services/tmdbService.js";
 
+const getPage = (req) => {
+  if (!req.params.page) {
+    console.log("no req params page found")
+    return '1'
+  } else {
+    console.log("req params page found: " , req.params.page)
+    return req.params.page
+  }
+}
+
 const fetchPopularMovies = async(req, res, next) => {
+  const page = getPage(req)
+  console.log("Page received to fetchpopmovies: " , page)
+
   try {
-    const popularMovies = await getPopularMovies()
+    const popularMovies = await getPopularMovies(page)
     return res.status(200).json(popularMovies)
   } catch (err) {
     return next (err)

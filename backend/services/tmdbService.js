@@ -14,9 +14,9 @@ const getOptions = (reqUrl) => {
   }
 }
 
-const getPopularMovies = async () => {
+const getPopularMovies = async (page) => {
   console.log("Getting popular movies")
-  const url = `${TMDB_BASE_URL}/movie/popular?language=en-US&page=1`
+  const url = `${TMDB_BASE_URL}/movie/popular?language=en-US&page=${page}`
   const options = getOptions(url)
   const response = await axios.request(options)
   return response.data
