@@ -16,14 +16,28 @@ export default function Home() {
         const [endDate, setEndDate] =  useState(dayjs().add(1, "week"));
         const [selectedTheatreId, setSelectedTheatreId] = useState(null);
         const [sortedDetails, setSortedDetails] = useState([])
+  const [movieCards, setMovieCards] = useState(8) // how many cards of movies to show, default 8
+  const [page, setPage] = useState(1) // which page of popular results to show, default 1
 
         console.log("Home render - startDate:", startDate);
         console.log("Home render - endDate:", endDate);
-        
+
+  const getMoreMovies = () => {
+    console.log(`Current page: ${page}, current results limit: ${movieCards}`);
+    setMovieCards(prev => prev + 8)
+    console.log("Results increased: ", movieCards+8) // this doesnt instantly show 8+8 for some reason
+    if (movieCards > 20) {
+      console.log("Results went past pagination limit, increasing pages...")
+      setPage(prev=>prev+1)
+    }
+    console.log("Current page: ", page)
+  }
         
   return (
     <>
-        <PopularMovies reqUrl={"http://localhost:3000/api/tmdb/popular"} sectionTitle={"Popular Movies"}/>
+    {/* use page and amount of movie cards shown as key to force refresh of the element when the key updates */}
+    <PopularMovies key={`${page}-${movieCards}`} reqUrl={`http://localhost:3000/api/tmdb/popular/${page}`} sectionTitle={"Popular Movies"} resultLimit={movieCards}/>
+    <button onClick={getMoreMovies}>Get more popular movies</button>
     <DiscoverMoreMoviesButton />
       <Finnkino setSelectedTheatreId={setSelectedTheatreId}/>
       <FKDataRangePicker
