@@ -15,8 +15,30 @@ const fetchPopularMovies = async(req, res, next) => {
   console.log("Page received to fetchpopmovies: " , page)
 
   try {
-    const popularMovies = await getPopularMovies(page)
-    return res.status(200).json(popularMovies)
+    // if getting more than 1 page 
+    if(page > 1) {
+      console.log("Getting multiple pages of results")
+      // create table for setting all the results from one page into
+      const allResults = []
+      // iterate through page amount, 1--->n
+      for (let i = 1; i <= page; i++) {
+        // set movies to temp var
+        const temp = await getPopularMovies(i)
+        // check if result is array and .results exists in it
+        if (Array.isArray(temp?.results)) {
+          // push results{} into array
+          allResults.push(...temp.results)
+        }
+      }
+      // wrap the entire array of movies inside of results: {} again so frontend can read it 
+      return res.status(200).json({results: allResults})
+      
+    // if not getting multiple pages, business as usual
+    } else {
+      const popularMovies = await getPopularMovies(page)
+      console.log(popularMovies)
+      return res.status(200).json(popularMovies)
+    }
   } catch (err) {
     return next (err)
   }
