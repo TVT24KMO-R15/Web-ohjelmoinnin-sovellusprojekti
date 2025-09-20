@@ -26,7 +26,7 @@ export default function Home() {
     // console.log(`Current page: ${page}, current results limit: ${movieCards}`);
     setMovieCards(prev => prev + 8)
     // console.log("Results increased: ", movieCards+8) // this doesnt instantly show 8+8 for some reason
-    if (movieCards > 20) {
+    if (movieCards >= 20*page) {
       // console.log("Results went past pagination limit, increasing pages...")
       setPage(prev=>prev+1)
     }

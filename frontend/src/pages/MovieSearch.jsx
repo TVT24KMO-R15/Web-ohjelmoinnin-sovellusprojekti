@@ -25,7 +25,7 @@ export default function MovieSearch() {
 
   const getMoreResults = () => {
     setResults(prev => prev + 8)
-    if (results > 20) {
+    if (results >= 20*page) {
       setPage(prev => prev+1)
     }
   }
