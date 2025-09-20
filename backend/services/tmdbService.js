@@ -17,14 +17,16 @@ const getOptions = (reqUrl) => {
 const getPopularMovies = async (page) => {
   console.log("Getting popular movies")
   const url = `${TMDB_BASE_URL}/movie/popular?language=en-US&page=${page}`
+  console.log("Popular movies url:", url)
   const options = getOptions(url)
   const response = await axios.request(options)
   return response.data
 }
 
-const searchForMovie = async (name) => {
+const searchForMovie = async (name, page) => {
   console.log("Searching for movie " + name)
-  const url = `${TMDB_BASE_URL}/search/movie?query=${name}&include_adult=false&language=en-US&page=1`
+  const url = `${TMDB_BASE_URL}/search/movie?query=${name}&include_adult=false&language=en-US&page=${page}`
+  console.log("Movie search url", url)
   const options = getOptions(url)
   const response = await axios.request(options)
   return response.data
