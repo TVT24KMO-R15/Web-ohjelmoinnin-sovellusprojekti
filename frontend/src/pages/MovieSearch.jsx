@@ -12,10 +12,11 @@ export default function MovieSearch() {
   const locationValue = useLocation();
   const movieName = locationValue.state && locationValue.state.e ? locationValue.state.e : null; // if entering search via url, set moviename to null and then the search doesnt get called
   const [results, setResults] = useState(8)
+  const [page, setPage] = useState(1)
   const h2Name = movieName ? "Search results" : "" // h2 header text for movies listing
 
   // if moviename exists (received via useLocation when searching, but not on direct /search load), set url with moviename
-  const url = movieName ? `http://localhost:3000/api/tmdb/search/${movieName}` : null 
+  const url = movieName ? `http://localhost:3000/api/tmdb/search/${movieName}/${page}` : null 
 
   // reset search results limit on re-render (going through searchbar again)
   useEffect(() => {
@@ -24,6 +25,9 @@ export default function MovieSearch() {
 
   const getMoreResults = () => {
     setResults(prev => prev + 8)
+    if (results > 20) {
+      setPage(prev => prev+1)
+    }
   }
 
   return (

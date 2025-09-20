@@ -17,7 +17,7 @@ const fetchPopularMovies = async(req, res, next) => {
   try {
     // if getting more than 1 page 
     if(page > 1) {
-      console.log("Getting multiple pages of results")
+      console.log("Getting multiple pages of popular movies")
       // create table for setting all the results from one page into
       const allResults = []
       // iterate through page amount, 1--->n
@@ -26,7 +26,7 @@ const fetchPopularMovies = async(req, res, next) => {
         const temp = await getPopularMovies(i)
         // check if result is array and .results exists in it
         if (Array.isArray(temp?.results)) {
-          // push results{} into array
+          // push results[] into array
           allResults.push(...temp.results)
         }
       }
@@ -36,7 +36,6 @@ const fetchPopularMovies = async(req, res, next) => {
     // if not getting multiple pages, business as usual
     } else {
       const popularMovies = await getPopularMovies(page)
-      console.log(popularMovies)
       return res.status(200).json(popularMovies)
     }
   } catch (err) {
@@ -52,8 +51,31 @@ const searchMovie = async (req, res, next) => {
   console.log("Searchmovie page: ", page)
   const movieName = (req.params.moviename)
   try {
-    const searchResults = await searchForMovie(movieName, page)
-    return res.status(200).json(searchResults)
+    if (page > 1 ) {
+      console.log("Getting multiple pages of search results")
+      const allResults = []
+      for (let i = 1; i <= page; i++) {
+        const temp = await searchForMovie(movieName, i)
+        // if temp has no results array or is empty , stop
+        if (!Array.isArray(temp?.results || temp.results.length === 0)) {
+          console.log(`Stopped movie search at page ${i}, out of results`)
+          break
+        }
+        // set search results from current page to results
+        allResults.push(...temp.results)
+
+        // if reached page limit
+        if (i >= temp.total_pages) {
+          console.log(`Reached total_pages limit in searching`)
+          break
+        }
+      }
+      // return all search results
+      return res.status(200).json({results: allResults})
+    } else {
+      const searchResults = await searchForMovie(movieName, page)
+      return res.status(200).json(searchResults)
+    }
   } catch (err) {
     return next (err)
   }
