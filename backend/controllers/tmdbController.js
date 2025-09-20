@@ -3,7 +3,7 @@ import { getPopularMovies, searchForMovie, getMovieDetails } from "../services/t
 const getPage = (req) => {
   if (!req.params.page) {
     console.log("no req params page found")
-    return '1'
+    return 1
   } else {
     console.log("req params page found: " , req.params.page)
     return req.params.page
