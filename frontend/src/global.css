@@ -1,0 +1,18 @@
+/* Globaalit CSS-muuttujat */
+:root {
+  --font-size-base: 16px;
+  --border-radius: 8px;
+  --font-family: Proxima Nova, sans-serif;
+}
+
+/* yleiset tyylit */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background-color: #ffffff;
+}
