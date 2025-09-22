@@ -62,7 +62,8 @@ CREATE TABLE IF NOT EXISTS public.review
     fk_accountid integer NOT NULL,
     reviewtext character varying(1000),
     reviewdate date NOT NULL DEFAULT CURRENT_DATE,
-    PRIMARY KEY (reviewid)
+    PRIMARY KEY (reviewid),
+    CONSTRAINT "avoidReviewBombing" UNIQUE (movieid, fk_accountid)
 );
 
 DROP TABLE IF EXISTS public.groupposts;

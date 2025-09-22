@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import './FKTheatreDetails.css'
 
 function FKTheatreDetails({ theatreId, startDate, endDate, onSortedChange }) {
   const [details, setDetails] = useState([]);
   const [sortedDetails, setSortedDetails] = useState([]);
+  
 
   // Fetch data when theatreId changes
   useEffect(() => {
@@ -31,78 +33,44 @@ function FKTheatreDetails({ theatreId, startDate, endDate, onSortedChange }) {
       .catch((error) => {
         console.error("FKTheatreDetails fetch failed:", error);
       });
-  }, [theatreId]);
+  }, [theatreId, startDate, endDate]);
 
   // Filter + sort when details or dates change
   useEffect(() => {
     if (!details.length) return;
     console.log("ekan leffan ensi-ilta: ", details[0].showing)
 
-    const start = dayjs(startDate);
-    const end = dayjs(endDate);
+    const start = startDate;
+    const end = endDate;
+    console.log("FKT päiväformaatti start: ", start)
+    console.log("FKT päiväformaatti end: ", end)
+    console.log("FKT päiväformaatti startDate", startDate)
+    console.log("FKT päiväformaatti endDate :", endDate)
 
-    const filtered = details.filter((detail) => {
-      const showingDate = dayjs(detail.showing);
-      const start = dayjs(startDate);
-      const end = dayjs(endDate);
+
+
+  const filtered = details.filter((detail) => {
+    const showingDate = dayjs(detail.showing); // these are strings, so wrap
+
+    if (start && showingDate.isBefore(start, "day")) {
+      console.log(`Skipping ${detail.title} because ${showingDate.format("YYYY-MM-DD")} is before start ${start.format("YYYY-MM-DD")}`);
+    }
+    if (end && showingDate.isAfter(end, "day")) {
+      console.log(`Skipping ${detail.title} because ${showingDate.format("YYYY-MM-DD")} is after end ${end.format("YYYY-MM-DD")}`);
+    }
+
+    return (
+      (!start || showingDate.isSameOrAfter(start, "day")) &&
+      (!end || showingDate.isSameOrBefore(end, "day"))
+    );
+  });
     
-      
-      if (showingDate.isBefore(start, "day")) {
-        console.log(`Skipping ${detail.title} because ${showingDate.format("YYYY-MM-DD")} is before start ${start.format("YYYY-MM-DD")}`);
-      }
-      if (showingDate.isAfter(end, "day")) {
-        console.log(`Skipping ${detail.title} because ${showingDate.format("YYYY-MM-DD")} is after end ${end.format("YYYY-MM-DD")}`);
-      }
-    
-      // Filter logic
-      return (
-        (!startDate || showingDate.isSameOrAfter(start, "day")) &&
-        (!endDate || showingDate.isSameOrBefore(end, "day"))
-      );
-    });
-    
-    console.log("Filtered results:", filtered);
-
-
-
-
-
-
-    //const filtered = details.filter((detail) => {
-    //  const showingDate = dayjs(detail.showing);
-    //  
-    //  return (
-    //    (!startDate || showingDate.isSameOrAfter(dayjs(startDate), "day")) &&
-    //    (!endDate || showingDate.isSameOrBefore(dayjs(endDate), "day"))
-    //  );
-    //});
-
-
-    
-    //const filtered = details.filter((detail) => {
-    //  const showISO = detail.showing;
-    //  console.log("showing date ISOString: ", showISO)
-    //  console.log("showing date start: ", start.toISOString())
-    //  // Keep only if within start and end
-    //  return showISO >= start.toISOString() && showISO <= end.toISOString();
-    //});
-
-
-
-    //const filtered = details.filter((detail) => {
-    //  const showing = detail.showing; // ISO string
-    //  console.log("showing date ISOString: ", showing)
-    //  console.log("showing date start: ", start.toISOString())
-    //  return (
-    //    (!start || showing >= start.toISOString()) &&
-    //    (!end || showing <= end.toISOString())
-    //  );
-    //});
+    console.log("Filtered results:", filtered)
     
     
-    console.log("päiväformaatti ISOString :", start.toISOString())
-    console.log("päiväformaatti ilmankäsittelyä: ", start)
-    console.log("proppina saatu startDate: ", startDate)
+    //console.log("päiväformaatti ISOString :", start.toISOString())
+    //console.log("päiväformaatti ilmankäsittelyä: ", start)
+    
 
     const sorted = [...filtered].sort((a, b) =>
       dayjs(a.showing).diff(dayjs(b.showing))
@@ -116,16 +84,16 @@ function FKTheatreDetails({ theatreId, startDate, endDate, onSortedChange }) {
   }, [details, startDate, endDate, onSortedChange]);
 
   return (
-    <div>
+    <div className = 'theatreResultsDiv'>
       {Array.isArray(sortedDetails) && sortedDetails.length > 0 ? (
         sortedDetails.map((detail, index) => (
-          <div key={index}>
-            <h3>{detail.title}</h3>
+          <div key={index} className="grid-item">
+            <p className="title">{detail.title}</p>
             {detail.image && <img src={detail.image} alt={detail.title} />}
             <p>Year: {detail.year}</p>
             <p>Genres: {detail.genres}</p>
             <p>Rating: {detail.rating}</p>
-            <p>Release Date: {dayjs(detail.showing).format('DD.MM.YYYY')}</p>
+            <p>Premiere: {dayjs(detail.showing).format('DD.MM.YYYY')}</p>
           </div>
         ))
       ) : null}

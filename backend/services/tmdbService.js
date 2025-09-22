@@ -14,16 +14,16 @@ const getOptions = (reqUrl) => {
   }
 }
 
-const getPopularMovies = async () => {
-  console.log("Getting popular movies")
-  const url = `${TMDB_BASE_URL}/movie/popular?language=en-US&page=1`
+const getPopularMovies = async (page) => {
+  console.log("Getting popular movies from page " + page)
+  const url = `${TMDB_BASE_URL}/movie/popular?language=en-US&page=${page}`
   const options = getOptions(url)
   const response = await axios.request(options)
   return response.data
 }
 
 const searchForMovie = async (name, page) => {
-  console.log("Searching for movie " + name + " on page " + page)
+  console.log("Searching for movie " + name + " and page " + page)
   const url = `${TMDB_BASE_URL}/search/movie?query=${name}&include_adult=false&language=en-US&page=${page}`
   const options = getOptions(url)
   const response = await axios.request(options)
@@ -40,5 +40,13 @@ const getMovieDetails = async (movieId) => {
   return response.data
 }
 
+const getCollection = async (collectionId) => {
+  console.log("Getting collection for id " + collectionId);
+  const url = `${TMDB_BASE_URL}/collection/${collectionId}?language=en-US`;
+  const options = getOptions(url);
+  const response = await axios.request(options)
+  return response.data
+}
 
-export { getPopularMovies, searchForMovie, getMovieDetails }
+
+export { getPopularMovies, searchForMovie, getMovieDetails, getCollection }
