@@ -17,8 +17,9 @@ export default function Home() {
         const [selectedTheatreId, setSelectedTheatreId] = useState(null);
         const [sortedDetails, setSortedDetails] = useState([])
 
-        console.log("Home render - startDate:", startDate);
-        console.log("Home render - endDate:", endDate);
+        console.log("Home parent - startDate:", startDate);
+        console.log("Home parent - endDate:", endDate);
+        console.log("HOme parent endDate:", endDate.toString());
         
   return (
     <>
@@ -26,27 +27,24 @@ export default function Home() {
     <DiscoverMoreMoviesButton />
       <Finnkino setSelectedTheatreId={setSelectedTheatreId}/>
       <FKDataRangePicker
-      
-        setStartDate={setStartDate}
         startDate={startDate}
-        setEndDate={setEndDate}
+        setStartDate={setStartDate}
         endDate={endDate}
-        
-        
+        setEndDate={setEndDate}
       />
       
       
-        <>
-          <FKTheatreDetails
-            theatreId={selectedTheatreId}
-            onSortedChange={setSortedDetails}
-            startDate={startDate}
-            endDate={endDate}
+        
+        <FKTheatreDetails
+        theatreId={selectedTheatreId}
+        startDate={startDate}
+        endDate={endDate}
+        onSortedChange={setSortedDetails}
            
         
           />
           
-        </>
+        
       
       <ExtraLinks />
       <LatestReviews />
