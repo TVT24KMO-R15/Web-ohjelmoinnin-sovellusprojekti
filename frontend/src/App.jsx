@@ -17,7 +17,10 @@ import MyAccount from './pages/myprofile/MyAccount.jsx'
 import MyFavourites from './pages/myprofile/MyFavourites.jsx'
 import MyReviews from './pages/myprofile/MyReviews.jsx'
 
+import PublicFavourites from './pages/PublicFavourites.jsx'
+
 import { Routes, Route } from 'react-router-dom'
+
 
 
 
@@ -42,6 +45,8 @@ function App() {
           <Route path="/myaccount" exact element={<MyAccount />} />
           <Route path="/myaccount/myfavourites" exact element={<MyFavourites />} />
           <Route path='/myaccount/myreviews' exact element={<MyReviews />} />
+
+          <Route path='/favourites/:accountId' exact element={<PublicFavourites />} />
 
           <Route path="/*" exact element={<NotFound />}/>
         </Routes>
