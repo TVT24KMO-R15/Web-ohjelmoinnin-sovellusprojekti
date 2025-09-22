@@ -1,4 +1,4 @@
-import { getPopularMovies, searchForMovie, getMovieDetails } from "../services/tmdbService.js";
+import { getPopularMovies, searchForMovie, getMovieDetails, getCollection } from "../services/tmdbService.js";
 
 const fetchPopularMovies = async(req, res, next) => {
   try {
@@ -32,4 +32,14 @@ const detailMovie = async (req, res, next) => {
   }
 }
 
-export { fetchPopularMovies, searchMovie, detailMovie }
+const fetchCollection = async (req, res, next) => {
+  try {
+    const data = await getCollection(req.params.collectionId);
+    return res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Kokoelman tiedot eivät latautuneet.' });
+  }
+};
+
+export { fetchPopularMovies, searchMovie, detailMovie, fetchCollection }

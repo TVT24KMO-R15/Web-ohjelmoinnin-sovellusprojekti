@@ -10,6 +10,7 @@ import Movies from './pages/Movies'
 import SingleMovie from './pages/SingleMovie'
 import Reviews from './pages/Reviews'
 import MovieSearch from './pages/MovieSearch.jsx'
+import MovieCollection from './pages/MovieCollection';
 
 import { Routes, Route } from 'react-router-dom'
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/movies/:movieId" element={<SingleMovie />} />
           <Route path="/reviews" exact element={<Reviews />} />
           <Route path="/search" exact element={<MovieSearch />} />
+          <Route path="/collection/:collectionId" element={<MovieCollection />} />
           <Route path="/*" exact element={<NotFound />}/>
         </Routes>
       </div>
