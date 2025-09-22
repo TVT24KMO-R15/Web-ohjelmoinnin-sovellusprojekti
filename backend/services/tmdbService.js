@@ -35,6 +35,8 @@ const getMovieDetails = async (movieId) => {
   const url= `${TMDB_BASE_URL}/movie/${movieId}?language=en-US`
   const options = getOptions(url)
   const response = await axios.request(options)
+  const name = response.data.original_title
+  console.log(`Movie name for ID ${movieId}:`, name)
   return response.data
 }
 

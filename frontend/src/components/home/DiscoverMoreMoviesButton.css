@@ -1,0 +1,15 @@
+.discovermoremovies {
+    box-sizing: border-box;
+    text-decoration: none;
+    background-color: #000;
+    color: gold;
+    padding: 1em !important;
+    margin-top: 1em;
+    margin-bottom: 2em;
+    border: 2px solid gold;
+    border-radius: 1em;
+}
+
+.discovermoremoviesdiv {
+    margin-bottom: 4em;
+}

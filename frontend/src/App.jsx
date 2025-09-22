@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import './global.css'
 import Header from './components/common/Header'
 import Navbar from './components/common/Navbar'
 import Home from './pages/Home'
@@ -17,8 +18,9 @@ import { Routes, Route } from 'react-router-dom'
 function App() {
   return (
     <>
-      <Header />
+      
       <Navbar />
+      <Header />
       <div id="container">
         <Routes>
           <Route path="/" exact element={<Home />} />
