@@ -13,7 +13,14 @@ import Reviews from './pages/Reviews'
 import MovieSearch from './pages/MovieSearch.jsx'
 import MovieCollection from './pages/MovieCollection';
 
+import MyAccount from './pages/myprofile/MyAccount.jsx'
+import MyFavourites from './pages/myprofile/MyFavourites.jsx'
+import MyReviews from './pages/myprofile/MyReviews.jsx'
+
 import { Routes, Route } from 'react-router-dom'
+
+
+
 
 function App() {
   return (
@@ -31,6 +38,11 @@ function App() {
           <Route path="/reviews" exact element={<Reviews />} />
           <Route path="/search" exact element={<MovieSearch />} />
           <Route path="/collection/:collectionId" element={<MovieCollection />} />
+
+          <Route path="/myaccount" exact element={<MyAccount />} />
+          <Route path="/myaccount/myfavourites" exact element={<MyFavourites />} />
+          <Route path='/myaccount/myreviews' exact element={<MyReviews />} />
+
           <Route path="/*" exact element={<NotFound />}/>
         </Routes>
       </div>
