@@ -1,0 +1,74 @@
+.collection-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 2rem;
+  color: white;
+  text-shadow: 2px 2px 3px rgba(0,0,0,1), -2px -2px 4px rgba(0,0,0,1);
+}
+
+/* backdrop */
+.collection-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.collection-backdrop.fallback {
+  background-color: black;
+  opacity: 0.4;
+}
+
+.collection-content {
+  position: relative;
+  z-index: 1;
+}
+
+.collection-content h1 {
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.collection-movies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.collection-movie-card {
+  width: 150px;
+  text-align: center;
+}
+
+.collection-movie-card p {
+  margin-top: 0.5rem;
+}
+
+.collection-poster {
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+  transition: transform 0.2s;
+}
+
+.collection-poster:hover {
+  transform: scale(1.05);
+}
+
+.collection-overview {
+  margin-top: 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 800px;
+  text-shadow: 2px 2px 3px rgba(0,0,0,1), -2px -2px 4px rgba(0,0,0,1);
+}
+
+.collection-content a {
+  color: white;
+  text-decoration: underline;
+}

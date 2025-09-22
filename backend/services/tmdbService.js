@@ -40,5 +40,13 @@ const getMovieDetails = async (movieId) => {
   return response.data
 }
 
+const getCollection = async (collectionId) => {
+  console.log("Getting collection for id " + collectionId);
+  const url = `${TMDB_BASE_URL}/collection/${collectionId}?language=en-US`;
+  const options = getOptions(url);
+  const response = await axios.request(options)
+  return response.data
+}
 
-export { getPopularMovies, searchForMovie, getMovieDetails }
+
+export { getPopularMovies, searchForMovie, getMovieDetails, getCollection }

@@ -1,0 +1,73 @@
+.single-movie-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 2rem;
+  color: white;
+  text-shadow: 2px 2px 3px rgba(0,0,0,1), -2px -2px 4px rgba(0,0,0,1);
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.backdrop.fallback {
+  background-color: black;
+  opacity: 0.4;
+}
+
+.movie-row {
+  display: flex;
+  position: relative;
+  z-index: 1;
+}
+
+.poster-container {
+  flex: 0 0 30%;
+}
+
+.poster {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
+}
+
+.movie-content {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header button {
+  padding: 0.5rem 1rem;
+  background-color: #000000ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.movie-info {
+  margin-bottom: 0.5rem;
+}
+
+.single-movie-container a {
+  color: white;
+  text-decoration: underline;
+}
