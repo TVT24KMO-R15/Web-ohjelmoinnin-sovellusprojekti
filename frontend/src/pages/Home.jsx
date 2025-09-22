@@ -20,10 +20,9 @@ export default function Home() {
         console.log("Home render - startDate:", startDate);
         console.log("Home render - endDate:", endDate);
         
-        
   return (
     <>
-        <PopularMovies reqUrl={"http://localhost:3000/api/tmdb/popular"} sectionTitle={"Popular Movies"}/>
+    <PopularMovies reqUrl={`http://localhost:3000/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
     <DiscoverMoreMoviesButton />
       <Finnkino setSelectedTheatreId={setSelectedTheatreId}/>
       <FKDataRangePicker
@@ -44,7 +43,7 @@ export default function Home() {
             startDate={startDate}
             endDate={endDate}
            
-          
+        
           />
           
         </>
