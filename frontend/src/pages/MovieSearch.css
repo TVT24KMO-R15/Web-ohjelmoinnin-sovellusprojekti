@@ -1,0 +1,14 @@
+#movieSearchBar {
+  display: flex;
+  align-items: center;
+  /* background-color: red; */
+}
+
+
+#selectors {
+  /* background-color: blue; */
+  display: flex;
+  align-items: center;
+  padding: 1em;
+}
+
