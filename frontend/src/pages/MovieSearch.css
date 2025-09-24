@@ -12,3 +12,9 @@
   padding: 1em;
 }
 
+.inputField {
+  /* background-color: red; */
+  padding: 0.5em;
+  margin: 1em;
+  width: auto;
+}

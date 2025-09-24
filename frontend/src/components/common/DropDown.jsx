@@ -14,7 +14,7 @@ import './DropDown.css'
 export default function DropDown({title, label, items, onSelect, selected}) {
 
 const handleChange = (e) => {
-  // console.log(e.target.value)
+  console.log("HandleChange value inside of DropDown.jsx: ", e.target.value)
   onSelect(e.target.value) // <- call function inside parent
 }
 
@@ -23,12 +23,22 @@ const handleChange = (e) => {
       <label html={label} id='textlabel'>{title}</label>
       <select name={label} id='dropDown' onChange={handleChange} value={selected}>
         <option value='' >Choose an option...</option>
+        {items.map((item) => (
+          <option value={item}>
+            {item}
+          </option>
+        ))
+        }
+      </select>
+    </div>
+  )
+}
+
+/* old version of items map filtering, which would give ability to use this component on many other ones
+  ... refactored out for simplicitys sake, since TMDB only really has one filter worth using a dropdown menu for
         {items.map((item, index) => (
           <option key={index} value={item}>
             {item}
           </option>
         ))}
-      </select>
-    </div>
-  )
-}
+*/
