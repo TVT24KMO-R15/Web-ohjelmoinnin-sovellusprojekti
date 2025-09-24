@@ -27,7 +27,7 @@ const postReview = async (req, res, next) => {
     const { review } = req.body
     try {
         if (!review.movieid || !review.accountid || !review.reviewtext || !review.stars) {
-            const error = new Error('Email and password are required')
+            const error = new Error('Missing review data')
             error.status = 400
             return next(error)
         }
