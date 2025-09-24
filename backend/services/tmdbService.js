@@ -49,4 +49,18 @@ const getCollection = async (collectionId) => {
 }
 
 
-export { getPopularMovies, searchForMovie, getMovieDetails, getCollection }
+const getDiscovery = async (filter) => {
+  // convert filter json object {key: value} into ?key=value& string, so that gets used in discovery search
+  let text = "?" // insert ? to the beginning
+  for (const x in filter) {
+    text += `${x}=${filter[x]}&`; // key=value&key=value...
+  }
+  const url = `${TMDB_BASE_URL}/discover/movie${text}`;
+  console.log("getting TMDB discovery with url: ", url)
+  const options = getOptions(url);
+  const response = await axios.request(options)
+  return response.data
+}
+
+
+export { getPopularMovies, searchForMovie, getMovieDetails, getCollection, getDiscovery }

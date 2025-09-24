@@ -1,4 +1,4 @@
-import { getPopularMovies, searchForMovie, getMovieDetails, getCollection } from "../services/tmdbService.js";
+import { getPopularMovies, searchForMovie, getMovieDetails, getCollection, getDiscovery } from "../services/tmdbService.js";
 
 const getPage = (req) => {
   if (!req.params.page) {
@@ -53,4 +53,15 @@ const fetchCollection = async (req, res, next) => {
   }
 };
 
-export { fetchPopularMovies, searchMovie, detailMovie, fetchCollection }
+const discoveryMovieSearch = async (req, res, next) => {
+  const query = req.query // /discovery/?something=value
+  try {
+    const result = await getDiscovery(query)
+    return res.status(200).json(result)
+  } catch (err) {
+    console.log("tmdbController: discoveryMovieSearch sending error:")
+    return next (err)
+  }
+}
+
+export { fetchPopularMovies, searchMovie, detailMovie, fetchCollection, discoveryMovieSearch }
