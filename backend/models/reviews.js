@@ -16,6 +16,8 @@ const queryPostReview = async (movieid, stars, accountid, reviewtext) => {
     )
 }
 
+const queryDeleteReview = async (reviewid) => {
+    return await pool.query(`DELETE FROM review WHERE reviewid = $1`, [reviewid])
+}
 
-
-export { queryAllReviews, queryReviewsByUserId, queryPostReview }
+export { queryAllReviews, queryReviewsByUserId, queryPostReview , queryDeleteReview }

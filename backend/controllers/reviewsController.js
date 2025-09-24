@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryReviewsByUserId, queryPostReview } from "../models/reviews.js";
+import { queryAllReviews, queryReviewsByUserId, queryPostReview, queryDeleteReview } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -39,5 +39,21 @@ const postReview = async (req, res, next) => {
     }
 }
 
+const deleteReview = async (req, res, next) => {
+    const { id } = req.params
 
-export { getAllReviews, getReviewsByUser, postReview }
+    try {
+        console.log(`Deleting review with id: ${id}`)
+        const result = await queryDeleteReview(id)
+        if (result.rowCount === 0) {
+            const error = new Error('Review not found')
+            error.status = 400
+            return next(error)
+        }
+        return res.status(200).json({ id: id })
+    } catch (error) {
+        return next(error)
+    }
+}
+
+export { getAllReviews, getReviewsByUser, postReview, deleteReview }
