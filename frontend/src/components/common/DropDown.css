@@ -16,7 +16,8 @@
 
 /* this is the input dropdown menu */
 #dropDown {
-  width: 10em;
+  /* auto width scales to the biggest item inside the menu */
+  width: auto;
   height: 2em;
   border-radius: 8px;
   border: 1px solid black;

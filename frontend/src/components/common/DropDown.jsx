@@ -18,12 +18,14 @@ const handleChange = (e) => {
   onSelect(e.target.value) // <- call function inside parent
 }
 
+const convertedItems = Array.isArray(items) ? items : Object.values(items); // convert to array if its json object
+
   return (
     <div id='dropDownHolder'>
       <label html={label} id='textlabel'>{title}</label>
       <select name={label} id='dropDown' onChange={handleChange} value={selected}>
         <option value='' >Choose an option...</option>
-        {items.map((item) => (
+        {convertedItems.map((item) => (
           <option value={item}>
             {item}
           </option>
