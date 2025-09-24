@@ -6,7 +6,7 @@ import { useUser } from '../../../context/UseUser'
 
 export default function MyFavouritesComponent() {
     const account = useUser()
-    var copyText = `http://localhost:5173/favourites/${account.user.id}`
+    var copyText = `${window.location.origin}/favourites/${account.user.id}`
         
 
     
