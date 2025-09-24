@@ -92,12 +92,17 @@ nav li:first-child{
   cursor: pointer;
 }
 
+.menu-btn{
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
 @media(max-width: 800px){
   .hideOnMobile{
     display: none;
   }
   .menu-btn, .show-search {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     margin: 0 10px;
