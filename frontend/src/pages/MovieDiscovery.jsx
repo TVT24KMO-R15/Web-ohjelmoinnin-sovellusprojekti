@@ -10,6 +10,7 @@ export default function MovieDiscovery() {
   const [selectedTMDBFilter, setSelectedTMDBFilter] = useState() // tmdb filter enum, see sortingoptions
   // console.log("MovieDiscovery: using filter: ", selectedTMDBFilter)
   const [releaseYear, setReleaseYear] = useState()
+  const [page, setPage] = useState(1)
   
   const [urlParameters, setUrlParameters] = useState({
     sort_by: "",
@@ -69,7 +70,7 @@ export default function MovieDiscovery() {
     //   }
     //   console.log("urlParameters after cleanup: ", urlParameters)
     // }
-    const newUrl = `${baseURL}?primary_release_year=${releaseYear}&sort_by=${selectedTMDBFilter}&page=`
+    const newUrl = `${baseURL}?primary_release_year=${releaseYear}&sort_by=${selectedTMDBFilter}&page=${page}`
     console.log("Navigating to search with custom search filters url: ", newUrl)
     // return <Navigate to={"/movies"} state={{e: newUrl}} replace={true} />
   }
