@@ -1,19 +1,10 @@
-import React from 'react'
-import './MyReviewsComponent.css'
-import axios from "axios"
-
-import { useUser } from '../../../context/UseUser'
-import { useState } from 'react'
-import { useEffect } from 'react'
-
-export default function MyReviewsComponent(property) {
-
-  const [loading, setLoading] = useState(true)
-  const [review, setReview] = useState(property)
-  const [reviewAndDetails, setReviewAndDetails] = useState({review: 'null', details: {'poster_path':''}})
+import { React, useEffect, useState } from "react"
 
 
-
+export default function ReviewsPreviewRow(property) {
+    const [loading, setLoading] = useState(true)
+    const [review, setReview] = useState(property)
+    const [reviewAndDetails, setReviewAndDetails] = useState({review: 'null', details: {'poster_path':''}})
 
   function getDetails() {
     if (review != {}) {
@@ -62,14 +53,12 @@ export default function MyReviewsComponent(property) {
         
         <div>
           
-          <article className='myReviewsArticle'>
-            <div className='reviewImageDiv'>
-              {(reviewAndDetails.details["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + reviewAndDetails.details["poster_path"]}></img> : <img src={"../src/assets/noPoster.png"}></img>}
-            </div>
-            <div className='reviewDetailsDiv'>
-              <h3>{reviewAndDetails.details.title}</h3>
+          <article className='myReviewsPreviewArticle'>
+            
+            <div className='reviewPreviewDetailsDiv'>
+              <h3 className="reviewPreviewTitle">{reviewAndDetails.details.title}</h3>
               <p>"{reviewAndDetails.review.reviewtext}"</p>
-              <h3>Stars: {reviewAndDetails.review.stars}</h3>
+              <h3 className="reviewPreviewStars">Stars: {reviewAndDetails.review.stars}</h3>
             </div>
           </article>
         </div>

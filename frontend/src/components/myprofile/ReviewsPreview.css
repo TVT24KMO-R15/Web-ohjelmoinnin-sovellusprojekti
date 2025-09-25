@@ -1,0 +1,25 @@
+.myReviewsPreviewArticle {
+    
+    margin: auto;
+}
+
+.myReviewsPreviewArticle h3,p {
+    display: inline-block;
+}
+
+.reviewPreviewTitle {
+    width: 20%;
+}
+
+.reviewPreviewStars {
+    width: 15%;
+}
+
+.myReviewsPreviewArticle p {
+    margin: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 60%;
+    align-content: center;
+}

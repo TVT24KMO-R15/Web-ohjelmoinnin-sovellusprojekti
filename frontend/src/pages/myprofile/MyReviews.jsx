@@ -21,8 +21,6 @@ export default function MyReviews() {
           //console.log(reviews)
           }
         )
-        
-        
         .catch(err => {
           console.error('Failed to fetch reviews', err)
           //setReviews([])

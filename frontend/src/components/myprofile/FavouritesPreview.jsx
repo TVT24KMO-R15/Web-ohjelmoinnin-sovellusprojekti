@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 export default function FavouritesPreview() {
   return (
     <div>Favourites
-      <Link to='./myfavourites'>See all</Link>
+      <Link to='./myfavourites' className='linkseeall'>See all</Link>
     </div>
   )
 }
