@@ -14,8 +14,12 @@ export default function MyAccount() {
   return (
     <>
       <div className='accountcontentdiv'>
-        <FavouritesPreview />
-        <ReviewsPreview />
+        <div className='accountcontent'>
+          <FavouritesPreview />
+        </div>
+        <div className='accountcontent'>
+          <ReviewsPreview />
+        </div>
       </div>
       <div className='accountinfodiv'>
         <ProfileInfo />
