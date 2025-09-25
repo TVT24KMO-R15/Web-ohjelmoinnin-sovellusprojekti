@@ -47,21 +47,6 @@ export default function Navbar() {
           <li onClick={() => setSidebarOpen(false)}><Link to="/search">Movies</Link></li>
           <li onClick={() => setSidebarOpen(false)}><Link to="/reviews">Reviews</Link></li>
           <li onClick={() => setSidebarOpen(false)}><Link to="/groups">Groups</Link></li>
-          { user && user.token ? (
-            <li>
-              <button
-                className="sidebarButton"
-                onClick={() => {
-                  setUser({ username: '', email: '', password: '', token: '' });
-                  sessionStorage.removeItem('user');
-                  setSidebarOpen(false);
-                  navigate('/');
-                }}
-              >
-                Sign out
-              </button>
-            </li>
-          ) : ''}
           
           { !user || !user.token ? (
             <li onClick={() => { setSigninOpen(true); setSidebarOpen(false); }}><button className="signin-btn">Sign in</button></li>
@@ -111,12 +96,8 @@ export default function Navbar() {
         )}
           </ul>
           </nav>
-      
           {/* Näytä modal vain jos signinOpen === true */}
         {signinOpen && <Authentication onClose={() => setSigninOpen(false)} />}
-
-        
-
     </>
   )
 }
