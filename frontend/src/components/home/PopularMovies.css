@@ -15,13 +15,13 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: calc(100vw - 4em);
+    margin: auto;
     margin-bottom: 2em;
 }
 
 .popularMoviesArticle {
-    flex: 12%;
-    padding: 1em;
+    flex: 9.7%;
+    padding: 0.5em;
 }
 
 .popularMoviesArticle img {
@@ -29,7 +29,7 @@
     margin: auto !important;
     height: 300px;
     max-width: 400px;
-    width: 75%;
+    width: 95%;
     object-fit: cover;
     object-position: center;
     border-radius: 1em;
@@ -37,6 +37,7 @@
 
 .popularMoviesArticle h3 {
     text-align: center;
+    text-wrap: balance;
 }
 
 .popularmovielink {
@@ -54,9 +55,9 @@
     margin-bottom: 4em;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1400px) {
     .popularMoviesArticle {
-        flex: 25%;
+        flex: 20%;
     }
     .popularMoviesArticle img {
         height: 250px;

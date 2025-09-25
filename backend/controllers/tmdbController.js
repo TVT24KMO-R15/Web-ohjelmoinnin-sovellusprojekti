@@ -27,6 +27,7 @@ const searchMovie = async (req, res, next) => {
   const movieName = (req.params.moviename)
   const year = req.query?.year; // get optional year query param if it exists
   console.log("searchMovie: received search for movie: " , movieName, " on page ", page, " with year ", year ? year : "none")
+  // const page = (req.params.page)
   try {
     const searchResults = await searchForMovie(movieName, page, year)
     return res.status(200).json(searchResults)

@@ -1,0 +1,28 @@
+.accountcontentdiv {
+    padding: 1em;
+}
+
+.accountcontentdiv h2 {
+    margin-bottom: 1em;
+}
+
+.linkseeall {
+    display: block;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: solid 1px black;
+    border-radius: 1em;
+    width: 50px;
+    text-align: center;
+    color: black;
+}
+
+.accountcontent {
+    border: solid 4px gold;
+    border-radius: 1em;
+    background-color: lightgoldenrodyellow;
+    margin: 1em;
+    padding: 1em;
+}
