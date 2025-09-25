@@ -14,8 +14,8 @@ import './DropDown.css'
 export default function DropDown({title, label, items, onSelect, selected}) {
 
 const handleChange = (e) => {
-  console.log("HandleChange value inside of DropDown.jsx: ", e.target.value)
-  onSelect(e.target.value) // <- call function inside parent
+  // console.log("HandleChange value inside of DropDown.jsx: ", e.target.value)
+  onSelect(e.target.value) // <- call onSelect function inside parent
 }
 
 const convertedItems = Array.isArray(items) ? items : Object.values(items); // convert to array if its json object
