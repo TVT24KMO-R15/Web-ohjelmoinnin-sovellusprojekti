@@ -22,9 +22,10 @@ const getPopularMovies = async (page) => {
   return response.data
 }
 
-const searchForMovie = async (name, page) => {
+const searchForMovie = async (name, page, year) => {
   console.log("Searching for movie " + name + " and page " + page)
-  const url = `${TMDB_BASE_URL}/search/movie?query=${name}&include_adult=false&language=en-US&page=${page}`
+  const url = `${TMDB_BASE_URL}/search/movie?query=${name}&include_adult=false&language=en-US&${year ? `primary_release_year=${year}&` : ''}page=${page}`
+  console.log("searchForMovie: using url: ", url)
   const options = getOptions(url)
   const response = await axios.request(options)
   return response.data
