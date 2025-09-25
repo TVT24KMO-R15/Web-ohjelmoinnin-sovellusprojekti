@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import './Navbar.css'
 import Authentication from './Authentication';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import {useUser} from '../../context/UseUser';
 
@@ -11,7 +11,24 @@ export default function Navbar() {
         
   const [sidebarOpen, setSidebarOpen] = useState(false); // Sivuvalikko, joka on käytössä vain kapeille näytöille
   const [signinOpen, setSigninOpen] = useState(false); // Kirjautumisikkuna
-  const { user } = useUser();
+  const { user, setUser } = useUser();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+  // /* Sulje dropdown menu erillisillä klikkauksilla */
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+    }
+    if (userMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userMenuOpen]);
 
   /* Sulje kirjautuminen kun on vastaanotettu user token */
   React.useEffect(() => {
@@ -27,15 +44,27 @@ export default function Navbar() {
           <li onClick={() => setSidebarOpen(false)}><article className='sidebarButton'>
         {closeIcon}
         </article></li>
-          <li><Link to="/search">Movies</Link></li>
-          <li><Link to="/groups">Groups</Link></li>
-          <li><Link to="/reviews">Reviews</Link></li>
+          <li onClick={() => setSidebarOpen(false)}><Link to="/search">Movies</Link></li>
+          <li onClick={() => setSidebarOpen(false)}><Link to="/reviews">Reviews</Link></li>
+          <li onClick={() => setSidebarOpen(false)}><Link to="/groups">Groups</Link></li>
           { user && user.token ? (
-            <li><Link to="#">Sign out</Link></li>
+            <li>
+              <button
+                className="sidebarButton"
+                onClick={() => {
+                  setUser({ username: '', email: '', password: '', token: '' });
+                  sessionStorage.removeItem('user');
+                  setSidebarOpen(false);
+                  navigate('/');
+                }}
+              >
+                Sign out
+              </button>
+            </li>
           ) : ''}
           
           { !user || !user.token ? (
-            <li onClick={() => setSigninOpen(true)}><Link to="">Sign in</Link></li>
+            <li onClick={() => { setSigninOpen(true); setSidebarOpen(false); }}><button className="signin-btn">Sign in</button></li>
           ) : '' }
         </ul>
         <ul>
@@ -55,14 +84,30 @@ export default function Navbar() {
           <button className="signin-btn" onClick={() => setSigninOpen(true)}>
             Sign in
           </button>
-          
         ) : (
-          <>
-          {/* Käyttäjänappi */}
-            <button className="signin-btn" onClick={() => setSidebarOpen(true)}>
+          <div className="account-dropdown-wrapper" ref={dropdownRef}>
+            <button className="signin-btn" onClick={() => setUserMenuOpen((open) => !open)}>
               Account
             </button>
-          </>
+            {userMenuOpen && (
+              <div className="account-dropdown">
+                <p className="dropdown-greetings">Hi {user?.email || 'User'}!</p>
+                <Link to="/reviews" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My reviews</Link>
+                <Link to="/account" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My account</Link>
+                <button
+                  className="dropdown-item"
+                  onClick={() => {
+                    setUser({ username: '', email: '', password: '', token: '' });
+                    sessionStorage.removeItem('user');
+                    setUserMenuOpen(false);
+                    navigate('/');
+                  }}
+                >
+                  Sign out
+                </button>
+              </div>
+            )}
+          </div>
         )}
           </ul>
           </nav>
