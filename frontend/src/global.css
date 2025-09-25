@@ -3,6 +3,14 @@
   --font-size-base: 16px;
   --border-radius: 8px;
   --font-family: Proxima Nova, sans-serif;
+  --color-regular-text: #000;
+  --black: #000;
+  --dark-gray: #333;
+  --light-gray: #666;
+  --white: #fff;
+  --secondary-white: #f8f8f8;
+  --red: #b30000;
+/* Globaalit muuttujat on saatavilla koko sovelluksessa käyttö: var(--name) */
 }
 
 /* yleiset tyylit */

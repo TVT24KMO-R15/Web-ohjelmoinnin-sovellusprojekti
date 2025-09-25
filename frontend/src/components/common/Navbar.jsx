@@ -14,8 +14,25 @@ export default function Navbar() {
   const { user, setUser } = useUser();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const sidebarRef = useRef(null);
   const navigate = useNavigate();
-  // /* Sulje dropdown menu erillisillä klikkauksilla */
+
+  // Sulje sivuvalikko klikkauksella ulkopuolelle
+  useEffect(() => {
+    function handleSidebarClickOutside(event) {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setSidebarOpen(false);
+      }
+    }
+    if (sidebarOpen) {
+      document.addEventListener('mousedown', handleSidebarClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleSidebarClickOutside);
+    };
+  }, [sidebarOpen]);
+
+  /* Sulje dropdown menu klikkauksella ulkopuolelle */
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -31,7 +48,7 @@ export default function Navbar() {
   }, [userMenuOpen]);
 
   /* Sulje kirjautuminen kun on vastaanotettu user token */
-  React.useEffect(() => {
+  useEffect(() => {
     if (user && user.token) {
       setSigninOpen(false);
     }
@@ -40,7 +57,7 @@ export default function Navbar() {
     <>
     {/* Sivuvalikko */}
       <nav>
-        <ul className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <ul ref={sidebarRef} className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
           <li onClick={() => setSidebarOpen(false)}><article className='sidebarButton'>
         {closeIcon}
         </article></li>
@@ -50,7 +67,7 @@ export default function Navbar() {
           
           { !user || !user.token ? (
             <li onClick={() => { setSigninOpen(true); setSidebarOpen(false); }}><button className="signin-btn">Sign in</button></li>
-          ) : '' }
+          ) : null }
         </ul>
         <ul>
           {/* Normaali valikko */}
@@ -70,6 +87,7 @@ export default function Navbar() {
             Sign in
           </button>
         ) : (
+          /* Käyttäjämenu */
           <div className="account-dropdown-wrapper" ref={dropdownRef}>
             <button className="signin-btn" onClick={() => setUserMenuOpen((open) => !open)}>
               Account
