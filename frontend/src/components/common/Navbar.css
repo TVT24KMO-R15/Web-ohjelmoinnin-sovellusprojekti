@@ -21,7 +21,6 @@ body {
 nav{
   background-color: black;
 }
-
 nav ul{
   width: 100%;
   list-style: none;
@@ -36,7 +35,6 @@ nav li{
   margin-left: 10px;
   margin-right: 10px;
 }
-
 nav a{
   padding: 10px 12px;
   text-decoration: none;
@@ -87,7 +85,6 @@ nav li:first-child{
 .sidebarButton {
   margin-top: 1em;
 }
-
 .sidebarButton :hover {
   cursor: pointer;
 }
@@ -97,7 +94,7 @@ nav li:first-child{
     display: none;
   }
   .menu-btn, .show-search {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     margin: 0 10px;
