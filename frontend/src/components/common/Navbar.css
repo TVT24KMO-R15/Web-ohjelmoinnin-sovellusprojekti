@@ -6,8 +6,8 @@
   position: absolute;
   top: 64px;
   right: 10px;
-  background: var(--white);
-  color: black;
+  background: var(--color-bg);
+  color: var(--color-text);
   min-width: 160px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.18);
   border-radius: 8px;
@@ -31,12 +31,13 @@
   text-align: left;
   background: none;
   border: none;
-  color: var(--black);
+  color: var(--color-text-muted);
+  font-weight: 600;
   font-size: 16px;
   text-decoration: none;
 }
 .dropdown-item:hover {
-  background: var(--secondary-white);
+  background: var(--color-bg-alt);
   color: var(--red);
 }
 body {
@@ -45,8 +46,8 @@ body {
 .signin-btn {
   margin-left: 10px;
   margin-right: 10px;
-  background: var(--white);
-  color: var(--black);
+  background: var(--color-bg);
+  color: var(--color-text);
   padding: 10px 12px;
   border-radius: 8px;
   text-decoration: none;
@@ -55,11 +56,11 @@ body {
   border: 0;
 }
 .signin-btn:hover {
-  color: var(--red);
+  color: var(--nav-hover-alt);
   cursor: pointer;
 }
 nav{
-  background-color: var(--black);
+  background-color: var(--nav-bg);
 }
 nav ul{
   width: 100%;
@@ -81,15 +82,15 @@ nav a{
   text-decoration: none;
   display: flex;
   align-items: center;
-  color: var(--white);
-  background: var(--black);
+  color: var(--nav-text);
+  background: var(--nav-bg);
   border-radius: 8px;
   font-size: 16px;
   border: 0;
 }
 nav a:hover{
-  background: var(--dark-gray);
-  color: var(--white);
+  background: var(--nav-hover);
+  color: var(--nav-text);
 }
 nav li:first-child{
   margin-right: auto;
@@ -101,7 +102,7 @@ nav li:first-child{
   height: 100vh;
   width: 250px;
   z-index: 999;
-  background-color: var(--black);
+  background-color: var(--nav-bg);
   box-shadow: 0 4px 32px rgba(0,0,0,0.18);
   display: none;
   flex-direction: column;
@@ -133,7 +134,7 @@ nav li:first-child{
     display: none;
   }
   .menu-btn, .show-search {
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 10px;
