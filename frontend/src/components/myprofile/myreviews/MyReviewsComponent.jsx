@@ -6,13 +6,13 @@ import { useUser } from '../../../context/UseUser'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-export default function MyReviewsComponent() {
-  const account = useUser()
+export default function MyReviewsComponent(property) {
+  //const account = useUser()
   const [loading, setLoading] = useState(true)
-  const [reviews, setReviews] = useState([])
-  const [reviewsAndDetails, setReviewsAndDetails] = useState([])
+  const [review, setReview] = useState(property)
+  const [reviewAndDetails, setReviewAndDetails] = useState({review: 'null', details: {'poster_path':''}})
 
-  
+  /*
   useEffect(() => {
     //setReviews([])
     const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}`
@@ -35,35 +35,29 @@ export default function MyReviewsComponent() {
     }
 
   , [])
-
+*/
 
 
   function getDetails() {
-    if (reviews != []) {
+    if (review != {}) {
       //this part gets movie details for each review
-      setReviewsAndDetails([])
+      //setReviewAndDetails([])
       console.log('getting details')
-      const apulista = []
-      reviews.forEach(element => {
-        const address1 = import.meta.env.VITE_API_URL + `/api/tmdb/details/${element.movieid}`
-        console.log(address1)
-        apulista.push(address1)
-      });
-      console.log(apulista)
+      console.log(review.property.movieid)
+      //const apulista = []
+      const address1 = import.meta.env.VITE_API_URL + `/api/tmdb/details/${review.property.movieid}`
+      console.log(address1)
+      //apulista.push(address1)
+      
 
-      const fetchPromises = apulista.map(endpoint => fetch(endpoint))
 
-      Promise.all(fetchPromises)
-        .then(responses => Promise.all(responses.map(response => response.json())))
-        .then(data => {
-          console.log(data)
-          const apulista2 = []
-          for (let index = 0; index < data.length; index++) {
-            const element = data[index];
-            apulista2.push({review: reviews[index], details: element})
-            
-          }
-          setReviewsAndDetails(apulista2)
+      fetch(address1)
+        .then(response => response.json())
+        .then(json => {
+          //console.log(json)
+          const apuobjekti = {review: review.property, details: json}
+          setReviewAndDetails(apuobjekti)
+          console.log(apuobjekti)
         })
       }
      else {
@@ -72,13 +66,13 @@ export default function MyReviewsComponent() {
 
     
 
-    if (reviews != []){
+    if (review != {}){
       console.log('loading: '+ loading)
       setLoading(false)
     }
   }
 
-  useEffect(getDetails, [reviews])
+  useEffect(getDetails, [])
   
   if (loading) {
     console.log('loading: '+ loading)
@@ -91,19 +85,19 @@ export default function MyReviewsComponent() {
   if (!loading) {
     return (
       <div>
-        <h2>My Reviews</h2>
+        
         <div>
-          {reviewsAndDetails.map(item =>
-          (<article key={item.review.movieid} className='myReviewsArticle'>
+          
+          <article className='myReviewsArticle'>
             <div className='reviewImageDiv'>
-              {(item.details["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + item.details["poster_path"]}></img> : <img src={"../src/assets/noPoster.png"}></img>}
+              {(reviewAndDetails.details["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + reviewAndDetails.details["poster_path"]}></img> : <img src={"../src/assets/noPoster.png"}></img>}
             </div>
             <div className='reviewDetailsDiv'>
-              <h3>{item.details.title}</h3>
-              <p>"{item.review.reviewtext}"</p>
-              <h3>Stars: {item.review.stars}</h3>
+              <h3>{reviewAndDetails.details.title}</h3>
+              <p>"{reviewAndDetails.review.reviewtext}"</p>
+              <h3>Stars: {reviewAndDetails.review.stars}</h3>
             </div>
-          </article>))}
+          </article>
         </div>
       </div>
     )
