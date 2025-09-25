@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryReviewsByUserId, queryPostReview, queryDeleteReview } from "../models/reviews.js";
+import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryPostReview, queryDeleteReview } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -11,11 +11,34 @@ const getAllReviews = async (req, res, next) => {
     }
 }
 
+const getAllReviewsWithLimit = async (req, res, next) => {
+    try {
+        
+        const result =  await queryAllReviewsWithLimit(req.params.limit)
+        console.log("get all reviews with limit "+ req.params.limit)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next (error)
+    }
+}
+
 const getReviewsByUser = async (req, res, next) => {
     try {
         //const userid = (req.params.accountid)
         const result =  await queryReviewsByUserId(req.params.accountid)
         console.log("get reviews for user: "+ req.params.accountid)
+        return res.status(200).json(result)
+    } catch (error) {
+        return next (error)
+    }
+
+}
+
+const getReviewsByUserWithLimit = async (req, res, next) => {
+    try {
+        //const userid = (req.params.accountid)
+        const result =  await queryReviewsByUserWithLimit(req.params.accountid, req.params.limit)
+        console.log("get reviews for user: "+ req.params.accountid + ", with limit: " + req.params.limit)
         return res.status(200).json(result)
     } catch (error) {
         return next (error)
@@ -56,4 +79,4 @@ const deleteReview = async (req, res, next) => {
     }
 }
 
-export { getAllReviews, getReviewsByUser, postReview, deleteReview }
+export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, postReview, deleteReview }
