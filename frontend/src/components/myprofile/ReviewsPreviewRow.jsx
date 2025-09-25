@@ -11,10 +11,10 @@ export default function ReviewsPreviewRow(property) {
       //this part gets movie details for each review
       
       console.log('getting details')
-      console.log(review.property.movieid)
+      //console.log(review.property.movieid)
       
       const address1 = import.meta.env.VITE_API_URL + `/api/tmdb/details/${review.property.movieid}`
-      console.log(address1)
+      //console.log(address1)
 
       fetch(address1)
         .then(response => response.json())

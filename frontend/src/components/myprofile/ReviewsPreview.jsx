@@ -13,11 +13,11 @@ export default function ReviewsPreview() {
   useEffect(() => {
     //setReviews([])
     const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}`
-    console.log(address)
+    //console.log(address)
     fetch(address)
       .then(response => response.json())
       .then(json => {
-        console.log(json.rows)
+        //console.log(json.rows)
         setReviews(json.rows)
         //console.log(reviews)
       }
