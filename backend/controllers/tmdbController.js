@@ -25,6 +25,7 @@ const fetchPopularMovies = async(req, res, next) => {
 const searchMovie = async (req, res, next) => {
   const page = getPage(req)
   const movieName = (req.params.moviename)
+  // const page = (req.params.page)
   try {
     const searchResults = await searchForMovie(movieName, page)
     return res.status(200).json(searchResults)
