@@ -1,17 +1,1 @@
-#movieDiscoveryFilters {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-#searchBtn {
-  padding: 0.75em 1em;
-  margin: 0.5em;
-  cursor: pointer;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 8px;
-}
+/* MovieDiscovery specific styles */

@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
-import SearchBar from '../components/common/SearchBar';
+import React from 'react'
+import { useLocation } from 'react-router-dom'
+import MovieFilters from '../components/search/MovieFilters';
 import PopularMovies from '../components/home/PopularMovies';
-import DropDown from '../components/common/DropDown';
 import './MovieSearch.css'
 
 // https://developer.themoviedb.org/reference/search-movie
@@ -10,18 +9,8 @@ export default function MovieSearch() {
   const locationValue = useLocation(); // when loading /search/ without going through a searchbar the value of e is null and causes errors, this is a workaround
   const movieName = locationValue.state && locationValue.state.e ? locationValue.state.e : null; // if entering search via url, set moviename to null and then the search doesnt get called
   const h2Name = movieName ? "Search results for " + movieName : "" // h2 header text for movies listing
-  const [open, setOpen] = useState(false) // toggle for showing advanced search results
   const baseURL = `${import.meta.env.VITE_API_URL}/api/tmdb`
   const url = movieName ? `${baseURL}/search/${movieName}` : null
-  const changeOpen = () => setOpen(!open) // toggles filter dropdowns visibility
-  const [year, setYear] = useState(null) // release year filter state
-  const [options, setOptions] = useState(
-    {
-      primary_release_year: year,
-      query: movieName ? movieName : null,
-      page: 1,
-    }
-  ) // object to hold all filter options
 
   // const [url, setUrl] = useState(createUrlAndSearch()) // url to be sent to PopularMovies component
   // useEffect(() => {
@@ -38,25 +27,15 @@ export default function MovieSearch() {
 
   return (
     <>
-    <div id='movieSearchBar'> 
       <h1>Movie search</h1>
-      <div id='customSearchBar'>
-        <SearchBar searchDestination={"/search"}/> 
+      <MovieFilters 
+        type="search"
+        baseURL={baseURL}
+        searchDestination="/search"
+      />
+      <div id='results'>
+        <PopularMovies reqUrl={url} sectionTitle={h2Name} />
       </div>
-        <div id='dropDownHolder'>
-          <button onClick={changeOpen} id='filterToggle'>
-            {open? "Close filters" : "Open filters"}
-          </button>
-          
-          { open ? (
-            <div id='filterOptions'>
-              <input type="text" className='inputField' placeholder='Release year (optional)' maxLength={4} minLength={4} onChange={(e) => setYear(e.target.value)}/>
-            </div>
-          ) : (<span/> // show nothing on toggle off
-          )}
-          </div>
-        </div>
-      <PopularMovies reqUrl={url} sectionTitle={h2Name} />
     </>
   )
 }

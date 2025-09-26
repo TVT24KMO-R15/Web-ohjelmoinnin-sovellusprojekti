@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import DropDown from '../components/common/DropDown';
+import React from 'react'
+import MovieFilters from '../components/search/MovieFilters';
 import PopularMovies from '../components/home/PopularMovies';
 import './MovieDiscovery.css'
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // https://developer.themoviedb.org/reference/discover-movie
 export default function MovieDiscovery() {
-  const navigate = useNavigate();
   const location = useLocation();
   const baseURL = `${import.meta.env.VITE_API_URL}/api/tmdb/discovery/`
-  //#region Filtering parameters
-  const [selectedTMDBFilter, setSelectedTMDBFilter] = useState() // tmdb filter enum, see sortingoptions
-  const [releaseYear, setReleaseYear] = useState()
 
   // logging
   /*
@@ -40,43 +36,16 @@ export default function MovieDiscovery() {
   }
   //#endregion
 
-
-  const handleSelect = (e) => {
-    // console.log("Handleselect received value: ", e)
-    // match the selected value (e) to the corresponding key in sortingOptions "popularity.desc : Popularity (Highest first)"
-    const selectedKey = Object.keys(sortingOptions).find(key => sortingOptions[key] === e);
-    // console.log("MovieDiscovery: Setting key: ", selectedKey)
-    setSelectedTMDBFilter(selectedKey)
-  }
-
-  const makeUrlAndSearch = () => {
-    // Build query parameters, filtering out undefined values
-    const params = new URLSearchParams()
-    if (releaseYear) params.append('primary_release_year', releaseYear)
-    if (selectedTMDBFilter) params.append('sort_by', selectedTMDBFilter)
-    
-    const queryString = params.toString()
-    const newUrl = queryString ? `${baseURL}?${queryString}` : baseURL
-    console.log("Custom filters url", newUrl)
-    // navigate back to this component with the url as state
-    navigate("/movies", {state:{urlParameters: newUrl}})
-  }
-
   // todo thought popped into my head when choosing a new year or a new filter the page re renders which keeps navigation data maybe remove it when changing parameters etc.
 
   return (
     <>
       <h1>Discover new movies</h1>
-      <div id='movieDiscoveryFilters'>
-        <DropDown
-          title={'Sort by'}
-          label={'tmdbOptions'}
-          items={sortingOptions}
-          onSelect={handleSelect}
-        />
-        <input type="text" className='inputField' placeholder='Release year (optional)' maxLength={4} minLength={4} onChange={(e) => setReleaseYear(e.target.value)}/>
-        <button onClick={makeUrlAndSearch} id='searchBtn'>Search with current filters</button>
-      </div>
+      <MovieFilters 
+        type="discovery"
+        baseURL={baseURL}
+        sortingOptions={sortingOptions}
+      />
       <div id='movieDiscoveryResults'>
         {
           (location?.state?.urlParameters)

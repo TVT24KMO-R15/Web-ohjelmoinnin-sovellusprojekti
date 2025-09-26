@@ -1,0 +1,10 @@
+#searchBtn {
+  padding: 0.75em 1em;
+  margin: 0.5em;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: auto%;
+}

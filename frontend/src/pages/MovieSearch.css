@@ -3,36 +3,3 @@
   align-items: center;
   /* background-color: red; */
 }
-
-
-#filterOptions {
-  /* background-color: yellow; */
-  display: flex;
-  align-items: center;
-  /* padding: 0em, 1em; */
-  width: 100%;
-}
-
-.inputField {
-  /* background-color: red; */
-  padding: 0.5em;
-  margin: 1em;
-  width: auto;
-}
-
-#filterToggle {
-  /* background-color: blue; */
-  width: 110%;
-  padding: 0.75em;
-  margin: 0.5em;
-  height: 3em;
-  border: 1px solid black;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* able to edit searchbar css without affecting header */
-#customSearchBar > div > .search-bar input {
-  padding-right: 5em;
-  /* background-color: red; */
-}

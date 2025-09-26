@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import './PopularMovies.css'
 import { Link } from 'react-router-dom'
-import Pagination from '../common/Pagination'
+import Pagination from '../search/Pagination'
 
 
 export default function PopularMovies({reqUrl, sectionTitle}) {
