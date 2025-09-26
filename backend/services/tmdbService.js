@@ -51,10 +51,11 @@ const getCollection = async (collectionId) => {
 
 
 const getDiscovery = async (filter) => {
-  // convert filter json object {key: value} into ?key=value& string, so that gets used in discovery search
-  let text = "?" // insert ? to the beginning
+  let text = "?language=en-US"
   for (const x in filter) {
-    text += `${x}=${filter[x]}&`; // key=value&key=value...
+    if (filter[x] !== undefined && filter[x] !== "") {
+      text += `&${x}=${filter[x]}`
+    }
   }
   const url = `${TMDB_BASE_URL}/discover/movie${text}`;
   console.log("getting TMDB discovery with url: ", url)
