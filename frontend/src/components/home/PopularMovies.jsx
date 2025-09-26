@@ -15,7 +15,8 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
   useEffect(() => {
     setMovies([]) // cleanup list from previous searches
     if (!(reqUrl)) return // loading /search/ directly passes null as url, break here to avoid breaking
-    const address = `${reqUrl}/${currentPage}` // add current page to address from usestate
+    const address = `${reqUrl}?page=${currentPage}` // add current page to address from usestate
+    console.log("PopularMovies: using url: ", address)
     setLoading(true)
     axios.get(address)
       .then(response => {
