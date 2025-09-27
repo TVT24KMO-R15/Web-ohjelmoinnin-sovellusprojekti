@@ -32,7 +32,7 @@ export default function ReviewsPreviewRow(property) {
     
 
     if (review != {}){
-      console.log('loading: '+ loading)
+      //console.log('loading: '+ loading)
       setLoading(false)
     }
   }

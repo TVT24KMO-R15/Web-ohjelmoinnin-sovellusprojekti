@@ -71,3 +71,7 @@
   color: white;
   text-decoration: underline;
 }
+
+.review-button {
+  padding: 1em;
+}

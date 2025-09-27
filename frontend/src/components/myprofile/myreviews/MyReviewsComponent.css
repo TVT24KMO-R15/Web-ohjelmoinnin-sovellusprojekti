@@ -1,9 +1,23 @@
 .myReviewsArticle {
     margin: 1em;
-    border: 1px solid black;
-    border-radius: 1em;
     padding: 1em;
     display: flex;
+    
+}
+
+.reviewborder {
+    border: solid 4px gold;
+    border-radius: 1em;
+    margin: 1em;
+    padding: 1em;
+}
+
+
+.deletebutton {
+    display: inline;
+    padding: 0em 1em;
+
+    margin-left: 2em;
 }
 
 .reviewImageDiv {
@@ -15,11 +29,10 @@
 .reviewImageDiv img {
     max-height: 150px;
     border-radius: 1em;
-    margin: auto;
 }
 
 .reviewDetailsDiv {
-    display: block;
+    display: inline;
     flex: 85%;
     padding: 1em;
 }

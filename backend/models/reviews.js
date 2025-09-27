@@ -11,7 +11,7 @@ const queryAllReviewsWithLimit = async ( limit ) => {
 }
 
 const queryReviewsByUserId = async ( userid ) => {
-    return await pool.query(`SELECT * FROM review WHERE fk_accountid = $1`, [userid])
+    return await pool.query(`SELECT * FROM review WHERE fk_accountid = $1 ORDER BY reviewdate DESC`, [userid])
 }
 
 const queryReviewsByUserWithLimit = async ( userid, limit ) => {
