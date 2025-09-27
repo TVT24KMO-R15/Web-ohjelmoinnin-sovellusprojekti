@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react'
 import MyReviewsComponent from '../../components/myprofile/myreviews/MyReviewsComponent'
 import { useUser } from '../../context/UseUser'
+import axios from 'axios'
 
 export default function MyReviews() {
   const account = useUser()
@@ -16,7 +17,7 @@ export default function MyReviews() {
       fetch(address)
         .then(response => response.json()) 
         .then(json => {
-          console.log(json.rows)
+          //console.log(json.rows)
           setReviews(json.rows)
           //console.log(reviews)
           }
@@ -30,13 +31,30 @@ export default function MyReviews() {
   
     , [])
 
+  const removeReview = (deleted) => {
+    axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`)
+      .then(response => {
+        setReviews(reviews.filter(item => item.reviewid !== deleted))
+
+      })
+      .catch(error => {
+        alert(error.response ? error.response.data.error.message : error)
+      })
+
+  }
+
   return (
     <div>
       <h2>My Reviews</h2>
-    {reviews.map(item =>
-    (<MyReviewsComponent key={item.movieid} property={item} />)
-    )}
-    
+      {reviews.map(item =>
+      (<div className='reviewborder'>
+        <MyReviewsComponent key={item.movieid} property={item} />
+        <div className='deletebuttondiv'>
+           <button className='deletebutton' onClick={() => removeReview(item.reviewid)}>Remove Review</button>
+        </div>
+      </div>
+      ))}
+
     </div>
   )
 }

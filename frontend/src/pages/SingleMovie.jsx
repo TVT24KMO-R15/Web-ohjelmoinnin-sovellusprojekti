@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './SingleMovie.css';
+import PostReview from '../components/singlemovie/PostReview';
+
+import { useUser } from '../context/UseUser'
 
 export default function SingleMovie({ addToFavourites }) {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [postReviewOpen, setPostReviewOpen] = useState(false)
+
+  const account = useUser()
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -33,6 +39,7 @@ export default function SingleMovie({ addToFavourites }) {
   if (collectionId) console.log('Collection ID:', collectionId);
 
   return (
+    <>
     <div className="single-movie-container">
       {movie.backdrop_path ? (
         <div
@@ -77,7 +84,12 @@ export default function SingleMovie({ addToFavourites }) {
             </p>
           )}
         </div>
+        
       </div>
+      
     </div>
+    { account.user.id ? (<button className='review-button' onClick={() => {setPostReviewOpen(true)}}>Post Your Own Review</button>) : <></>}
+    {postReviewOpen && <PostReview onClose={() => setPostReviewOpen(false)} />}
+    </>
   );
 }

@@ -1,5 +1,4 @@
 .myReviewsPreviewArticle {
-    
     margin: auto;
 }
 
@@ -16,7 +15,7 @@
 }
 
 .myReviewsPreviewArticle p {
-    margin: auto;
+    padding-right: 1em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
