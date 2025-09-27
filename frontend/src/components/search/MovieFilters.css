@@ -7,7 +7,9 @@
 .inputField {
   padding: 0.5em;
   margin: 1em;
-  width: auto;
+  border-radius: 8px;
+  height: 1.5em;
+  border: 1px solid black;
 }
 
 #filterToggle {

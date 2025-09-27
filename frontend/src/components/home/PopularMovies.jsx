@@ -15,7 +15,7 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
   useEffect(() => {
     setMovies([]) // cleanup list from previous searches
     if (!(reqUrl)) return // loading /search/ directly passes null as url, break here to avoid breaking
-    const separator = reqUrl.includes('?') ? '&' : '?'
+    const separator = reqUrl.includes('?') ? '&' : '?' // some frontend components send url without "/?" so add page with & or ? depending on if ? is already in the url
     const address = `${reqUrl}${separator}page=${currentPage}`
     console.log("PopularMovies: using url: ", address)
     setLoading(true)

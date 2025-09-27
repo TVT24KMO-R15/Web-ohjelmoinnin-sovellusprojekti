@@ -50,11 +50,11 @@ const getCollection = async (collectionId) => {
 }
 
 
-const getDiscovery = async (filter) => {
-  let text = "?language=en-US"
-  for (const x in filter) {
-    if (filter[x] !== undefined && filter[x] !== "") {
-      text += `&${x}=${filter[x]}`
+const getDiscovery = async (query) => {
+  let text = "?language=en-US" // start with ?param
+  for (const x in query) { // iterate through query parameters sent from MovieDiscovery component
+    if (query[x] !== undefined && query[x] !== "") { // only add parameters that have a value
+      text += `&${x}=${query[x]}` // append to text with &key=value
     }
   }
   const url = `${TMDB_BASE_URL}/discover/movie${text}`;
