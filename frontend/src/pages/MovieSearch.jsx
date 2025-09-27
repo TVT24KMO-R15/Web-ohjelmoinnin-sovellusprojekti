@@ -1,5 +1,5 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import MovieFilters from '../components/search/MovieFilters';
 import PopularMovies from '../components/home/PopularMovies';
 import './MovieSearch.css'
@@ -7,23 +7,37 @@ import './MovieSearch.css'
 // https://developer.themoviedb.org/reference/search-movie
 export default function MovieSearch() {
   const locationValue = useLocation(); // when loading /search/ without going through a searchbar the value of e is null and causes errors, this is a workaround
-  const movieName = locationValue.state && locationValue.state.e ? locationValue.state.e : null; // if entering search via url, set moviename to null and then the search doesnt get called
+  const [searchParams] = useSearchParams(); // https://reactrouter.com/api/hooks/useSearchParams, used for getting url parameters, ?movie=some+name&year=2023
+  const [currentUrl, setCurrentUrl] = useState(null);
+
+  // when navigating from searchbar, the moviename is inside location.state.e
+  const movieNameFromState = locationValue.state && locationValue.state.e ? locationValue.state.e : null
+  const movieNameFromParams = searchParams.get('movie') // get movie from appended url param
+  const movieName = movieNameFromParams || movieNameFromState;
+  const yearFromParams = searchParams.get('year'); // get year from appended url param
+
   const h2Name = movieName ? "Search results for " + movieName : "" // h2 header text for movies listing
-  const baseURL = `${import.meta.env.VITE_API_URL}/api/tmdb`
-  const url = movieName ? `${baseURL}/search/${movieName}` : null
+  const baseURL = `${import.meta.env.VITE_API_URL}/api/tmdb/search`
 
-  // const [url, setUrl] = useState(createUrlAndSearch()) // url to be sent to PopularMovies component
-  // useEffect(() => {
-  //   setUrl(createUrlAndSearch())
-  // }, [year]) // update url every time year changes
+  // build the url for fetching movies based on if theres a movie name and year
+  useEffect(() => {
+    if (movieName) {
+      const params = new URLSearchParams();
+      if (yearFromParams) {
+        params.append('primary_release_year', yearFromParams); // if has year, add
+      }
+      
+      const queryString = params.toString(); // to string
+      const searchUrl = queryString ? `${baseURL}/${movieName}?${queryString}` : `${baseURL}/${movieName}`;
+      
+      console.log("MovieSearch: Built search URL:", searchUrl);
+      setCurrentUrl(searchUrl);
+    } else {
+      setCurrentUrl(null);
+    }
+  }, [movieName, yearFromParams, baseURL]);
 
-  console.log(url)
-  console.log("MovieSearch: using url: ", url)
-
-  // const createUrlAndSearch = () => {
-  //   return year ? `${baseURL}/search/${movieName}&primary_release_year=${year}` : `${baseURL}/search/${movieName}`
-  // }
-
+  console.log("MovieSearch: using url: ", currentUrl)
 
   return (
     <>
@@ -32,9 +46,10 @@ export default function MovieSearch() {
         type="search"
         baseURL={baseURL}
         searchDestination="/search"
+        movieName={movieName}
       />
       <div id='results'>
-        <PopularMovies reqUrl={url} sectionTitle={h2Name} />
+        <PopularMovies reqUrl={currentUrl} sectionTitle={h2Name} />
       </div>
     </>
   )
