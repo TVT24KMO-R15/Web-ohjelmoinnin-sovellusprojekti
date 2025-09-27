@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import './PopularMovies.css'
 import { Link } from 'react-router-dom'
-import Pagination from '../common/Pagination'
+import Pagination from '../search/Pagination'
 
 
 export default function PopularMovies({reqUrl, sectionTitle}) {
@@ -15,7 +15,9 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
   useEffect(() => {
     setMovies([]) // cleanup list from previous searches
     if (!(reqUrl)) return // loading /search/ directly passes null as url, break here to avoid breaking
-    const address = `${reqUrl}/${currentPage}` // add current page to address from usestate
+    const separator = reqUrl.includes('?') ? '&' : '?' // some frontend components send url without "/?" so add page with & or ? depending on if ? is already in the url
+    const address = `${reqUrl}${separator}page=${currentPage}`
+    console.log("PopularMovies: using url: ", address)
     setLoading(true)
     axios.get(address)
       .then(response => {

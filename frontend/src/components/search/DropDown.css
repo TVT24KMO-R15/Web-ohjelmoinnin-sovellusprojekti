@@ -1,0 +1,31 @@
+/* this holds the dropdown and the label */
+#dropDownHolder {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  /* background-color: red; */
+  padding-left: 0.5em;
+  height: 2em;
+}
+
+/* this is the thing that holds the label and dropdown button */
+#textlabel {
+  /* background-color: blue; */
+  padding-right: 0.5em;
+}
+
+/* this is the input dropdown menu */
+#dropDown {
+  /* auto width scales to the biggest item inside the menu */
+  width: auto;
+  height: 2em;
+  border-radius: 8px;
+  border: 1px solid black;
+  color: black;
+  padding: 5px 10px;
+  font-size: 1em;
+}
+
+#dropDown:hover {
+  cursor: pointer;
+}

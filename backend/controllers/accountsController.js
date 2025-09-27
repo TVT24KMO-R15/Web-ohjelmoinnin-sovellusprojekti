@@ -26,6 +26,7 @@ const getAccountById = async (req, res, next) => {
 }
 
 const accountSignIn = async (req, res, next) => {
+    console.log("signing in...")
     const { account } = req.body
     try {
         if (!account || !account.email || !account.password) {
