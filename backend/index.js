@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 // -- route imports --
 import usersRouter from './routes/accountRouter.js'
 import tmdbRouter from './routes/tmdbRouter.js'
+import favoriteMoviesRouter from './routes/favoriteMoviesRouter.js';
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({extended: false}))
 // -- routes
 app.use('/users', usersRouter)
 app.use('/api/tmdb', tmdbRouter) // url/api/tmdb
+app.use("/favorites", favoriteMoviesRouter);
 
 // -- middleware
 app.listen(process.env.PORT, () => {
