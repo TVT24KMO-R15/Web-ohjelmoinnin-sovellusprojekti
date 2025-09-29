@@ -123,7 +123,7 @@ export default function Reviews() {
           filteredReviews.map((item) => (
             <article
               key={item.review.id}
-              className="reviewborder"
+              className="reviewborder2"
             >
               <div className="reviewImageDiv">
                 <img

@@ -5,6 +5,10 @@
     
 }
 
+.myReviewsPreviewArticle {
+    padding: 1em;
+}
+
 .reviewborder {
     border: solid 4px gold;
     border-radius: 1em;
@@ -46,4 +50,31 @@
 .reviewDetailsDiv p {
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.reviewPreviewStars {
+    white-space: nowrap;
+    min-width: 150px;
+    width: 20%;
+}
+
+.reviewPreviewTitle {
+    min-width: 250px;
+    width: 75%;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.reviewPreviewText{
+    width: 100%;
+}
+
+@media only screen and (max-width: 800px){
+    .reviewPreviewStars {
+        width: 100%;
+    }
+    .reviewPreviewTitle{
+        width: 100%;
+    }
 }
