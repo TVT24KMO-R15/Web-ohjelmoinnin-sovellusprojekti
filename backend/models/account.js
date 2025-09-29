@@ -5,6 +5,10 @@ const selectAllAccounts = async () => {
     return await pool.query("select * from account")
 }
 
+const selectAccountById = async ( accountid ) => {
+    return await pool.query(`SELECT * FROM account WHERE accountid = $1`, [accountid])
+}
+
 const accountLogin = async ( email ) => {
     return await pool.query(`SELECT * FROM account WHERE email = $1`, [email]
     )
@@ -36,4 +40,4 @@ const deleteAccount = async (accountID) => {
     )
 }
 
-export { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount }
+export { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount }

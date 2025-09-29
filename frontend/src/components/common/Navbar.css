@@ -1,27 +1,67 @@
+
+.account-dropdown-wrapper {
+  display: inline-block;
+}
+.account-dropdown {
+  position: absolute;
+  top: 64px;
+  right: 10px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.18);
+  border-radius: 8px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+.dropdown-item {
+  padding: 10px 20px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--black);
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.dropdown-greetings {
+  padding: 10px 20px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+}
+.dropdown-item:hover {
+  background: var(--color-bg-alt);
+  color: var(--red);
+}
 body {
   min-height: 100vh;
 }
 .signin-btn {
   margin-left: 10px;
   margin-right: 10px;
-  background: white;
-  color: black;
+  background: var(--color-bg);
+  color: var(--color-text);
   padding: 10px 12px;
   border-radius: 8px;
   text-decoration: none;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   border: 0;
 }
 .signin-btn:hover {
-  background: #b30000;
-  color: white;
+  color: var(--nav-hover-alt);
   cursor: pointer;
 }
 nav{
-  background-color: black;
+  background-color: var(--nav-bg);
 }
-
 nav ul{
   width: 100%;
   list-style: none;
@@ -35,35 +75,34 @@ nav li{
   align-items: center;
   margin-left: 10px;
   margin-right: 10px;
+  font-weight: 600;
 }
-
 nav a{
   padding: 10px 12px;
   text-decoration: none;
   display: flex;
   align-items: center;
-  color: white;
-  background: black;
+  color: var(--nav-text);
+  background: var(--nav-bg);
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 700;
   border: 0;
 }
 nav a:hover{
-  background: #333;
-  color: white;
+  background: var(--nav-hover);
+  color: var(--nav-text);
 }
 nav li:first-child{
   margin-right: auto;
 }
 .sidebar{
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   height: 100vh;
   width: 250px;
   z-index: 999;
-  background-color: black;
+  background-color: var(--nav-bg);
   box-shadow: 0 4px 32px rgba(0,0,0,0.18);
   display: none;
   flex-direction: column;
@@ -79,19 +118,17 @@ nav li:first-child{
 .sidebar a{
   width: 100%;
 }
+.sidebarButton {
+  margin-top: 1em;
+}
+.sidebarButton:hover {
+  cursor: pointer;
+}
 .menu-btn{
   display: none;
   align-items: center;
   justify-content: center;
 }
-.sidebarButton {
-  margin-top: 1em;
-}
-
-.sidebarButton :hover {
-  cursor: pointer;
-}
-
 @media(max-width: 800px){
   .hideOnMobile{
     display: none;
@@ -105,7 +142,6 @@ nav li:first-child{
   }
   nav ul {
     justify-content: center;
-    gap: 0;
   }
 }
 @media(max-width: 400px){

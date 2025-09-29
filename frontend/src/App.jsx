@@ -13,7 +13,18 @@ import Reviews from './pages/Reviews'
 import MovieSearch from './pages/MovieSearch.jsx'
 import MovieCollection from './pages/MovieCollection';
 
+import MyAccount from './pages/myprofile/MyAccount.jsx'
+import MyFavourites from './pages/myprofile/MyFavourites.jsx'
+import MyReviews from './pages/myprofile/MyReviews.jsx'
+
+import PublicFavourites from './pages/PublicFavourites.jsx'
+
 import { Routes, Route } from 'react-router-dom'
+import MovieDiscovery from './pages/MovieDiscovery.jsx'
+
+
+
+
 
 function App() {
   return (
@@ -26,11 +37,18 @@ function App() {
           <Route path="/" exact element={<Home />} />
           <Route path="/groups" exact element={<Groups />} />
           <Route path="/groups/:groupId" element={<SingleGroup />} />
-          <Route path="/movies" exact element={<Movies />} />
+          <Route path="/movies" exact element={<MovieDiscovery />} />
           <Route path="/movies/:movieId" element={<SingleMovie />} />
           <Route path="/reviews" exact element={<Reviews />} />
           <Route path="/search" exact element={<MovieSearch />} />
           <Route path="/collection/:collectionId" element={<MovieCollection />} />
+
+          <Route path="/myaccount" exact element={<MyAccount />} />
+          <Route path="/myaccount/myfavourites" exact element={<MyFavourites />} />
+          <Route path='/myaccount/myreviews' exact element={<MyReviews />} />
+
+          <Route path='/favourites/:accountId' exact element={<PublicFavourites />} />
+
           <Route path="/*" exact element={<NotFound />}/>
         </Routes>
       </div>

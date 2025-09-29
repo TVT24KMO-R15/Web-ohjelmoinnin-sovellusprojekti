@@ -5,6 +5,7 @@ import ExtraLinks from '../components/home/ExtraLinks';
 import LatestReviews from '../components/home/LatestReviews';
 import FKDataRangePicker from '../components/home/FKDataRangePicker';
 import FKTheatreDetails from '../components/home/FKTheatreDetails';
+import useFinnkinoEvents from '../hooks/useFinnkinoEvents';
 import dayjs from "dayjs";
 
 import { Link } from 'react-router-dom'
@@ -15,42 +16,36 @@ export default function Home() {
         const [startDate, setStartDate] = useState(dayjs())
         const [endDate, setEndDate] =  useState(dayjs().add(1, "week"));
         const [selectedTheatreId, setSelectedTheatreId] = useState(null);
-        const [sortedDetails, setSortedDetails] = useState([])
 
-        console.log("Home render - startDate:", startDate);
-        console.log("Home render - endDate:", endDate);
-        
+        const { details } = useFinnkinoEvents({
+          theatreId: selectedTheatreId,
+          startDate,
+          endDate
+        })
         
   return (
     <>
-        <PopularMovies reqUrl={`${import.meta.env.VITE_API_URL}/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
-    <DiscoverMoreMoviesButton />
-      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/>
+      <DiscoverMoreMoviesButton />
+      
+      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/> 
+      <PopularMovies reqUrl={`${import.meta.env.VITE_API_URL}/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
       <FKDataRangePicker
-      
-        setStartDate={setStartDate}
         startDate={startDate}
-        setEndDate={setEndDate}
+        setStartDate={setStartDate}
         endDate={endDate}
-        
-        
+        setEndDate={setEndDate}
       />
-      
-      
+      {selectedTheatreId ? (
         <>
-          <FKTheatreDetails
-            theatreId={selectedTheatreId}
-            onSortedChange={setSortedDetails}
-            startDate={startDate}
-            endDate={endDate}
-           
-          
-          />
-          
+
+          <FKTheatreDetails details={details} />
         </>
+      ) : (
+        <div>Please select a theatre to view showtimes.</div>
+      )}
       
       <ExtraLinks />
-      <LatestReviews />
+      <LatestReviews /> 
     </>
   );
 }

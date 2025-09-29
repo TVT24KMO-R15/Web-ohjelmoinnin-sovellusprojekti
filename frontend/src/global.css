@@ -1,8 +1,36 @@
 /* Globaalit CSS-muuttujat */
 :root {
+  --font-family: "Proxima Nova", sans-serif;
+  /* sävyt */
+  --black: #000000;
+  --white: #ffffff;
+  --gray-dark: #333333;
+  --gray: #666666;
+  --gray-light: #f8f8f8;
+
+  --red-500: #b30000; /* pääpunainen */
+  --red-600: #990000; /* hover */
+  --red-400: #cc0000; /* korostus */
+
+  /* Käyttöön perustuvat värit */
+  --color-text: var(--black);
+  --color-text-muted: var(--gray);
+  --color-bg: var(--white);
+  --color-bg-alt: var(--gray-light);
+  --color-primary: var(--red-500);
+  --color-primary-hover: var(--red-600);
+
+  /* fonttikoot */
   --font-size-base: 16px;
-  --border-radius: 8px;
-  --font-family: Proxima Nova, sans-serif;
+  --font-size-sm: 14px;
+  --font-size-lg: 18px;
+
+  /* NavBarin värit */
+  --nav-bg: var(--black);
+  --nav-text: var(--white);
+  --nav-hover: var(--gray-dark);
+  --nav-hover-alt: var(--red-500);
+  /* Globaalit muuttujat on saatavilla koko sovelluksessa käyttö: var(--name) */
 }
 
 /* yleiset tyylit */
@@ -14,5 +42,5 @@
 body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
-  background-color: #ffffff;
+  background-color: var(--color-bg);
 }

@@ -2,34 +2,58 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import './PopularMovies.css'
 import { Link } from 'react-router-dom'
+import Pagination from '../search/Pagination'
 
-export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
+
+export default function PopularMovies({reqUrl, sectionTitle}) {
   //const [movie, setMovie] = useState('')
   const [movies, setMovies] = useState([])
-  const [maxResults] = useState(resultLimit ? resultLimit : "8") // if passing a limit of results to this component, use that, else 8
   const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1) // which page of popular movies (or search results) is currently shown
+  const [totalPages, setTotalPages] = useState(1) // how many pages TMDB responds that the query has
 
   useEffect(() => {
     setMovies([]) // cleanup list from previous searches
     if (!(reqUrl)) return // loading /search/ directly passes null as url, break here to avoid breaking
-    const address = reqUrl // get address from parameter for flexibility
-
+    const separator = reqUrl.includes('?') ? '&' : '?' // some frontend components send url without "/?" so add page with & or ? depending on if ? is already in the url
+    const address = `${reqUrl}${separator}page=${currentPage}`
+    console.log("PopularMovies: using url: ", address)
     setLoading(true)
     axios.get(address)
       .then(response => {
         // console.log("Axios request response data from" + address +" : ")
         // console.log(response.data)
         const results = Array.isArray(response.data?.results) ? response.data.results : []
-        const limit = Math.min(maxResults, results.length) // limit results from 0-x dependent on api results
-        setMovies(results.slice(0, limit))
+        setMovies(results)
+
+        // popularmovies has 54k pages of results, so cap the max count of pages here to 15
+        if (response.data.total_pages > 15) {
+          setTotalPages(15)
+        } else { // if less than 15, set to total pages from TMDB or fallback to 1 if no pages in the response
+          setTotalPages(response.data.total_pages || 1)
+        }
       })
       // catch axios issues
       .catch(err => {
         console.error('Failed to fetch movies', err)
         setMovies([])
+        setTotalPages(1) // dont render pagination component on erroring
       })
       .finally(() => setLoading(false))
-  }, [reqUrl, maxResults])
+  }, [reqUrl, currentPage]) // call effect when prop url or selected page changes from usestate, effect uses page from same usestate so its 1:1
+
+  // Reset to page 1 on prop change
+  useEffect(() => {
+    // console.log("reqUrl changed, setting page to 1")
+    setCurrentPage(1) // reset page when reqUrl changes
+  }, [reqUrl]) // <- url prop
+
+
+  // this gets called when changing page inside of the pagination component
+  const handlePageChange = (newPage) => {
+    // console.log("handlePageChange called: page changed to: " + newPage)
+    setCurrentPage(newPage) // set the current page to pagination selection, which makes a new axios request with page number change 
+  }
 
   // If passed text into this component ? (check if search results are empty ? show not found : show text from prop) : show nothing
   const displayTitle = sectionTitle ? ((reqUrl?.includes('/tmdb/search') && !loading && movies.length === 0) ? 'No results found' : sectionTitle) : ""
@@ -56,7 +80,13 @@ export default function PopularMovies({reqUrl, sectionTitle, resultLimit}) {
         }
         
       </div>
-      
+
+      {/* Pagination component shown below movie cards */}
+      <Pagination 
+        currentPage={currentPage} // current page shown (like /popular/1/ etc)
+        totalPages={totalPages} // total pages of results from TMDB
+        onPageChange={handlePageChange} // function to call when page changes inside of the pagination component
+      />
     </section>
   )
 }
