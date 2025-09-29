@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import AccountEmailById from '../common/AccountEmailById';
 import axios from 'axios';
 import './ReviewsForMovie.css'
-import PostReview from './PostReview';
+import PostReviewButton from './PostReviewButton';
 
 import { useUser } from '../../context/UseUser';
 
@@ -15,7 +15,6 @@ export default function ReviewsForMovie() {
     const [limit, setLimit] = useState(5)
     const [nextDisabled, setNextDisabled] = useState(true)
     const [previousDisabled, setPreviousDisabled] = useState(true)
-    const [postReviewOpen, setPostReviewOpen] = useState(false)
 
     const account = useUser()
 
@@ -59,7 +58,7 @@ export default function ReviewsForMovie() {
     }, [page]);
 
     if (loading) return <div>Loading...</div>;
-    if (!reviews) return <div>No reviews... yet!</div>;
+    if (!reviews) return <><div className='moviereviewsborder'>No reviews... yet!</div><PostReviewButton /></>;
 
     if (reviews) return (
         <><div className='moviereviewsborder'>
@@ -76,9 +75,8 @@ export default function ReviewsForMovie() {
             <button id='previousReviews' className='pagechangebutton' disabled={previousDisabled} onClick={() => { setPage(page - 1) }}>←</button>
             <button id='nextReviews' className='pagechangebutton' disabled={nextDisabled} onClick={() => { setPage(page + 1) }}>→</button>
             
-            {account.user.id ? (<button className='review-button' onClick={() => { setPostReviewOpen(true) }}>Post Your Own Review</button>) : <><p>Log in to post your own review</p></>}
-            {postReviewOpen && <PostReview onClose={() => setPostReviewOpen(false)} />}
-        </div>
+            
+        </div><PostReviewButton />
         </>
     )
 }
