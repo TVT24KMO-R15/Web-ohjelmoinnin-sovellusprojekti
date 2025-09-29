@@ -1,0 +1,38 @@
+.reviewborder {
+    border: solid 4px gold;
+    border-radius: 1em;
+    margin: 1em;
+    padding: 1em;
+}
+.reviewImageDiv {
+    display: inline;
+    flex: 15%;
+    align-content: top;
+}
+.reviewImageDiv img {
+    max-height: 150px;
+    border-radius: 1em;
+}
+.reviewDetailsDiv {
+    display: inline;
+    flex: 85%;
+    padding: 1em;
+}
+
+.reviewDetailsDiv h3 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.reviewDetailsDiv p {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.reviewer {
+    color: var(--gray);
+    margin-bottom: 1em;
+}
+.date{
+    color: var(--gray);
+}
