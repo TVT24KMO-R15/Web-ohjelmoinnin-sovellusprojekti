@@ -153,10 +153,8 @@ export default function Reviews() {
                 <div className="review-meta">
                   <h3>Stars: {item.review.stars}</h3>
                   <span className="date">
-                    Date:{' '}
-                    {item.review.reviewdate
-                      ? String(item.review.reviewdate).substring(0, 10)
-                      : item.review.created_at}
+                    Date: {String(item.review.reviewdate).substring(0, 10)}
+                     
                   </span>
                 </div>
               </div>
