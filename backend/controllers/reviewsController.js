@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryDeleteReview } from "../models/reviews.js";
+import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryDeleteReview } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -82,6 +82,22 @@ const postReview = async (req, res, next) => {
     }
 }
 
+const putReview = async (req, res, next) => {
+    const { review } = req.body
+    try {
+        if (!review.movieid || !review.accountid || !review.stars) {
+            const error = new Error('Missing review data')
+            error.status = 400
+            return next(error)
+        }
+
+        const result = await queryUpdateReview(review.movieid, review.stars, review.accountid, review.reviewtext)
+        return res.status(201).json(result)
+    } catch (error) {
+        return next(error)
+    }
+}
+
 const deleteReview = async (req, res, next) => {
     const { id } = req.params
 
@@ -99,4 +115,4 @@ const deleteReview = async (req, res, next) => {
     }
 }
 
-export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, deleteReview }
+export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, putReview, deleteReview }

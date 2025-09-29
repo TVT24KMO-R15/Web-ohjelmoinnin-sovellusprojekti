@@ -15,31 +15,39 @@ export default function PostReviewButton() {
     const account = useUser()
 
     useEffect(() => {
-        
-        axios.get(import.meta.env.VITE_API_URL + `/reviews/movieuser/${movieId}/${account.user.id}`)
-            .then(response => {
-                console.log(response)
-                if (response.data.length == 0) {
-                    setAllowReview(true)
-                } else {
-                    setAllowReview(false)
+        try {
+            axios.get(import.meta.env.VITE_API_URL + `/reviews/movieuser/${movieId}/${account.user.id}`)
+                .then(response => {
+                    console.log(response)
+                    if (response.data.length == 0) {
+                        setAllowReview(true)
+                    } else {
+                        setAllowReview(false)
+                    }
                 }
-            }) .finally(() => {
-                setLoading(false)
-            })
+                ).catch(err => {
+                    console.error('Failed to fetch reviews', err)
+
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
+        } catch (error) {
+            console.error('Failed to fetch reviews', err)
+        }
     }, [])
 
 
     if (loading) return <div>Loading...</div>;
     if (!allowReview) {
-        return <>{(account.user.id) ? <div></div> :<p>Log in to post your own review</p> }</>
-        
+        return <>{(account.user.id) ? <div></div> : <p>Log in to post your own review</p>}</>
+
     }
     if (allowReview) {
         return (
             <div>
-                <button className='review-button' onClick={() => setPostReviewOpen(true) }>Post Your Own Review</button>
-                {postReviewOpen && (<PostReview onClose={() => {setPostReviewOpen(false)}} />)}
+                <button className='review-button' onClick={() => setPostReviewOpen(true)}>Post Your Own Review</button>
+                {postReviewOpen && (<PostReview onClose={() => { setPostReviewOpen(false) }} />)}
             </div>
         )
     }
