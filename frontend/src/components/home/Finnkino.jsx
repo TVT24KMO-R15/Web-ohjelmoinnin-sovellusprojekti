@@ -25,6 +25,7 @@ function Finnkinohaku({ onTheatreSelect }) {
   }
 
   return (
+    <div>
     <select onChange={(e) => onTheatreSelect(e.target.value)}>
       {areas.map((area) => (
         <option key={area.id} value={area.id}>
@@ -32,13 +33,14 @@ function Finnkinohaku({ onTheatreSelect }) {
         </option>
       ))}
     </select>
+    </div>
   )
 }
 
 export default function Finnkino({ setSelectedTheatreId }) {
   return (
     <div>
-      <p>Finnkinon lista </p>
+      <p>Finnkino haku</p>
       <Finnkinohaku onTheatreSelect={setSelectedTheatreId} />
     </div>
   )

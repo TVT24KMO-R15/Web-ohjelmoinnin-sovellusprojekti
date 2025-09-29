@@ -26,22 +26,27 @@ export default function Home() {
   return (
     <>
       <DiscoverMoreMoviesButton />
-      
-      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/> 
       <PopularMovies reqUrl={`http://localhost:3000/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
-      <FKDataRangePicker
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-      />
+      
+      <div className="finnkino-flex-row">
+      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/>
+      <div className="daterange-box">
+        <FKDataRangePicker
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
+      </div>
+    </div>
+      
       {selectedTheatreId ? (
         <>
 
           <FKTheatreDetails details={details} />
         </>
       ) : (
-        <div>Please select a theatre to view showtimes.</div>
+        null
       )}
       
       <ExtraLinks />
