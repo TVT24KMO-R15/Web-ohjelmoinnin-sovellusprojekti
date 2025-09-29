@@ -89,9 +89,9 @@ export default function SingleMovie({ addToFavourites }) {
       </div>
       
     </div>
-    { account.user.id ? (<button className='review-button' onClick={() => {setPostReviewOpen(true)}}>Post Your Own Review</button>) : <></>}
+    { account.user.id ? (<button className='review-button' onClick={() => {setPostReviewOpen(true)}}>Post Your Own Review</button>) : <><p>Log in to post your own review</p></>}
     {postReviewOpen && <PostReview onClose={() => setPostReviewOpen(false)} />}
-      <ReviewsForMovie property={movieId}/>
+      <ReviewsForMovie />
     </>
   );
 }
