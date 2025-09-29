@@ -106,7 +106,8 @@ CREATE TABLE IF NOT EXISTS public.grouppost_comment
     fk_grouppost integer NOT NULL,
     comment_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
     fk_accountid integer NOT NULL,
-    CONSTRAINT commentid_pk PRIMARY KEY (comment_id)
+    CONSTRAINT commentid_pk PRIMARY KEY (comment_id),
+    CONSTRAINT one_comment_per_account_per_post UNIQUE (fk_accountid, fk_grouppost)
 );
 
 COMMENT ON TABLE public.grouppost_comment
@@ -182,6 +183,7 @@ ALTER TABLE IF EXISTS public.grouppost_comment
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE CASCADE;
+
 
 ALTER TABLE IF EXISTS public.group_join_requests
     ADD CONSTRAINT fk_group FOREIGN KEY (fk_groupid)
