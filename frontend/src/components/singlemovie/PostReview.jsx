@@ -3,41 +3,56 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UseUser';
 import axios from 'axios';
 
-export default function PostReview({ onClose }) {
+export default function PostReview({ onClose, property }) {
     const navigate = useNavigate();
     const { movieId } = useParams();
     const account = useUser()
     const [review, setReview] = useState({ movieid: movieId, stars: 1, accountid: account.user.id, reviewtext: '' })
     const [errorMessage, setErrorMessage] = useState('');
     const [count, setCount] = useState(0)
-    
+    const [metodi, setMetodi] = useState(property)
 
 
 
     const handleChange = (e) => {
         setReview({ ...review, [e.target.name]: e.target.value });
         setCount(e.target.value.length)
-        
+
         //console.log(review)
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(metodi)
 
         try {
             const payload = { review: review }
-            console.log(payload)
-            axios.post(import.meta.env.VITE_API_URL + `/reviews/post/`, payload)
-            .then(response => {
-                console.log(response)
+            //setMethod(reviewMethod)
+            //console.log(payload)
+
+            if (metodi == 'post') {
+                axios.post(import.meta.env.VITE_API_URL + `/reviews/post/`, payload)
+                    .then(response => {
+                        console.log(response)
+                        alert('Review posted successfully');
+                        window.location.reload();
+                    }
+                    ).catch(error => {
+                        setErrorMessage('Something went wrong');
+                    })
             }
-            ) .catch(error => {
-                setErrorMessage('Something went wrong');
-            })
-            //onClose()
-            //navigate(`/movies/${movieId}`);
-            setErrorMessage('Review posted successfully');
-        } catch(error) {
+            if (metodi == 'put') {
+                axios.put(import.meta.env.VITE_API_URL + `/reviews/put/`, payload)
+                    .then(response => {
+                        console.log(response)
+                        alert('Review updated successfully');
+                        window.location.reload();
+                    }
+                    ).catch(error => {
+                        setErrorMessage('Something went wrong');
+                    })
+            }
+        } catch (error) {
             setErrorMessage('Something went wrong');
         }
     }
@@ -50,7 +65,7 @@ export default function PostReview({ onClose }) {
                         <div className="auth-error" style={{ color: 'red', marginBottom: '10px' }}>
                             {errorMessage}
                         </div>)}
-                        
+
                     <label htmlFor="review">Review:</label>
                     <textarea
                         maxLength={1000}

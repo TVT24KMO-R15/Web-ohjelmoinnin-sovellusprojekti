@@ -40,14 +40,17 @@ export default function PostReviewButton() {
 
     if (loading) return <div>Loading...</div>;
     if (!allowReview) {
-        return <>{(account.user.id) ? <div></div> : <p>Log in to post your own review</p>}</>
+        return <>{(account.user.id) ? <div>
+                <button className='review-button' onClick={() => setPostReviewOpen(true)}>Edit Your Own Review</button>
+                {postReviewOpen && (<PostReview onClose={() => { setPostReviewOpen(false); }} property={'put'} />)}
+            </div> : <p>Log in to post your own review</p>}</>
 
     }
     if (allowReview) {
         return (
             <div>
                 <button className='review-button' onClick={() => setPostReviewOpen(true)}>Post Your Own Review</button>
-                {postReviewOpen && (<PostReview onClose={() => { setPostReviewOpen(false) }} />)}
+                {postReviewOpen && (<PostReview onClose={() => { setPostReviewOpen(false); }} property={'post'} />)}
             </div>
         )
     }
