@@ -123,7 +123,7 @@ export default function Reviews() {
           filteredReviews.map((item) => (
             <article
               key={item.review.id}
-              className="reviewborder"
+              className="reviewborder2"
             >
               <div className="reviewImageDiv">
                 <img
@@ -148,7 +148,7 @@ export default function Reviews() {
                   <AccountEmailById property={item.review.fk_accountid} />
                 </div>
 
-                <p>"{item.review.reviewtext}"</p>
+                {(item.review.reviewtext) ? <p key={item.review.reviewid}>{item.review.reviewtext}</p> : <p className='nowrittenreview'>No written review</p>}
 
                 <div className="review-meta">
                   <h3>Stars: {item.review.stars}</h3>

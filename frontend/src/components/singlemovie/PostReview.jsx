@@ -46,8 +46,9 @@ export default function PostReview({ onClose }) {
                         <div className="auth-error" style={{ color: 'red', marginBottom: '10px' }}>
                             {errorMessage}
                         </div>)}
-                    <label for="review">Review:</label>
-                    <input
+                    <label htmlFor="review">Review:</label>
+                    <textarea
+                        className='review-input'
                         id='review'
                         type="text"
                         name='reviewtext'
@@ -55,7 +56,7 @@ export default function PostReview({ onClose }) {
                         onChange={handleChange}
                         placeholder='Write Your Review'
                     />
-                    <label for="stars">Stars:</label>
+                    <label htmlFor="stars">Stars:</label>
                     <select id="stars" name="stars" onChange={handleChange} value={review.stars}>
                         <option value="1">1</option>
                         <option value="2">2</option>

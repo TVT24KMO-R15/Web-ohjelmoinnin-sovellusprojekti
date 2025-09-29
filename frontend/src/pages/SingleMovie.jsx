@@ -3,7 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './SingleMovie.css';
 import PostReview from '../components/singlemovie/PostReview';
-import {useUser} from '../context/UseUser';
+import ReviewsForMovie from '../components/singlemovie/ReviewsForMovie';
+
+import { useUser } from '../context/UseUser'
 
 export default function SingleMovie({ addToFavourites }) {
   const { movieId } = useParams();
@@ -140,8 +142,9 @@ export default function SingleMovie({ addToFavourites }) {
       </div>
       
     </div>
-    { account.user.id ? (<button className='review-button' onClick={() => {setPostReviewOpen(true)}}>Post Your Own Review</button>) : <></>}
+    { account.user.id ? (<button className='review-button' onClick={() => {setPostReviewOpen(true)}}>Post Your Own Review</button>) : <><p>Log in to post your own review</p></>}
     {postReviewOpen && <PostReview onClose={() => setPostReviewOpen(false)} />}
+      <ReviewsForMovie />
     </>
   );
 }
