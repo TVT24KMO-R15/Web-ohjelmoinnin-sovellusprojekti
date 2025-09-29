@@ -15,6 +15,10 @@ ALTER TABLE IF EXISTS public.groupposts DROP CONSTRAINT IF EXISTS groupid;
 
 ALTER TABLE IF EXISTS public.favoritemovies DROP CONSTRAINT IF EXISTS fk_accountid;
 
+ALTER TABLE IF EXISTS public.grouppost_comment DROP CONSTRAINT IF EXISTS grp_comment_grp_post;
+
+ALTER TABLE IF EXISTS public.grouppost_comment DROP CONSTRAINT IF EXISTS grp_comment_accountid;
+
 
 
 DROP TABLE IF EXISTS public.account;
@@ -89,6 +93,21 @@ CREATE TABLE IF NOT EXISTS public.favoritemovies
     CONSTRAINT uq_favorites_account_movie UNIQUE (fk_accountid, movieid)
 );
 
+DROP TABLE IF EXISTS public.grouppost_comment;
+
+CREATE TABLE IF NOT EXISTS public.grouppost_comment
+(
+    comment_id serial,
+    comment_text text NOT NULL,
+    fk_grouppost integer NOT NULL,
+    comment_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
+    fk_accountid integer NOT NULL,
+    CONSTRAINT commentid_pk PRIMARY KEY (comment_id)
+);
+
+COMMENT ON TABLE public.grouppost_comment
+    IS 'Comments inside a post';
+
 ALTER TABLE IF EXISTS public.groups
     ADD CONSTRAINT "groupOwnerID" FOREIGN KEY (fk_ownerid)
     REFERENCES public.account (accountid) MATCH SIMPLE
@@ -127,6 +146,20 @@ ALTER TABLE IF EXISTS public.groupposts
 
 ALTER TABLE IF EXISTS public.favoritemovies
     ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public.grouppost_comment
+    ADD CONSTRAINT grp_comment_grp_post FOREIGN KEY (fk_grouppost)
+    REFERENCES public.groupposts (postid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public.grouppost_comment
+    ADD CONSTRAINT grp_comment_accountid FOREIGN KEY (fk_accountid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE CASCADE;
