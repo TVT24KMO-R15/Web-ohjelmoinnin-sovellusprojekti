@@ -6,7 +6,7 @@ import './DiscoverMoreMoviesButton.css'
 export default function DiscoverMoreMoviesButton() {
     return (
         <div className='discovermoremoviesdiv'>
-            <Link to="/search" className='discovermoremovies'>Discover more movies</Link>
+            <Link to="/movies" className='discovermoremovies'>Discover more movies</Link>
         </div>
     )
 }

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export default function ExtraLinks() {
   return (
     <div className='extraLinksDiv'>
-      <Link to='/search/' className='extraLink'>
+      <Link to='/movies/' className='extraLink'>
         <article className='extraLinkArticle'>
           <h3 className='extraLinkH3'>Movies</h3>
           <p className='extraLinkP'>Browse and review movies.</p>

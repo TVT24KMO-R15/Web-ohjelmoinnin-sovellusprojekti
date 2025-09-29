@@ -1,13 +1,7 @@
-import { getPopularMovies, searchForMovie, getMovieDetails, getCollection } from "../services/tmdbService.js";
+import { getPopularMovies, searchForMovie, getMovieDetails, getCollection, getDiscovery } from "../services/tmdbService.js";
 
 const getPage = (req) => {
-  if (!req.params.page) {
-    // console.log("no req params page found")
-    return 1
-  } else {
-    // console.log("req params page found: " , req.params.page)
-    return req.params.page
-  }
+  return req.query?.page ? req.query.page : 1
 }
 
 const fetchPopularMovies = async(req, res, next) => {
@@ -25,9 +19,11 @@ const fetchPopularMovies = async(req, res, next) => {
 const searchMovie = async (req, res, next) => {
   const page = getPage(req)
   const movieName = (req.params.moviename)
+  const year = req.query?.primary_release_year; // get optional year query param if it exists
+  console.log("searchMovie: received search for movie: " , movieName, " on page ", page, " with year ", year ? year : "none")
   // const page = (req.params.page)
   try {
-    const searchResults = await searchForMovie(movieName, page)
+    const searchResults = await searchForMovie(movieName, page, year)
     return res.status(200).json(searchResults)
   } catch (err) {
     return next (err)
@@ -54,4 +50,15 @@ const fetchCollection = async (req, res, next) => {
   }
 };
 
-export { fetchPopularMovies, searchMovie, detailMovie, fetchCollection }
+const discoveryMovieSearch = async (req, res, next) => {
+  const query = req.query // /discovery/?something=value
+  try {
+    const result = await getDiscovery(query)
+    return res.status(200).json(result)
+  } catch (err) {
+    console.log("tmdbController: discoveryMovieSearch sending error:")
+    return next (err)
+  }
+}
+
+export { fetchPopularMovies, searchMovie, detailMovie, fetchCollection, discoveryMovieSearch }

@@ -1,5 +1,5 @@
 // for all account table http endpoints
-import { selectAllAccounts, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount } from "../models/account.js"
+import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 
@@ -15,7 +15,18 @@ const getAllAccounts = async (req, res, next) => {
     }
 }
 
+const getAccountById = async (req, res, next) => {
+    try {
+        const result = await selectAccountById(req.params.accountid)
+        console.log('get details for account: '+ req.params.accountid)
+        return res.status(200).json(result.rows || [])
+    } catch (error) {
+        return next (error)
+    }
+}
+
 const accountSignIn = async (req, res, next) => {
+    console.log("signing in...")
     const { account } = req.body
     try {
         if (!account || !account.email || !account.password) {
@@ -161,4 +172,4 @@ const postDelete = async (req, res, next) => {
     }
 }
 
-export { getAllAccounts, postRegister, accountSignIn, postDelete }
+export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete }

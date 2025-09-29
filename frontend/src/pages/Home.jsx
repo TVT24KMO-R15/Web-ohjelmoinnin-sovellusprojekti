@@ -25,9 +25,8 @@ export default function Home() {
         
   return (
     <>
-      <DiscoverMoreMoviesButton />
-      <PopularMovies reqUrl={`http://localhost:3000/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
-      
+      <DiscoverMoreMoviesButton />      
+      <PopularMovies reqUrl={`${import.meta.env.VITE_API_URL}/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
       <div className="finnkino-flex-row">
       <Finnkino setSelectedTheatreId={setSelectedTheatreId}/>
       <div className="daterange-box">
@@ -39,7 +38,7 @@ export default function Home() {
         />
       </div>
     </div>
-      
+
       {selectedTheatreId ? (
         <>
 

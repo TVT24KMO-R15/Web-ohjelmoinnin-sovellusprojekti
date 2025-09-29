@@ -22,9 +22,10 @@ const getPopularMovies = async (page) => {
   return response.data
 }
 
-const searchForMovie = async (name, page) => {
+const searchForMovie = async (name, page, year) => {
   console.log("Searching for movie " + name + " and page " + page)
-  const url = `${TMDB_BASE_URL}/search/movie?query=${name}&include_adult=false&language=en-US&page=${page}`
+  const url = `${TMDB_BASE_URL}/search/movie?query=${name}&include_adult=false&language=en-US&${year ? `primary_release_year=${year}&` : ''}page=${page}`
+  console.log("searchForMovie: using url: ", url)
   const options = getOptions(url)
   const response = await axios.request(options)
   return response.data
@@ -49,4 +50,19 @@ const getCollection = async (collectionId) => {
 }
 
 
-export { getPopularMovies, searchForMovie, getMovieDetails, getCollection }
+const getDiscovery = async (query) => {
+  let text = "?language=en-US" // start with ?param
+  for (const x in query) { // iterate through query parameters sent from MovieDiscovery component
+    if (query[x] !== undefined && query[x] !== "") { // only add parameters that have a value
+      text += `&${x}=${query[x]}` // append to text with &key=value
+    }
+  }
+  const url = `${TMDB_BASE_URL}/discover/movie${text}`;
+  console.log("getting TMDB discovery with url: ", url)
+  const options = getOptions(url);
+  const response = await axios.request(options)
+  return response.data
+}
+
+
+export { getPopularMovies, searchForMovie, getMovieDetails, getCollection, getDiscovery }

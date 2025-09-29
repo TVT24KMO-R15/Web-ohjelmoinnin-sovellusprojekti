@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryReviewsByUserId, queryPostReview, queryDeleteReview } from "../models/reviews.js";
+import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryPostReview, queryDeleteReview } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -8,6 +8,17 @@ const getAllReviews = async (req, res, next) => {
         return res.status(200).json(result.rows)
     } catch (error) {
         return next (error) // send error to middleware in index.js
+    }
+}
+
+const getAllReviewsWithLimit = async (req, res, next) => {
+    try {
+        
+        const result =  await queryAllReviewsWithLimit(req.params.limit)
+        console.log("get all reviews with limit "+ req.params.limit)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next (error)
     }
 }
 
@@ -23,10 +34,22 @@ const getReviewsByUser = async (req, res, next) => {
 
 }
 
+const getReviewsByUserWithLimit = async (req, res, next) => {
+    try {
+        //const userid = (req.params.accountid)
+        const result =  await queryReviewsByUserWithLimit(req.params.accountid, req.params.limit)
+        console.log("get reviews for user: "+ req.params.accountid + ", with limit: " + req.params.limit)
+        return res.status(200).json(result)
+    } catch (error) {
+        return next (error)
+    }
+
+}
+
 const postReview = async (req, res, next) => {
     const { review } = req.body
     try {
-        if (!review.movieid || !review.accountid || !review.reviewtext || !review.stars) {
+        if (!review.movieid || !review.accountid || !review.stars) {
             const error = new Error('Missing review data')
             error.status = 400
             return next(error)
@@ -56,4 +79,4 @@ const deleteReview = async (req, res, next) => {
     }
 }
 
-export { getAllReviews, getReviewsByUser, postReview, deleteReview }
+export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, postReview, deleteReview }

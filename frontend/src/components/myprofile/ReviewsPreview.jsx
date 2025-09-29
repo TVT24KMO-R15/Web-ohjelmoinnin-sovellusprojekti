@@ -12,7 +12,7 @@ export default function ReviewsPreview() {
 
   useEffect(() => {
     //setReviews([])
-    const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}`
+    const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}/5` //preview limited to 5 reviews
     //console.log(address)
     fetch(address)
       .then(response => response.json())
