@@ -1,8 +1,13 @@
+.reviewpage label,select {
+    margin-top: 1em;
+}
+
 .reviewborder {
     border: solid 4px gold;
     border-radius: 1em;
     margin: 1em;
     padding: 1em;
+    display: flex;
 }
 .reviewImageDiv {
     display: inline;

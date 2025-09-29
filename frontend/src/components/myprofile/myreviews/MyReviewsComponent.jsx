@@ -70,7 +70,7 @@ export default function MyReviewsComponent(property) {
             <div className='reviewDetailsDiv'>
               
               <Link to={`/movies/${reviewAndDetails.details.id}`} className='popularmovielink'><h3>{reviewAndDetails.details.title}</h3></Link>
-              <p>"{reviewAndDetails.review.reviewtext}"</p>
+              {(reviewAndDetails.review.reviewtext) ? <p key={reviewAndDetails.review.reviewid}>{reviewAndDetails.review.reviewtext}</p> : <p className='nowrittenreview'>No written review</p>}
               <h3>Stars: {reviewAndDetails.review.stars}</h3>
               
             </div>
