@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './SingleMovie.css';
 import PostReview from '../components/singlemovie/PostReview';
+import ReviewsForMovie from '../components/singlemovie/ReviewsForMovie';
 
 import { useUser } from '../context/UseUser'
 
@@ -90,6 +91,7 @@ export default function SingleMovie({ addToFavourites }) {
     </div>
     { account.user.id ? (<button className='review-button' onClick={() => {setPostReviewOpen(true)}}>Post Your Own Review</button>) : <></>}
     {postReviewOpen && <PostReview onClose={() => setPostReviewOpen(false)} />}
+      <ReviewsForMovie property={movieId}/>
     </>
   );
 }

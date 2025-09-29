@@ -25,10 +25,10 @@ export default function Home() {
         
   return (
     <>
-      <DiscoverMoreMoviesButton />
       
-      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/> 
       <PopularMovies reqUrl={`http://localhost:3000/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
+      <DiscoverMoreMoviesButton />
+      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/> 
       <FKDataRangePicker
         startDate={startDate}
         setStartDate={setStartDate}
