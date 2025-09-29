@@ -25,10 +25,9 @@ export default function Home() {
         
   return (
     <>
-      
-      <PopularMovies reqUrl={`http://localhost:3000/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
+      <PopularMovies reqUrl={`${import.meta.env.VITE_API_URL}/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
       <DiscoverMoreMoviesButton />
-      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/> 
+      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/>    
       <FKDataRangePicker
         startDate={startDate}
         setStartDate={setStartDate}
