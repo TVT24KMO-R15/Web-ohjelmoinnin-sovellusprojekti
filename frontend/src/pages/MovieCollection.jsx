@@ -12,7 +12,7 @@ export default function MovieCollection() {
   useEffect(() => {
     const fetchCollection = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/tmdb/collection/${collectionId}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/collection/${collectionId}`);
         setCollection(res.data);
       } catch (err) {
         console.error(err);
