@@ -1,0 +1,28 @@
+.finnkino-flex-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+    margin-top: 200px;
+  }
+  
+.daterange-box {
+  border-radius: 8px;
+  min-width: 220px;
+  flex: 1 1 220px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .finnkino-flex-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+@media (max-width:700px) {
+  .daterange-box {
+    flex-direction: column;
+   
+  }
+}
