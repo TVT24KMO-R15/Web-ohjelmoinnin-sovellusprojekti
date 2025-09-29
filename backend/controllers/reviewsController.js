@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryPostReview, queryDeleteReview } from "../models/reviews.js";
+import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryDeleteReview } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -56,6 +56,16 @@ const getReviewsByMovieIdWithLimitOffset = async (req, res, next) => {
     }
 }
 
+const getReviewsByMovieUser = async (req, res, next) => {
+    try {
+        const result = await queryReviewsByMovieUser(req.params.movieid, req.params.accountid)
+        console.log("get reviews for movie: "+ req.params.movieid + "by user: " + req.params.accountid)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next (error)
+    }
+}
+
 const postReview = async (req, res, next) => {
     const { review } = req.body
     try {
@@ -89,4 +99,4 @@ const deleteReview = async (req, res, next) => {
     }
 }
 
-export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, postReview, deleteReview }
+export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, deleteReview }
