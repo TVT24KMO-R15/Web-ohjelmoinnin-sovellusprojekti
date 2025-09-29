@@ -9,11 +9,15 @@ export default function PostReview({ onClose }) {
     const account = useUser()
     const [review, setReview] = useState({ movieid: movieId, stars: 1, accountid: account.user.id, reviewtext: '' })
     const [errorMessage, setErrorMessage] = useState('');
+    const [count, setCount] = useState(0)
+    
 
 
 
     const handleChange = (e) => {
         setReview({ ...review, [e.target.name]: e.target.value });
+        setCount(e.target.value.length)
+        
         //console.log(review)
     };
 
@@ -46,8 +50,10 @@ export default function PostReview({ onClose }) {
                         <div className="auth-error" style={{ color: 'red', marginBottom: '10px' }}>
                             {errorMessage}
                         </div>)}
+                        
                     <label htmlFor="review">Review:</label>
                     <textarea
+                        maxLength={1000}
                         className='review-input'
                         id='review'
                         type="text"
@@ -55,7 +61,7 @@ export default function PostReview({ onClose }) {
                         value={review.reviewtext}
                         onChange={handleChange}
                         placeholder='Write Your Review'
-                    />
+                    /><p className='charactercount'>{count} / 1000</p>
                     <label htmlFor="stars">Stars:</label>
                     <select id="stars" name="stars" onChange={handleChange} value={review.stars}>
                         <option value="1">1</option>

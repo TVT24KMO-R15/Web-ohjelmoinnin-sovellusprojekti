@@ -72,6 +72,9 @@
 .review-input:focus{
   border: 1.5px solid #b30000;
 }
+.charactercount {
+  align-self: end;
+}
 
 
 .auth-fields input:focus {

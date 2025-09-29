@@ -61,7 +61,7 @@ export default function Navbar() {
           <li onClick={() => setSidebarOpen(false)}><article className='sidebarButton'>
         {closeIcon}
         </article></li>
-          <li onClick={() => setSidebarOpen(false)}><Link to="/search">Movies</Link></li>
+          <li onClick={() => setSidebarOpen(false)}><Link to="/movies">Movies</Link></li>
           <li onClick={() => setSidebarOpen(false)}><Link to="/reviews">Reviews</Link></li>
           <li onClick={() => setSidebarOpen(false)}><Link to="/groups">Groups</Link></li>
           
@@ -72,7 +72,7 @@ export default function Navbar() {
         <ul>
           {/* Normaali valikko */}
           <li><Link to="/">Home</Link></li>
-          <li className="btn hideOnMobile"><Link to="/search">Movies</Link></li>
+          <li className="btn hideOnMobile"><Link to="/movies">Movies</Link></li>
           <li className="btn hideOnMobile"><Link to="/groups">Groups</Link></li>
           <li className="btn hideOnMobile"><Link to="/reviews">Reviews</Link></li>
           <li className="menu-btn" onClick={() => setSidebarOpen(true)}>
