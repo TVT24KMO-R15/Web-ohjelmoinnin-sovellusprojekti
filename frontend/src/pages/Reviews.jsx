@@ -65,10 +65,10 @@ export default function Reviews() {
     .sort((a, b) => {
       if (filter.orderby === 'date') {
         const dateA = new Date(
-          a.review.reviewdate || a.review.created_at || a.review.date
+          a.review.reviewdate 
         )
         const dateB = new Date(
-          b.review.reviewdate || b.review.created_at || b.review.date
+          b.review.reviewdate 
         )
         return dateB - dateA
       }
