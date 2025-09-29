@@ -19,7 +19,11 @@ ALTER TABLE IF EXISTS public.grouppost_comment DROP CONSTRAINT IF EXISTS grp_com
 
 ALTER TABLE IF EXISTS public.grouppost_comment DROP CONSTRAINT IF EXISTS grp_comment_accountid;
 
+ALTER TABLE IF EXISTS public.group_join_requests DROP CONSTRAINT IF EXISTS fk_group;
 
+ALTER TABLE IF EXISTS public.group_join_requests DROP CONSTRAINT IF EXISTS fk_account;
+
+DROP TYPE IF EXISTS request_status CASCADE;
 
 DROP TABLE IF EXISTS public.account;
 
@@ -108,6 +112,21 @@ CREATE TABLE IF NOT EXISTS public.grouppost_comment
 COMMENT ON TABLE public.grouppost_comment
     IS 'Comments inside a post';
 
+DROP TABLE IF EXISTS public.group_join_requests;
+
+CREATE TABLE IF NOT EXISTS public.group_join_requests
+(
+    request_id serial,
+    fk_groupid integer NOT NULL,
+    fk_accountid integer NOT NULL,
+    requestdate timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
+    CONSTRAINT pk_reqid PRIMARY KEY (request_id),
+    CONSTRAINT unique_requests_group_account UNIQUE (fk_groupid, fk_accountid)
+);
+
+CREATE TYPE request_status AS ENUM
+    ('pending', 'accepted', 'rejected', 'canceled'); -- canceled for maybe if user wants to undo request?
+
 ALTER TABLE IF EXISTS public.groups
     ADD CONSTRAINT "groupOwnerID" FOREIGN KEY (fk_ownerid)
     REFERENCES public.account (accountid) MATCH SIMPLE
@@ -160,6 +179,19 @@ ALTER TABLE IF EXISTS public.grouppost_comment
 
 ALTER TABLE IF EXISTS public.grouppost_comment
     ADD CONSTRAINT grp_comment_accountid FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS public.group_join_requests
+    ADD CONSTRAINT fk_group FOREIGN KEY (fk_groupid)
+    REFERENCES public.groups (groupid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE,
+    ADD COLUMN status request_status DEFAULT 'pending';
+
+ALTER TABLE IF EXISTS public.group_join_requests
+    ADD CONSTRAINT fk_account FOREIGN KEY (fk_accountid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE CASCADE;

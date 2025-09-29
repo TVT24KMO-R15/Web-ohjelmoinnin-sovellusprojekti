@@ -1,3 +1,5 @@
+-- tested on createDatabase_V1.sql
+
 BEGIN;
 
 ALTER TABLE account
@@ -44,5 +46,33 @@ ALTER TABLE IF EXISTS grouppost_comment
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE CASCADE;
+
+CREATE TYPE request_status AS ENUM
+    ('pending', 'accepted', 'rejected', 'canceled'); -- canceled for maybe if user wants to undo request?
+
+CREATE TABLE IF NOT EXISTS group_join_requests
+(
+    request_id serial,
+    fk_groupid integer NOT NULL,
+    fk_accountid integer NOT NULL,
+    requestdate timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
+    CONSTRAINT pk_reqid PRIMARY KEY (request_id),
+    CONSTRAINT unique_requests_group_account UNIQUE (fk_groupid, fk_accountid)
+);
+
+ALTER TABLE IF EXISTS public.group_join_requests
+    ADD CONSTRAINT fk_group FOREIGN KEY (fk_groupid)
+    REFERENCES public.groups (groupid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE,
+    ADD COLUMN status request_status DEFAULT 'pending';
+
+ALTER TABLE IF EXISTS public.group_join_requests
+    ADD CONSTRAINT fk_account FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+
 
 END;
