@@ -1,11 +1,13 @@
 import { Router } from "express";
 
-import { getAllReviews, getReviewsByUser, postReview, deleteReview } from "../controllers/reviewsController.js";
+import { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, postReview, deleteReview } from "../controllers/reviewsController.js";
 
 const router = Router()
 
-router.get('/', getAllReviews)
+router.get('/all/', getAllReviews)
+router.get('/all/:limit', getAllReviewsWithLimit)
 router.get('/:accountid', getReviewsByUser)
+router.get('/:accountid/:limit', getReviewsByUserWithLimit)
 router.post('/post', postReview)
 router.delete('/delete/:id', deleteReview)
 

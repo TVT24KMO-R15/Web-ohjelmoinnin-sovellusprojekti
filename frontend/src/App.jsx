@@ -20,6 +20,7 @@ import MyReviews from './pages/myprofile/MyReviews.jsx'
 import PublicFavourites from './pages/PublicFavourites.jsx'
 
 import { Routes, Route } from 'react-router-dom'
+import MovieDiscovery from './pages/MovieDiscovery.jsx'
 
 
 
@@ -36,7 +37,7 @@ function App() {
           <Route path="/" exact element={<Home />} />
           <Route path="/groups" exact element={<Groups />} />
           <Route path="/groups/:groupId" element={<SingleGroup />} />
-          <Route path="/movies" exact element={<Movies />} />
+          <Route path="/movies" exact element={<MovieDiscovery />} />
           <Route path="/movies/:movieId" element={<SingleMovie />} />
           <Route path="/reviews" exact element={<Reviews />} />
           <Route path="/search" exact element={<MovieSearch />} />

@@ -2,17 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './SingleMovie.css';
+import PostReview from '../components/singlemovie/PostReview';
+import {useUser} from '../context/UseUser';
 
 export default function SingleMovie({ addToFavourites }) {
   const { movieId } = useParams();
+  const { user } = useUser();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [favorites, setFavorites] = useState([]);
+  const [postReviewOpen, setPostReviewOpen] = useState(false)
+
+  const account = useUser()
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/tmdb/details/${movieId}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${movieId}`);
         setMovie(res.data);
       } catch (err) {
         console.error(err);
@@ -24,15 +31,60 @@ export default function SingleMovie({ addToFavourites }) {
     fetchMovie();
   }, [movieId]);
 
+   // hae käyttäjän suosikit (ei jwt:tä)
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!user || !user.email) return;
+      try {
+       const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/favorites`,
+         { params: { email: user.email } } // lähetetään email query
+        );
+        setFavorites(res.data.favorites);
+      } catch (err) {
+        console.error("Failed to fetch favorites", err);
+      }
+    };
+  fetchFavorites();
+}, [user]);
+
+  const toggleFavorite = async () => {
+    if (!user || !user.email) {
+      alert('Sign in to add to favorites!');
+      return;
+    }
+
+    try {
+      if (favorites.includes(movie.id)) {
+        // poista suosikeista
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/favorites/delete`,
+          { email: user.email, movieId: movie.id } // pelkkä email ja movieId
+        );
+        setFavorites((prev) => prev.filter((id) => id !== movie.id));
+      } else {
+        // lisää suosikkeihin
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/favorites/add`,
+          { email: user.email, movieId: movie.id } // pelkkä email ja movieId
+        );
+        setFavorites((prev) => [...prev, movie.id]);
+      }
+    } catch (err) {
+      console.error('Failed to toggle favorite', err);
+    }
+  };
+
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
   if (!movie) return <div>Movie not found</div>;
 
-  // debug: logataan collection id
   const collectionId = movie.belongs_to_collection?.id;
   if (collectionId) console.log('Collection ID:', collectionId);
 
   return (
+    <>
     <div className="single-movie-container">
       {movie.backdrop_path ? (
         <div
@@ -55,7 +107,9 @@ export default function SingleMovie({ addToFavourites }) {
         <div className="movie-content">
           <div className="header">
             <h1>{movie.original_title}</h1>
-            <button onClick={() => addToFavourites(movie)}>Add to favourites</button>
+              <button onClick={toggleFavorite}> 
+                {favorites.includes(movie.id) ? '❤️' : '🤍'} Add to favorites
+              </button>
           </div>
 
           <p className="movie-info">
@@ -76,8 +130,18 @@ export default function SingleMovie({ addToFavourites }) {
               </Link>
             </p>
           )}
+          {user ? ( // väliaikaisesti näyttää userin tiedot tässä
+            <p>Logged in as: {user.name} ({user.email})</p>
+            ) : (
+            <p>No user logged in</p>
+          )}
         </div>
+        
       </div>
+      
     </div>
+    { account.user.id ? (<button className='review-button' onClick={() => {setPostReviewOpen(true)}}>Post Your Own Review</button>) : <></>}
+    {postReviewOpen && <PostReview onClose={() => setPostReviewOpen(false)} />}
+    </>
   );
 }

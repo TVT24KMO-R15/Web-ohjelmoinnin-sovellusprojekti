@@ -1,0 +1,34 @@
+.movieFilters {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.inputField {
+  padding: 0.5em;
+  margin: 1em;
+  border-radius: 8px;
+  height: 1.5em;
+  border: 1px solid black;
+}
+
+#filterToggle {
+  width: 110%;
+  padding: 0.75em;
+  margin: 0.5em;
+  height: 3em;
+  border: 1px solid black;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#filterOptions {
+  display: flex;
+  align-items: center;
+  width: auto;
+}
+
+/* able to edit searchbar css without affecting header */
+#customSearchBar > div > .search-bar input {
+  padding-right: 5em;
+}

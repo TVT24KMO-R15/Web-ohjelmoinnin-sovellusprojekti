@@ -5,6 +5,7 @@ import axios from "axios"
 import { useUser } from '../../../context/UseUser'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function MyReviewsComponent(property) {
 
@@ -19,7 +20,7 @@ export default function MyReviewsComponent(property) {
     if (review != {}) {
       //this part gets movie details for each review
       
-      console.log('getting details')
+      //console.log('getting details')
       //console.log(review.property.movieid)
       
       const address1 = import.meta.env.VITE_API_URL + `/api/tmdb/details/${review.property.movieid}`
@@ -67,9 +68,11 @@ export default function MyReviewsComponent(property) {
               {(reviewAndDetails.details["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + reviewAndDetails.details["poster_path"]}></img> : <img src={"../src/assets/noPoster.png"}></img>}
             </div>
             <div className='reviewDetailsDiv'>
-              <h3>{reviewAndDetails.details.title}</h3>
+              
+              <Link to={`/movies/${reviewAndDetails.details.id}`} className='popularmovielink'><h3>{reviewAndDetails.details.title}</h3></Link>
               <p>"{reviewAndDetails.review.reviewtext}"</p>
               <h3>Stars: {reviewAndDetails.review.stars}</h3>
+              
             </div>
           </article>
         </div>

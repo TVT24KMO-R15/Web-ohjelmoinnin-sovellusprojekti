@@ -1,36 +1,18 @@
-.myReviewsArticle {
-    margin: 1em;
-    padding: 1em;
-    display: flex;
-    
-}
-
 .reviewborder {
     border: solid 4px gold;
     border-radius: 1em;
     margin: 1em;
     padding: 1em;
 }
-
-
-.deletebutton {
-    display: inline;
-    padding: 0em 1em;
-
-    margin-left: 2em;
-}
-
 .reviewImageDiv {
     display: inline;
     flex: 15%;
     align-content: top;
 }
-
 .reviewImageDiv img {
     max-height: 150px;
     border-radius: 1em;
 }
-
 .reviewDetailsDiv {
     display: inline;
     flex: 85%;
@@ -47,3 +29,10 @@
     margin-bottom: auto;
 }
 
+.reviewer {
+    color: var(--gray);
+    margin-bottom: 1em;
+}
+.date{
+    color: var(--gray);
+}

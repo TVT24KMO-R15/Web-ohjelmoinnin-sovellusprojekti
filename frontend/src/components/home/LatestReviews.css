@@ -1,0 +1,17 @@
+.latestreviews h2{
+    margin-bottom: 1em;
+}
+
+.latestreviews {
+    padding: 2em;
+    border-radius: 1em;
+    background: linear-gradient(rgba(255, 180, 40, 0.89)), url(https://image.tmdb.org/t/p/original/qJzloL8O9YHhiWBrhlPfKAtZu2I.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.latestreviewshere {
+    background-color: rgba(255, 220, 156, 0.562);
+    padding: 1em;
+    border-radius: 1em;
+}
