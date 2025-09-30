@@ -33,7 +33,7 @@ const queryPostReview = async (movieid, stars, accountid, reviewtext) => {
 }
 
 const queryUpdateReview = async (movieid, stars, accountid, reviewtext) => {
-    return await pool.query(`UPDATE review SET stars = $2, reviewtext = $4 WHERE movieid = $1 AND fk_accountid = $3 RETURNING *`,
+    return await pool.query(`UPDATE review SET stars = $2, reviewtext = $4, reviewdate = CURRENT_DATE WHERE movieid = $1 AND fk_accountid = $3 RETURNING *`,
         [movieid, stars, accountid, reviewtext]
     )
 }

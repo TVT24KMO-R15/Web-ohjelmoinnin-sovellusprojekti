@@ -3,11 +3,11 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UseUser';
 import axios from 'axios';
 
-export default function PostReview({ onClose, property, onUpdate, reload }) {
+export default function PostReview({ onClose, property, onUpdate, reload, movie }) {
     const navigate = useNavigate();
     const { movieId } = useParams();
     const account = useUser()
-    const [review, setReview] = useState({ movieid: movieId, stars: 1, accountid: account.user.id, reviewtext: '' })
+    const [review, setReview] = (window.location.href.includes('/myreviews')) ? useState({ movieid: String(movie), stars: 1, accountid: account.user.id, reviewtext: '' }) : useState({ movieid: movieId, stars: 1, accountid: account.user.id, reviewtext: '' })
     const [errorMessage, setErrorMessage] = useState('');
     const [count, setCount] = useState(0)
     const [metodi, setMetodi] = useState(property)
@@ -16,8 +16,10 @@ export default function PostReview({ onClose, property, onUpdate, reload }) {
 
     const handleChange = (e) => {
         setReview({ ...review, [e.target.name]: e.target.value });
-        setCount(e.target.value.length)
+        if (e.target.name == 'reviewtext') {
+            setCount(e.target.value.length)
 
+        }
 
     };
 
@@ -28,7 +30,7 @@ export default function PostReview({ onClose, property, onUpdate, reload }) {
         try {
             const payload = { review: review }
             //setMethod(reviewMethod)
-            //console.log(payload)
+            console.log(payload)
 
             if (metodi == 'post') {
                 axios.post(import.meta.env.VITE_API_URL + `/reviews/post/`, payload)
@@ -50,10 +52,11 @@ export default function PostReview({ onClose, property, onUpdate, reload }) {
                 axios.put(import.meta.env.VITE_API_URL + `/reviews/put/`, payload)
                     .then(response => {
                         console.log(response)
-                        alert('Review updated successfully');
-                        onUpdate()
-                        onClose()
-
+                        if (response.status == 201) {
+                            alert('Review updated successfully');
+                            onUpdate()
+                            onClose()
+                        }
                     }
                     ).catch(error => {
                         setErrorMessage('Something went wrong');
