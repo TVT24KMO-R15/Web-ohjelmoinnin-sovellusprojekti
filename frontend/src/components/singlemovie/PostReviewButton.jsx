@@ -16,13 +16,13 @@ export default function PostReviewButton({ onUpdate }) {
     const account = useUser()
 
     useEffect(() => {
-        if (account.user.username) {
+        
             console.log(account)
             try {
                 axios.get(import.meta.env.VITE_API_URL + `/reviews/movieuser/${movieId}/${account.user.id}`)
                     .then(response => {
                         console.log(response)
-                        if (response.data.length == 0) {
+                        if (response.data.length === 0) {
                             setAllowReview(true)
                         } else {
                             setAllowReview(false)
@@ -38,7 +38,7 @@ export default function PostReviewButton({ onUpdate }) {
             } catch (error) {
                 console.error('Failed to fetch reviews', err)
             }
-        } setLoading(false)
+        
     }, [reloadButton])
 
 
