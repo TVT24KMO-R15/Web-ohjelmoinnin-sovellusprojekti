@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UseUser';
 import axios from 'axios';
 
-export default function PostReview({ onClose, property }) {
+export default function PostReview({ onClose, property, onUpdate, reload }) {
     const navigate = useNavigate();
     const { movieId } = useParams();
     const account = useUser()
@@ -18,7 +18,7 @@ export default function PostReview({ onClose, property }) {
         setReview({ ...review, [e.target.name]: e.target.value });
         setCount(e.target.value.length)
 
-        //console.log(review)
+
     };
 
     const handleSubmit = async (e) => {
@@ -34,8 +34,13 @@ export default function PostReview({ onClose, property }) {
                 axios.post(import.meta.env.VITE_API_URL + `/reviews/post/`, payload)
                     .then(response => {
                         console.log(response)
-                        alert('Review posted successfully');
-                        window.location.reload();
+                        if (response.status == 201) {
+                            alert('Review posted successfully');
+                            onUpdate()
+                            onClose()
+                            reload()
+                        }
+
                     }
                     ).catch(error => {
                         setErrorMessage('Something went wrong');
@@ -46,7 +51,9 @@ export default function PostReview({ onClose, property }) {
                     .then(response => {
                         console.log(response)
                         alert('Review updated successfully');
-                        window.location.reload();
+                        onUpdate()
+                        onClose()
+
                     }
                     ).catch(error => {
                         setErrorMessage('Something went wrong');

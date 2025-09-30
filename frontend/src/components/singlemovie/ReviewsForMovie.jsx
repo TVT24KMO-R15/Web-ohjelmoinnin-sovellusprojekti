@@ -15,10 +15,12 @@ export default function ReviewsForMovie() {
     const [limit, setLimit] = useState(5)
     const [nextDisabled, setNextDisabled] = useState(true)
     const [previousDisabled, setPreviousDisabled] = useState(true)
+    const [reloadState, setReloadState] = useState(false)
 
     const account = useUser()
 
     useEffect(() => {
+        console.log('reloadState: '+ reloadState)
         setReviews(null)
         const offset = limit * page
         const address = import.meta.env.VITE_API_URL + `/reviews/movie/${movieId}/${limit}/${offset}`
@@ -55,10 +57,10 @@ export default function ReviewsForMovie() {
                 setLoading(false)
             })
 
-    }, [page]);
+    }, [page, reloadState]);
 
     if (loading) return <div>Loading...</div>;
-    if (!reviews) return <><div className='moviereviewsborder'>No reviews... yet!</div><PostReviewButton /></>;
+    if (!reviews) return <><div className='moviereviewsborder'>No reviews... yet!</div><PostReviewButton onUpdate={() => setReloadState(!reloadState)} /></>;
 
     if (reviews) return (
         <><div className='moviereviewsborder'>
@@ -76,7 +78,7 @@ export default function ReviewsForMovie() {
             <button id='nextReviews' className='pagechangebutton' disabled={nextDisabled} onClick={() => { setPage(page + 1) }}>→</button>
             
             
-        </div><PostReviewButton />
+        </div><PostReviewButton onUpdate={() => setReloadState(!reloadState)} />
         </>
     )
 }
