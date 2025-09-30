@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react'
 import './ProfileInfo.css'
 import axios from 'axios';
 import ChangePassword from './ChangePassword';
+import DeleteUser from './DeleteUser';
 
 import { useUser } from '../../context/UseUser';
 
@@ -40,11 +41,16 @@ export default function ProfileInfo() {
           </li>
         </ul>
         <button className='deletebutton' onClick={() => setChangePasswordOpen(true)}>Change Password</button>
-        <button className='deletebutton'>Delete User</button>
-        {changePasswordOpen &&<ChangePassword onClose={()=> setChangePasswordOpen(false)}/>}
-        
+        <button className='deletebutton' onClick={() => setDeleteUserOpen(true)}>Delete User</button>
+        {changePasswordOpen && <ChangePassword onClose={() => setChangePasswordOpen(false)} />}
+        {deleteUserOpen && <DeleteUser
+          onClose={() => setDeleteUserOpen(false)}
+          email={account.user.email}
+          username={accountData.username}
+        />}
+
       </div>
-      
+
     </>
   )
 }
