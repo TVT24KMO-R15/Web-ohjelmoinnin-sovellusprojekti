@@ -20,9 +20,10 @@ export default function MyAccount() {
         <div className='accountcontent'>
           <ReviewsPreview />
         </div>
-      </div>
-      <div className='accountinfodiv'>
+      
+      <div className='accountcontent'>
         <ProfileInfo />
+      </div>
       </div>
     </>
   )

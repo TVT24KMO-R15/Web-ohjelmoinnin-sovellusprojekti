@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import AccountEmailById from '../common/AccountEmailById';
 import axios from 'axios';
 import './ReviewsForMovie.css'
+import PostReviewButton from './PostReviewButton';
+
+import { useUser } from '../../context/UseUser';
 
 export default function ReviewsForMovie() {
     const { movieId } = useParams();
@@ -12,8 +15,12 @@ export default function ReviewsForMovie() {
     const [limit, setLimit] = useState(5)
     const [nextDisabled, setNextDisabled] = useState(true)
     const [previousDisabled, setPreviousDisabled] = useState(true)
+    const [reloadState, setReloadState] = useState(false)
+
+    const account = useUser()
 
     useEffect(() => {
+        console.log('reloadState: '+ reloadState)
         setReviews(null)
         const offset = limit * page
         const address = import.meta.env.VITE_API_URL + `/reviews/movie/${movieId}/${limit}/${offset}`
@@ -50,10 +57,10 @@ export default function ReviewsForMovie() {
                 setLoading(false)
             })
 
-    }, [page]);
+    }, [page, reloadState]);
 
     if (loading) return <div>Loading...</div>;
-    if (!reviews) return <div>No reviews... yet!</div>;
+    if (!reviews) return <><div className='moviereviewsborder'>No reviews... yet!</div><PostReviewButton onUpdate={() => setReloadState(!reloadState)} /></>;
 
     if (reviews) return (
         <><div className='moviereviewsborder'>
@@ -69,7 +76,9 @@ export default function ReviewsForMovie() {
             ))}
             <button id='previousReviews' className='pagechangebutton' disabled={previousDisabled} onClick={() => { setPage(page - 1) }}>←</button>
             <button id='nextReviews' className='pagechangebutton' disabled={nextDisabled} onClick={() => { setPage(page + 1) }}>→</button>
-        </div>
+            
+            
+        </div><PostReviewButton onUpdate={() => setReloadState(!reloadState)} />
         </>
     )
 }
