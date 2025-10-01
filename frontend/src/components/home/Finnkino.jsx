@@ -14,6 +14,8 @@ const fetcherText = async (url) => {
   for (let i = 0; i < theatres.length; i++) {
     tempAreas.push({ id: theatres[i].children[0].innerHTML, name: theatres[i].children[1].innerHTML })
   }
+  tempAreas[0].name = 'Choose a theatre'
+  console.log(tempAreas)  
   return tempAreas
 }
 
@@ -25,6 +27,7 @@ function Finnkinohaku({ onTheatreSelect }) {
   }
 
   return (
+    <div>
     <select onChange={(e) => onTheatreSelect(e.target.value)}>
       {areas.map((area) => (
         <option key={area.id} value={area.id}>
@@ -32,13 +35,14 @@ function Finnkinohaku({ onTheatreSelect }) {
         </option>
       ))}
     </select>
+    </div>
   )
 }
 
 export default function Finnkino({ setSelectedTheatreId }) {
   return (
     <div>
-      <p>Finnkinon lista </p>
+      <p>Finnkino theatre selection</p>
       <Finnkinohaku onTheatreSelect={setSelectedTheatreId} />
     </div>
   )

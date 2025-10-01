@@ -60,8 +60,9 @@ export default function ReviewsPreviewRow(property) {
 
             <div className='reviewPreviewDetailsDiv'>
               <h3 className="reviewPreviewTitle">{reviewAndDetails.details.title}</h3>
-              <p>"{reviewAndDetails.review.reviewtext}"</p>
               <h3 className="reviewPreviewStars">Stars: {reviewAndDetails.review.stars}</h3>
+              {(reviewAndDetails.review.reviewtext) ? <p key={reviewAndDetails.review.reviewid} className="reviewPreviewText">{reviewAndDetails.review.reviewtext}</p> : <p className='nowrittenreview'>No written review</p>}
+              
 
               {(window.location.href.includes('/myaccount')) ? <></> : <AccountEmailById key={reviewAndDetails.review.fk_accountid} property={reviewAndDetails.review.fk_accountid} />}
               <p>{String(reviewAndDetails.review.reviewdate).substring(0, 10)}</p>

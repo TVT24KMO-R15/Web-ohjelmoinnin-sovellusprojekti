@@ -47,7 +47,7 @@
   font-size: 14px;
   font-weight: 600;
 }
-.auth-fields input {
+.auth-fields input{
   padding: 0.7rem 1rem;
   border-radius: 8px;
   border: 1.5px solid #333;
@@ -57,6 +57,23 @@
   outline: none;
   transition: border 0.2s;
 }
+.review-input {
+  resize: none;
+  height: 150px;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #333;
+  font-size: 1rem;
+  background: #fff;
+  color: #111;
+  outline: none;
+  transition: border 0.2s;
+}
+.review-input:focus{
+  border: 1.5px solid #b30000;
+}
+
+
 .auth-fields input:focus {
   border: 1.5px solid #b30000;
 }
