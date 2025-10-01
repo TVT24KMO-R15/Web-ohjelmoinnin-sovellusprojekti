@@ -1,7 +1,7 @@
 
 ### Install Rest Client In Vscode To Send Requests 
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjb3VudCI6InRlc3RAdGVzdCIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTc1OTI4NjQyOH0.rRM2KlZ38J4Q7EWizhH1mmUozghpT1YeYmSsCm0-wMQ
+@token=putyourtokenhere
 ### Get Token
 POST http://localhost:3000/users/signin
 Content-Type: application/json
