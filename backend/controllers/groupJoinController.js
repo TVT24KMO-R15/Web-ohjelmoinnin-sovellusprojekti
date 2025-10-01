@@ -2,23 +2,9 @@ import {
   queryInsertJoinRequest,
   queryRequestsForGroup,
   queryPendingUsersWithOwnerID,
-  queryGetRequestsFromAccountID
+  queryGetRequestsFromAccountID,
+  queryDeleteSentRequest
 } from "../models/groupJoin.js";
-
-/* ideas
-- get pending requests to group x, with username/id? DONE
-- send a join request to a group as a user DONE
-- see own pending requests as user DONE
-
-- remove join request as a user
-
-- accept join request as a owner
-- deny join request as a owner
-
-- on accept, update tables to set user into group
-*/
-
-
 
 const getPendingRequestsAsOwner = async (req, res, next) => {
   const ownerid = req.params.ownerid;
@@ -30,6 +16,7 @@ const getPendingRequestsAsOwner = async (req, res, next) => {
         .status(200)
         .json({ requests: "No pending join requests"});
     }
+    console.log("received join requests successfully");
     return res.status(200).json({requests: result.rows});
   } catch (error) {
     return next(error)
@@ -46,15 +33,16 @@ POST http://localhost:3000/groupjoin/join/
 
 const sendJoinRequest = async (req, res, next) => {
   console.log("Sending join request")
-  if (!req.body || !req.body.groupid || !req.body.accountid) {
+  if (!req.params.groupid || !req.params.accountid) {
     return res.status(500).json({error: "group id and account id required"});
   }
-  const groupid = req.body.groupid
-  const accountid = req.body.accountid
+
+  const groupid = req.params.groupid
+  const accountid = req.params.accountid
 
   try {
     const result = await queryInsertJoinRequest(groupid, accountid);
-    console.log("result:" ,result);
+    console.log("join request sent")
     return res.status(201).json({status: "Successfully sent join request to group!"})
   } catch (error) {
     if (error.message.includes("duplicate key value violates unique constraint")) {
@@ -68,32 +56,54 @@ const sendJoinRequest = async (req, res, next) => {
 
 // http://localhost:3000/groupjoin/pendingrequests/sent/7
 const getPendingRequestsAsUser = async (req, res, next) => {
-  if (!req.params.userid) {
-    return res.status(404).json({ error: "Userid required" });
+  console.log("trying to get sent requests as user")
+  if (!req.params.accountid) {
+    return res.status(404).json({ error: "accountid required" });
   }
 
-  const userid = req.params.userid;
-  console.log(typeof userid);
-
-  console.log("getting pending requests for user: ", req.params.userid);
-
+  const accountid = req.params.accountid;
+  
   try {
-    const result = await queryGetRequestsFromAccountID(userid);
+    const result = await queryGetRequestsFromAccountID(accountid);
     if (result.rows.length === 0) {
       return res.status(200).json({ result: "No pending requests found" });
     }
+    console.log("got sent join requests for user: ", req.params.accountid);
     return res.status(200).json({ result: result.rows });
   } catch (error) {
     if (error.message.includes("invalid input syntax for type integer")) {
-      return res.status(500).json({ error: "invalid userid input" });
+      return res.status(500).json({ error: "invalid accountid input" });
     }
     return next(error);
   }
 };
 
+const removeSentRequest = async (req, res, next) => {
+  console.log("trying to remove sent request")
+  if (!req.params.accountid || !req.params.groupid) {
+    return res.status(500).json({ error: "accountid and groupid required" });
+  }
 
+  const accountid = req.params.accountid;
+  const groupid = req.params.groupid;
 
-export { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser };
+  try {
+    const result = await queryDeleteSentRequest(accountid, groupid);
+    if (result.rowCount === 1) {
+      console.log("deleted join request into group ", groupid, " by account: ", accountid);
+      return res.status(200).json({ status: "Join request deleted" });
+    } else {
+      return res.status(500).json({ error: "delete failed" });
+    }
+  } catch (error) {
+    if (error.message.includes("invalid input syntax for type integer")) {
+      return res.status(500).json({ error: "invalid url input" });
+    }
+    return next(error);
+  }
+};
+
+export { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, removeSentRequest };
 
 
 /*
