@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import { React, useState } from 'react'
 import GroupSearchRow from './GroupSearchRow'
+import axios from "axios"
+import './GroupSearch.css'
 
 export default function GroupSearch() {
-    const [searchWord, setSearchWord] = useState(null)
+    const [searchWord, setSearchWord] = useState('')
     const [searchToggle, setSearchToggle] = useState(false)
-    const [groups, setGroups] = useState([1,2])
+    const [groups, setGroups] = useState([1, 2])
 
     const handleWordChange = (e) => {
         const word = e.target.value
@@ -13,30 +15,51 @@ export default function GroupSearch() {
         console.log(searchWord)
     }
 
-    useEffect(() => {
-        console.log('search ' + searchToggle)
-        //setGroups(searchWord)
-    }, [searchToggle])
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setSearchToggle(!searchToggle)
+    }
 
-    return (
+
+useEffect(() => {
+    console.log('search ' + searchToggle)
+    const token = ''
+    const address = import.meta.env.VITE_API_URL + `/reviews/all/${searchWord}` //fix
+    axios.request({
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        method: "GET",
+        url: `${address}`
+    }).then(response => {
+        console.log(response.data);
+        setGroups(response.data)
+    });
+}, [searchToggle])
+
+return (
+    <div>
         <div>
-            <div>
+            <form>
                 <input
                     type="text"
                     className='inputField'
                     placeholder='Word Search...'
                     maxLength={20}
                     onChange={handleWordChange}
+                    onSubmit={handleSearch}
                 />
-                <button onClick={() => setSearchToggle(!searchToggle)} id='searchBtn'>Search</button>
-            </div>
-            <div>
-                {groups.map(item =>
-                    (<GroupSearchRow group={item} key={item}/>)
-                )}
-                
-                
-            </div>
+            
+            <button onClick={handleSearch} id='searchBtn'>Search</button>
+            </form>
         </div>
-    )
+        <div>
+            {groups.map(item =>
+                (<GroupSearchRow group={item} key={item.reviewid} />)
+            )}
+
+
+        </div>
+    </div>
+)
 }

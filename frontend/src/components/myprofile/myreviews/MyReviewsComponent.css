@@ -1,3 +1,5 @@
+@import '../../../global.css';
+
 .myReviewsArticle {
     margin: 1em;
     padding: 1em;
@@ -21,8 +23,16 @@
 .deletebutton {
     display: inline;
     padding: 0em 1em;
-
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-primary);
+    border-radius: 1em;
     margin-left: 2em;
+    cursor: pointer;
+}
+
+.deletebutton:hover{
+    background-color: var(--color-bg-alt);
+    border-color: var(--color-primary-hover);
 }
 
 .reviewImageDiv {

@@ -1,0 +1,15 @@
+@import "../../global.css";
+
+.gotogrouplink {
+    text-decoration: none;
+    color: black;
+}
+
+.gotogrouplinkborder{
+    padding: 1em;
+    display: inline;
+}
+
+.requeststatusmessage {
+    margin-top: 1em;
+}
