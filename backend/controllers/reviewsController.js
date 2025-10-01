@@ -59,7 +59,7 @@ const getReviewsByMovieIdWithLimitOffset = async (req, res, next) => {
 const getReviewsByMovieUser = async (req, res, next) => {
     try {
         const result = await queryReviewsByMovieUser(req.params.movieid, req.params.accountid)
-        console.log("get reviews for movie: "+ req.params.movieid + "by user: " + req.params.accountid)
+        console.log("get reviews for movie: "+ req.params.movieid + " by user: " + req.params.accountid)
         return res.status(200).json(result.rows)
     } catch (error) {
         return next (error)

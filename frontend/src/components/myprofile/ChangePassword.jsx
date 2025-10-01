@@ -1,9 +1,8 @@
-import { React, useState, useEffect } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { React, useState } from 'react'
 import { useUser } from '../../context/UseUser';
 import axios from 'axios';
 
-export default function PostReview({ onClose }) {
+export default function ChangePassword({ onClose }) {
     const account = useUser()
     const [newUser, setNewUser] = useState({ password: '', newPassword1: '', newPassword2: '' })
     const [errorMessage, setErrorMessage] = useState('');
@@ -30,7 +29,6 @@ export default function PostReview({ onClose }) {
 
         try {
             const payload = ''
-            //setMethod(reviewMethod)
             console.log(payload)
 
 

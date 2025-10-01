@@ -29,14 +29,14 @@ export default function PostReviewButton({ onUpdate }) {
                         }
                     }
                     ).catch(err => {
-                        console.error('Failed to fetch reviews', err)
+                        console.error('Failed to check if user has reviewed this movie', err)
 
                     })
                     .finally(() => {
                         setLoading(false)
                     })
             } catch (error) {
-                console.error('Failed to fetch reviews', err)
+                console.error('Failed to check if user has reviewed this movie', err)
             }
         
     }, [reloadButton])

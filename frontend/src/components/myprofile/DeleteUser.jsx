@@ -1,15 +1,9 @@
-import { React, useState, useEffect } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UseUser';
+import { React, useState } from 'react'
 import axios from 'axios';
 
 export default function DeleteUser({ onClose, email, username }) {
-    const navigate = useNavigate();
-    const {account, setAccount} = useUser();
     const [user, setUser] = useState({ email: email, password: '', username: username });
     const [errorMessage, setErrorMessage] = useState('');
-
-
 
 
     const handleChange = (e) => {
@@ -34,20 +28,13 @@ export default function DeleteUser({ onClose, email, username }) {
                     console.log(response)
                     if (response.status == 200) {
                         alert('Account removed successfully. Farewell!');
-                        //setAccount({ username: '', email: '', password: '', token: '' });
-                        
                         sessionStorage.removeItem('user');
-                        //onClose();
                         window.location = '/';
-                        
-                        
                     }
 
                 }).catch(error => {
                     setErrorMessage('Something went wrong');
                 })
-
-
 
         } catch (error) {
             setErrorMessage('Something went wrong');
