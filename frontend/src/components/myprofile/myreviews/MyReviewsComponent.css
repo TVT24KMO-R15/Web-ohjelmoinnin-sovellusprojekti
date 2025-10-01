@@ -27,7 +27,9 @@
     border: 2px solid var(--color-primary);
     border-radius: 1em;
     margin-left: 2em;
+    margin-top: 0.5em;
     cursor: pointer;
+    min-width: 150px;
 }
 
 .deletebutton:hover{

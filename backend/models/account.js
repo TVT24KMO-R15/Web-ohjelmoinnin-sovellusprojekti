@@ -40,4 +40,8 @@ const deleteAccount = async (accountID) => {
     )
 }
 
-export { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount }
+const updatePassword = async (accountID, hashedPassword) => {
+    return await pool.query(`UPDATE account SET password = $2 WHERE accountid = $1`, [accountID, hashedPassword])
+}
+
+export { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword }
