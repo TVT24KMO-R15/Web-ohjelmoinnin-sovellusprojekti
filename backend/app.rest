@@ -1,0 +1,49 @@
+### GROUP CRUD OPERATIONS ###
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoidGVzdEB0ZXN0IiwiaWF0IjoxNzU5Mjc3MDY3fQ.iUQoq92rkhLRWSZE5AGM231vxuqrxKWYx51sfdwreeI
+### Get Token
+POST http://localhost:3000/users/signin
+Content-Type: application/json
+
+{
+    "account": {
+        "email": "test@test",
+        "password": "test"
+    }
+}
+
+### Get All Groups
+GET http://localhost:3000/groups/
+
+### Get Group by ID
+GET http://localhost:3000/groups/1
+
+### Create a New Group 
+POST http://localhost:3000/groups/post
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "groups": {
+        "fk_ownerid": 1,
+        "groupname": "Testiryhmä",
+        "groupdescription": "Tämä on testiryhmä"
+    }
+}
+
+### Update a Group 
+PUT http://localhost:3000/groups/update/
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "groups": {
+        "groupid": 2,
+        "fk_ownerid": 1,
+        "groupname": "Päivitetty ryhmä",
+        "groupdescription": "Tämä on päivitetty kuvaus"
+    }
+}
+
+### Delete a Group 
+DELETE http://localhost:3000/groups/delete/1
+Authorization: {{token}}
