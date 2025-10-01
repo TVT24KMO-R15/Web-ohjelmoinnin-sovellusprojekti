@@ -2,34 +2,41 @@
 import { queryAllGroups, queryGroupById, queryPostGroup, queryDeleteGroup, queryUpdateGroup } from "../models/group.js";
 
 const postGroup= async (req, res, next) => {
-    const { groups } = req.body
-    try {
-        if (!groups.fk_ownerid || !groups.groupname || !groups.groupdescription) {
-            const error = new Error('Missing Group data')
-            error.status = 400
-            return next(error)
-        }
+   try {
+        const ownerId = req.user.id;
+        const { groupname, groupdescription } = req.body.groups;
 
-        const result = await queryPostGroup(groups.fk_ownerid, groups.groupname, groups.groupdescription)
-        return res.status(201).json(result)
-    } catch (error) {
-        return next(error)
+        const result = await queryPostGroup(ownerId, groupname, groupdescription);
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 }
 
 const updateGroup= async (req, res, next) => {
-    const { groups } = req.body
     try {
-        if (!groups.groupid || !groups.fk_ownerid || !groups.groupname || !groups.groupdescription) {
-            const error = new Error('Missing Group update data')
-            error.status = 400
-            return next(error)
+        const ownerId = req.user.id;
+        const groupId = req.params.id;
+        
+        if (!req.body.groups) {
+            return res.status(400).json({ error: "Missing 'groups' object in request body" });
+        }
+        const { groupname, groupdescription } = req.body.groups;
+
+        const existingGroup = await queryGroupById(groupId);
+        if (existingGroup.rowCount === 0) {
+            return res.status(404).json({ error: "Group not found" });
         }
 
-        const result = await queryUpdateGroup(groups.groupid, groups.fk_ownerid, groups.groupname, groups.groupdescription)
-        return res.status(201).json(result)
-    } catch (error) {
-        return next(error)
+        if (existingGroup.rows[0].fk_ownerid !== ownerId) {
+            return res.status(403).json({ error: "You can only edit groups that you own" });
+        }
+
+        const result = await queryUpdateGroup(groupId, ownerId, groupname, groupdescription);
+        
+        res.json({ id: groupId, message: "Group updated successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 }
 
@@ -61,19 +68,24 @@ const getGroupById = async (req, res, next) => {
 }
 
 const deleteGroup = async (req, res, next) => {
-    const { id } = req.params
-
     try {
-        console.log(`Deleting Group with id: ${id}`)
-        const result = await queryDeleteGroup(id)
-        if (result.rowCount === 0) {
-            const error = new Error('Group not found')
-            error.status = 400
-            return next(error)
+        const ownerId = req.user.id;
+        const groupId = req.params.id;
+
+        const existingGroup = await queryGroupById(groupId);
+        if (existingGroup.rowCount === 0) {
+            return res.status(404).json({ error: "Group not found" });
         }
-        return res.status(200).json({ id: id })
-    } catch (error) {
-        return next(error)
+
+        if (existingGroup.rows[0].fk_ownerid !== ownerId) {
+            return res.status(403).json({ error: "You can only delete groups that you own" });
+        }
+
+        // Delete the group
+        const result = await queryDeleteGroup(groupId, ownerId);
+        res.json({ message: "Group deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 }
 export{

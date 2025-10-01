@@ -7,7 +7,7 @@ const router = Router()
 router.get('/', getAllGroups)
 router.get('/:id', getGroupById)
 router.post('/post', auth, postGroup)
-router.delete('/delete', auth, deleteGroup)
-router.put('/update', auth, updateGroup)
+router.delete('/delete/:id', auth, deleteGroup)
+router.put('/update/:id', auth, updateGroup)
 
 export default router

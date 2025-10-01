@@ -1,5 +1,7 @@
-### GROUP CRUD OPERATIONS ###
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoidGVzdEB0ZXN0IiwiaWF0IjoxNzU5Mjc3MDY3fQ.iUQoq92rkhLRWSZE5AGM231vxuqrxKWYx51sfdwreeI
+
+### Install Rest Client In Vscode To Send Requests 
+
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjb3VudCI6InRlc3RAdGVzdCIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTc1OTI4NjQyOH0.rRM2KlZ38J4Q7EWizhH1mmUozghpT1YeYmSsCm0-wMQ
 ### Get Token
 POST http://localhost:3000/users/signin
 Content-Type: application/json
@@ -11,39 +13,38 @@ Content-Type: application/json
     }
 }
 
+### GROUP CRUD OPERATIONS ###
+
 ### Get All Groups
 GET http://localhost:3000/groups/
 
 ### Get Group by ID
 GET http://localhost:3000/groups/1
 
-### Create a New Group 
+### Create a New Group as a User
 POST http://localhost:3000/groups/post
 Content-Type: application/json
 Authorization: {{token}}
 
 {
     "groups": {
-        "fk_ownerid": 1,
-        "groupname": "Testiryhmä",
-        "groupdescription": "Tämä on testiryhmä"
+        "groupname": "Testiryhmä 1",
+        "groupdescription": "Tämä on testiryhmä 1"
     }
 }
 
-### Update a Group 
-PUT http://localhost:3000/groups/update/
+### Update a Group as a Group Owner
+PUT http://localhost:3000/groups/update/10
 Content-Type: application/json
 Authorization: {{token}}
 
 {
     "groups": {
-        "groupid": 2,
-        "fk_ownerid": 1,
-        "groupname": "Päivitetty ryhmä",
-        "groupdescription": "Tämä on päivitetty kuvaus"
+        "groupname": "Päivitetty ryhmä 1",
+        "groupdescription": "Tämä on päivitetty kuvaus ryhmälle 1"
     }
 }
 
-### Delete a Group 
+### Delete a group as a Group Owner
 DELETE http://localhost:3000/groups/delete/1
 Authorization: {{token}}
