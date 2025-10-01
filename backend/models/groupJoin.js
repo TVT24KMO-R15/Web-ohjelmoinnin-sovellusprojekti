@@ -3,7 +3,6 @@ import { pool } from "../helpers/dbHelper.js";
 // INSERT INTO group_join_requests (fk_groupid, fk_accountid) VALUES ('1', '1');
 // - 'pending', 'accepted', 'rejected', 'canceled'
 
-
 /*
 - get pending requests to group x, with username/id?
 
@@ -16,11 +15,11 @@ import { pool } from "../helpers/dbHelper.js";
 */
 
 const queryRequestsForGroup = async (groupid) => {
-  return await pool.query("SELECT * FROM group_join_requests WHERE fk_groupid=$1", 
+  return await pool.query(
+    "SELECT * FROM group_join_requests WHERE fk_groupid=$1",
     [groupid]
   );
 };
-
 
 /* full query used:
 
@@ -67,5 +66,24 @@ const queryInsertJoinRequest = async (groupid, accountid) => {
   );
 };
 
+const queryGetRequestsFromAccountID = async (accountid) => {
+  return await pool.query(
+    "SELECT \
+      g.groupname, \
+      gjr.requestdate, \
+      gjr.status \
+    FROM \
+      group_join_requests AS gjr \
+    JOIN public.groups g on gjr.fk_groupid = g.groupid \
+    WHERE fk_accountid=$1 AND status='pending'; \
+    ",
+    [accountid]
+  );
+};
 
-export { queryRequestsForGroup, queryInsertJoinRequest, queryPendingUsersWithOwnerID };
+export {
+  queryRequestsForGroup,
+  queryInsertJoinRequest,
+  queryPendingUsersWithOwnerID,
+  queryGetRequestsFromAccountID,
+};

@@ -1,12 +1,14 @@
 import {
   queryInsertJoinRequest,
   queryRequestsForGroup,
-  queryPendingUsersWithOwnerID
+  queryPendingUsersWithOwnerID,
+  queryGetRequestsFromAccountID
 } from "../models/groupJoin.js";
 
 /* ideas
 - get pending requests to group x, with username/id? DONE
 - send a join request to a group as a user DONE
+- see own pending requests as user DONE
 
 - remove join request as a user
 
@@ -34,7 +36,6 @@ const getPendingRequestsAsOwner = async (req, res, next) => {
   }
 };
 
-
 /* usage:
 POST http://localhost:3000/groupjoin/join/
 {
@@ -42,6 +43,7 @@ POST http://localhost:3000/groupjoin/join/
   "accountid" : 5
 }
 */
+
 const sendJoinRequest = async (req, res, next) => {
   console.log("Sending join request")
   if (!req.body || !req.body.groupid || !req.body.accountid) {
@@ -53,7 +55,7 @@ const sendJoinRequest = async (req, res, next) => {
   try {
     const result = await queryInsertJoinRequest(groupid, accountid);
     console.log("result:" ,result);
-    return res.status(200).json({status: "Successfully sent join request to group!"})
+    return res.status(201).json({status: "Successfully sent join request to group!"})
   } catch (error) {
     if (error.message.includes("duplicate key value violates unique constraint")) {
       return res.status(500).json({ error: "Already requested to join group" });
@@ -64,8 +66,34 @@ const sendJoinRequest = async (req, res, next) => {
   }
 };
 
+// http://localhost:3000/groupjoin/pendingrequests/sent/7
+const getPendingRequestsAsUser = async (req, res, next) => {
+  if (!req.params.userid) {
+    return res.status(404).json({ error: "Userid required" });
+  }
 
-export { sendJoinRequest, getPendingRequestsAsOwner };
+  const userid = req.params.userid;
+  console.log(typeof userid);
+
+  console.log("getting pending requests for user: ", req.params.userid);
+
+  try {
+    const result = await queryGetRequestsFromAccountID(userid);
+    if (result.rows.length === 0) {
+      return res.status(200).json({ result: "No pending requests found" });
+    }
+    return res.status(200).json({ result: result.rows });
+  } catch (error) {
+    if (error.message.includes("invalid input syntax for type integer")) {
+      return res.status(500).json({ error: "invalid userid input" });
+    }
+    return next(error);
+  }
+};
+
+
+
+export { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser };
 
 
 /*

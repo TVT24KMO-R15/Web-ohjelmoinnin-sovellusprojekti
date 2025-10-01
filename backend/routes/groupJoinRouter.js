@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sendJoinRequest, getPendingRequestsAsOwner } from "../controllers/groupJoinController.js";
+import { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser } from "../controllers/groupJoinController.js";
 
 const router = Router();
 
@@ -23,7 +23,8 @@ endpoints
  *     description: Group join request endpoints
  */
 
-router.get('/pendingrequests/:ownerid', getPendingRequestsAsOwner);
+router.get('/pendingrequests/received/:ownerid', getPendingRequestsAsOwner);
+router.get('/pendingrequests/sent/:userid', getPendingRequestsAsUser);
 router.post('/join/', sendJoinRequest);
 
 export default router;
