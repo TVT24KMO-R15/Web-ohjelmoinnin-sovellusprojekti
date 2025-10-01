@@ -3,7 +3,10 @@ import {
   queryRequestsForGroup,
   queryPendingUsersWithOwnerID,
   queryGetRequestsFromAccountID,
-  queryDeleteSentRequest
+  queryDeleteSentRequest,
+  queryAcceptJoinRequest,
+  queryDenyJoinRequest,
+  queryInsertUserIntoTables
 } from "../models/groupJoin.js";
 
 const getPendingRequestsAsOwner = async (req, res, next) => {
@@ -103,7 +106,50 @@ const removeSentRequest = async (req, res, next) => {
   }
 };
 
-export { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, removeSentRequest };
+const acceptJoinRequest = async (req, res, next) => {
+  if (!req.params.requestid) {
+    return res.status(500).json({ error: "No join request provided" });
+  }
+  const requestid = req.params.requestid;
+  try {
+    const result = await queryAcceptJoinRequest(requestid);
+    if (result.rowCount === 0) {
+      return res.status(500).json({ error: "failed to accept join request" });
+    }
+    console.log("Accepted join request: ", requestid);
+    console.log("inserting user into tables")
+    queryInsertUserIntoTables(requestid);
+    return res.status(200).json({ status: "Accepted join request" });
+  } catch (error) {
+    if (error.message.includes("invalid input syntax for type integer")) {
+      return res.status(500).json({ error: "Invalid input" });
+    }
+    return next(error);
+  }
+};
+
+const denyJoinRequest = async (req, res, next) => {
+  if (!req.params.requestid) {
+    return res.status(500).json({ error: "No request ID provided" });
+  }
+  const requestid = req.params.requestid;
+  try {
+    const result = await queryDenyJoinRequest(requestid);
+    if (result.rowCount === 0) {
+      return res.status(500).json({ error: "failed to deny join request" });
+    }
+    console.log("Denied join request: ", requestid);
+    return res.status(200).json({ status: "Denied join request" });
+  } catch (error) {
+    if (error.message.includes("invalid input syntax for type integer")) {
+      return res.status(500).json({ error: "Invalid input" });
+    }
+    return next(error);
+  }
+};
+
+
+export { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, removeSentRequest, acceptJoinRequest, denyJoinRequest };
 
 
 /*
