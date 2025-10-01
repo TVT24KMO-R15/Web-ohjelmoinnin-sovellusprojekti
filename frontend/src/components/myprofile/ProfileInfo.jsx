@@ -42,7 +42,10 @@ export default function ProfileInfo() {
         </ul>
         <button className='deletebutton' onClick={() => setChangePasswordOpen(true)}>Change Password</button>
         <button className='deletebutton' onClick={() => setDeleteUserOpen(true)}>Delete User</button>
-        {changePasswordOpen && <ChangePassword onClose={() => setChangePasswordOpen(false)} />}
+        {changePasswordOpen && <ChangePassword 
+        onClose={() => setChangePasswordOpen(false)} 
+        username={accountData.username}/>}
+        
         {deleteUserOpen && <DeleteUser
           onClose={() => setDeleteUserOpen(false)}
           email={account.user.email}
