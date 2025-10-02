@@ -21,6 +21,7 @@ import PublicFavourites from './pages/PublicFavourites.jsx'
 
 import { Routes, Route } from 'react-router-dom'
 import MovieDiscovery from './pages/MovieDiscovery.jsx'
+import MyGroups from './pages/myprofile/MyGroups.jsx'
 
 
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="/myaccount" exact element={<MyAccount />} />
           <Route path="/myaccount/myfavourites" exact element={<MyFavourites />} />
           <Route path='/myaccount/myreviews' exact element={<MyReviews />} />
+          <Route path='/myaccount/mygroups' exact element={<MyGroups />} />
 
           <Route path='/favourites/:accountId' exact element={<PublicFavourites />} />
 
