@@ -115,7 +115,7 @@ const removeSentRequest = async (req, res, next) => {
   const groupid = req.params.groupid;
 
   try {
-    const result = await queryDeleteSentRequest(accountid, groupid);
+    const result = await queryDeleteSentRequest( groupid, accountid);
     if (result.rowCount === 1) {
       console.log("deleted join request into group ", groupid, " by account: ", accountid);
       return res.status(200).json({ status: "Join request deleted" });
