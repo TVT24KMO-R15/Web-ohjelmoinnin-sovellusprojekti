@@ -9,6 +9,7 @@ import tmdbRouter from './routes/tmdbRouter.js'
 import favoriteMoviesRouter from './routes/favoriteMoviesRouter.js';
 import reviewRouter from './routes/reviewsRouter.js'
 import groupRouter from './routes/groupRouter.js'
+import groupPostsRouter from './routes/groupPostsRouter.js'
 dotenv.config()
 
 // -- express config-- 
@@ -23,6 +24,7 @@ app.use('/api/tmdb', tmdbRouter) // url/api/tmdb
 app.use("/favorites", favoriteMoviesRouter);
 app.use('/reviews', reviewRouter)
 app.use('/groups', groupRouter)
+app.use('/groupposts', groupPostsRouter)
 
 // -- middleware
 app.listen(process.env.PORT, () => {

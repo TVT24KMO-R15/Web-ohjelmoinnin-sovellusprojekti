@@ -54,7 +54,7 @@ const getGroupById = async (req, res, next) => {
     const { id } = req.params
 
     try {
-        console.log(`Deleting Group with id: ${id}`)
+        console.log(`Getting Group with id: ${id}`)
         const result = await queryGroupById(id)
         if (result.rowCount === 0) {
             const error = new Error('Group not found')

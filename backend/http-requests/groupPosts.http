@@ -1,0 +1,29 @@
+
+### GROUPPOST CRUD OPERATIONS ###
+
+### Get All Group posts
+GET http://localhost:3000/groupposts/
+
+### Get Group posts by groupId
+GET http://localhost:3000/groupposts/1
+
+### Create a New Group post
+POST http://localhost:3000/groupposts/post
+Content-Type: application/json
+
+{
+ 
+}
+
+### Update a Group post
+PUT http://localhost:3000/groupposts/update/1
+Content-Type: application/json
+Authorization: 
+
+{
+
+}
+
+### Delete a Group post
+DELETE http://localhost:3000/groupposts/delete/1
+Authorization: 
