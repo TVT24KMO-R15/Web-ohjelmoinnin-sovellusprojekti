@@ -94,7 +94,7 @@ const getRequestsByUserAndGroup = async (req, res, next) => {
   try {
     const result = await queryRequestByAccountIdAndGroup(groupid, accountid)
     if (result.rows.length === 0) {
-      return res.status(200).json({ result: "No join request found for " + groupid + " for user " + accountid });
+      return res.status(200).json({ result: "No join request found for group " + groupid + " for user " + accountid });
     }
     console.log("Found join request for group "+ groupid + " for account " + accountid + " with status " + result.rows.request_status)
     return res.status(200).json({ result: result.rows });
