@@ -3,6 +3,7 @@
 .gotogrouplink {
     text-decoration: none;
     color: black;
+    font-size: var(--font-size-sm);
 }
 
 .gotogrouplinkborder{
@@ -11,5 +12,7 @@
 }
 
 .requeststatusmessage {
-    margin-top: 1em;
+    margin-top: 2em;
+    margin-left: 1em;
+    min-width: 200px;
 }

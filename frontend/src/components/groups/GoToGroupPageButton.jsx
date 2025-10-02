@@ -75,7 +75,7 @@ export default function GoToGroupPageButton(groupid) {
 
     return (
         <div>
-            {(accessGranted && account.user.id) && <div className='deletebutton'><Link className='gotogrouplink' to={`/groups/${groupid.groupid}`}>Go to Group Page</Link></div>}
+            {(accessGranted && account.user.id) && <><p className='requeststatusmessage'>Join request accepted</p><div className='deletebutton'><Link className='gotogrouplink' to={`/groups/${groupid.groupid}`}>Go to Group Page</Link></div></>}
             {(!accessGranted && accessRequestPending && account.user.id) && <><p className='requeststatusmessage'>Join request pending</p><button className='deletebutton' onClick={cancelRequest}>Cancel Request</button></>}
             {(!accessGranted && !accessRequestPending && account.user.id) && <><p className='requeststatusmessage'>Want to join?</p><button className='deletebutton' onClick={sendRequest}>Send Request</button></>}
         </div>
