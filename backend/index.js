@@ -10,7 +10,10 @@ import usersRouter from './routes/accountRouter.js'
 import tmdbRouter from './routes/tmdbRouter.js'
 import favoriteMoviesRouter from './routes/favoriteMoviesRouter.js';
 import reviewRouter from './routes/reviewsRouter.js'
+import groupRouter from './routes/groupRouter.js'
 import groupJoinRouter from './routes/groupJoinRouter.js'
+
+dotenv.config()
 
 const swaggerOptions = {
   definition: {
@@ -33,7 +36,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
-dotenv.config()
+
 
 // -- routes
 app.use('/users', usersRouter)
@@ -41,6 +44,7 @@ app.use('/api/tmdb', tmdbRouter) // url/api/tmdb
 app.use("/favorites", favoriteMoviesRouter);
 app.use('/reviews', reviewRouter)
 app.use('/groupjoin', groupJoinRouter)
+app.use('/groups', groupRouter)
 
 if (process.env.NODE_ENV === "development") {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)))
