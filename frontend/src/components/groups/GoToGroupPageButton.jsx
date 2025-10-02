@@ -1,6 +1,7 @@
-import {React, useState} from 'react'
+import {React, useState, useEffect } from 'react'
 import { useUser } from '../../context/UseUser'
 import { Link } from 'react-router-dom'
+
 
 export default function GoToGroupPageButton(groupid) {
     const [accessGranted, setAccessGranted] = useState(false)
@@ -15,6 +16,10 @@ export default function GoToGroupPageButton(groupid) {
     const cancelRequest = () => {
         console.log(`canceling request to join group ${groupid.groupid}`)
     }
+
+    useEffect(() =>{
+        
+    }, [])
 
     return (
         <div>

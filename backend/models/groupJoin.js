@@ -82,6 +82,10 @@ const queryGetRequestsFromAccountID = async (accountid) => {
   );
 };
 
+const queryRequestByAccountIdAndGroup = async ( groupid, accountid) => {
+  return await pool.query(`SELECT * FROM group_join_requests WHERE fk_groupid = $1 AND fk_accountid = $2`, [groupid, accountid])
+}
+
 const queryDeleteSentRequest = async (groupid, userid) => {
   return await pool.query(
     "DELETE FROM group_join_requests \
@@ -124,6 +128,7 @@ export {
   queryInsertJoinRequest,
   queryPendingUsersWithOwnerID,
   queryGetRequestsFromAccountID,
+  queryRequestByAccountIdAndGroup,
   queryDeleteSentRequest,
   queryAcceptJoinRequest,
   queryDenyJoinRequest,
