@@ -54,10 +54,15 @@ const accountSignIn = async (req, res, next) => {
                 return next(error)
             }
 
-            const token = sign({ account: dbUser.email }, process.env.JWT_SECRET_KEY)
+            const token = sign({ 
+                id: dbUser.accountid,
+                account: dbUser.email,
+                username: dbUser.username 
+            }, process.env.JWT_SECRET_KEY)
             res.status(200).json({
                 id: dbUser.accountid,
                 email: dbUser.email,
+                username: dbUser.username,
                 token
             })
         })
