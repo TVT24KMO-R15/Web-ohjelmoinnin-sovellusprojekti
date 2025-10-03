@@ -11,7 +11,7 @@ export default function GroupSearchRow(group) {
     <div className='reviewborder'>
       <h3>{group.group.groupname}</h3>
       <p>{group.group.groupdescription}</p>
-      <GoToGroupPageButton groupid={group.group.groupid} key={`k${group.group.groupid}`}/>
+      <GoToGroupPageButton group={group.group} key={`k${group.group.groupid}`}/>
     </div>
   )
 }

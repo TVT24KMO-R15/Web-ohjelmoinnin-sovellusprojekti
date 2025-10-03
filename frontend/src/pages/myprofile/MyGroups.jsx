@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from 'react'
 import GoToGroupPageButton from '../../components/groups/GoToGroupPageButton'
 import { Link } from 'react-router-dom'
+import MyOwnGroups from '../../components/myprofile/MyOwnGroups'
 
 import { useUser } from '../../context/UseUser'
 import axios from 'axios'
@@ -43,7 +44,11 @@ export default function MyGroups() {
     }
 
     return (
-        <div>
+        <div className='mygroupsdiv'>
+            <div>
+                <h2>My Own Groups</h2>
+                <MyOwnGroups />
+            </div>
             {(groups.length != 0) ?
                 <div>
                     <h2>My Groups</h2>
@@ -63,7 +68,7 @@ export default function MyGroups() {
                     {pendingRequests.map(item => (
                         <div className='reviewborder' key={item.groupid}>
                             <h3>{item.groupname}</h3>
-                            <GoToGroupPageButton groupid={item.groupid} />
+                            <GoToGroupPageButton group={item} />
                         </div>
                     ))}
                 </div> :

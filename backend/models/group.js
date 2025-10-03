@@ -20,6 +20,10 @@ const queryGroupBySearchWord = async (word) => {
     return await pool.query(`SELECT * FROM groups WHERE groupname ILIKE $1`, ['%' + word + '%'])
 }
 
+const queryGroupByOwnerId = async (ownerid) => {
+    return await pool.query(`SELECT * FROM groups WHERE fk_ownerid = $1`, [ownerid])
+}
+
 const queryUpdateGroup = async (groupid, ownerid, groupname, groupdescription)=> {
     return await pool.query(`UPDATE "groups"
 SET fk_ownerid = $2, groupname = $3, groupdescription = $4
@@ -31,4 +35,4 @@ const queryDeleteGroup = async (groupid, ownerid) => {
     return await pool.query(`DELETE FROM groups WHERE groupid=$1 AND fk_ownerid=$2 RETURNING *`, [groupid, ownerid])
 }
 
-export { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryPostGroup, queryDeleteGroup, queryUpdateGroup }
+export { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup }

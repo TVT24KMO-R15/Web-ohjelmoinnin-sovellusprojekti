@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react'
 import axios from 'axios'
 import { useUser } from '../../context/UseUser'
 import { Link } from 'react-router-dom'
+import MyOwnGroupsPreview from './MyOwnGroupsPreview'
 
 
 export default function MyGroupsPreview() {
@@ -35,18 +36,21 @@ export default function MyGroupsPreview() {
 
         <div>
             <Link className='popularmovielink' to={'/myaccount/mygroups'}><h2>My Groups</h2></Link>
+            <MyOwnGroupsPreview />
+            <h4>Other Groups</h4>
             {(groups.length == 0) ? (
-                <div>No Groups... yet!</div>
+                <div>You Don't Have Access To Any Groups</div>
             ):
             <>
+            
             {(groups.slice(0,5).map(item => (
-                <div key={item.groupid}>
+                <div className='mygroupspreviewdiv' key={item.groupid}>
                     <Link key={item.groupid} className='popularmovielink' to={`/groups/${item.groupid}`}><h3 key={item.groupname}>{item.groupname}</h3></Link>
                 </div>
             )))}
-                <Link to='./mygroups' className='linkseeall'>See all</Link>
+                
             </>}
-            
+            <Link to='./mygroups' className='linkseeall'>See all</Link>
         </div>
     )
 }

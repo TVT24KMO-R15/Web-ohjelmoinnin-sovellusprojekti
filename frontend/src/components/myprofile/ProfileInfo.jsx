@@ -40,12 +40,14 @@ export default function ProfileInfo() {
             <p id='registerationdate'>{accountData.registrationDate.substring(0, 10)}</p>
           </li>
         </ul>
-        <button className='deletebutton' onClick={() => setChangePasswordOpen(true)}>Change Password</button>
-        <button className='deletebutton' onClick={() => setDeleteUserOpen(true)}>Delete User</button>
-        {changePasswordOpen && <ChangePassword 
-        onClose={() => setChangePasswordOpen(false)} 
-        username={accountData.username}/>}
-        
+        <div className='profilebuttons'>
+          <button className='deletebutton' onClick={() => setChangePasswordOpen(true)}>Change Password</button>
+          <button className='deletebutton' onClick={() => setDeleteUserOpen(true)}>Delete User</button>
+        </div>
+        {changePasswordOpen && <ChangePassword
+          onClose={() => setChangePasswordOpen(false)}
+          username={accountData.username} />}
+
         {deleteUserOpen && <DeleteUser
           onClose={() => setDeleteUserOpen(false)}
           email={account.user.email}
