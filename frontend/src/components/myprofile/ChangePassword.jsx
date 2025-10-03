@@ -34,8 +34,9 @@ export default function ChangePassword({ onClose, username }) {
                 .then(response => {
                     console.log(response)
                     if (response.status == 200) {
-                        alert('Password changed successfully.');
-                        onClose()
+                        alert('Password changed successfully. Logging out...');
+                        sessionStorage.removeItem('user');
+                        window.location = '/';
                     }
 
                 }).catch(error => {
