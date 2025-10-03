@@ -42,4 +42,15 @@ const queryDeleteReview = async (reviewid) => {
     return await pool.query(`DELETE FROM review WHERE reviewid = $1`, [reviewid])
 }
 
-export { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview , queryDeleteReview }
+const queryReviewsPageAmount = async () => {
+    return await pool.query(`SELECT CEIL(COUNT(*) / 5.0) AS pageamount FROM review`)
+}
+
+const queryAllReviewsPages = async ( page ) => {
+    const limit = 5
+    const offset = (page - 1) * limit
+    console.log("limit: " + limit + ", offset: " + offset)
+    return await pool.query(`SELECT * FROM review ORDER BY reviewdate DESC LIMIT $1 OFFSET $2`, [limit, offset])
+}
+
+export { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview , queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages }

@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryDeleteReview } from "../models/reviews.js";
+import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -115,4 +115,25 @@ const deleteReview = async (req, res, next) => {
     }
 }
 
-export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, putReview, deleteReview }
+const getPageAmount = async (req, res, next) => {
+    // console.log("getting page amount")
+    try {
+        const result = await queryReviewsPageAmount()
+        return res.status(200).json(result.rows[0])
+    } catch (error) {
+        return next (error)
+    }
+}
+
+const getAllReviewsPages = async (req, res, next) => {
+    console.log("getting all reviews page: " + req.params.page)
+    try {
+        const result = await queryAllReviewsPages(req.params.page)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next (error)
+    }
+}
+
+
+export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, putReview, deleteReview, getAllReviewsPages, getPageAmount }

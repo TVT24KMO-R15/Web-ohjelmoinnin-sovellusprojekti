@@ -3,20 +3,45 @@ import { Link } from 'react-router-dom'
 import AccountEmailById from '../components/common/AccountEmailById'
 import './Reviews.css'
 import noPoster from '../assets/noPoster.png'
+import Pagination from '../components/search/Pagination'
 
 export default function Reviews() {
   const [reviewsWithDetails, setReviewsWithDetails] = useState([])
   const [filter, setFilter] = useState({ stars: '', orderby: 'date' })
   const [loading, setLoading] = useState(true)
+  const [totalPages, setTotalPages] = useState(1) // how many pages of reviews are there
+  const [currentPage, setCurrentPage] = useState(1) // which page of reviews is currently shown
 
   const handleChange = (e) => {
     setFilter({ ...filter, [e.target.name]: e.target.value })
   }
 
+  const getPageCount = async () => { // get total amount of pages from backend
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/reviews/pageamount`)
+      const data = await res.json()
+      // console.log("fetched page amount", data.pageamount)
+      setTotalPages(data.pageamount || 1)
+    } catch (err) {
+      console.error('Failed to fetch page amount:', err)
+      setTotalPages(1)
+    }
+  }
+
+  const handlePageChange = (newPage) => { // update current page when pagination is used
+    // console.log("handlePageChange called: page changed to: " + newPage)
+    setCurrentPage(newPage) // set the current page to pagination selection, which makes a new axios request with page number change 
+  }
+
+  useEffect(() => {
+    getPageCount()
+  }, [])
+
+
   useEffect(() => {
     (async () => {
       try {
-        const reviewsRes = await fetch(`${import.meta.env.VITE_API_URL}/reviews/all`)
+        const reviewsRes = await fetch(`${import.meta.env.VITE_API_URL}/reviews/frompage/${currentPage}`)
         const reviews = await reviewsRes.json()
 
         if (!reviews?.length) {
@@ -53,7 +78,7 @@ export default function Reviews() {
         setLoading(false)
       }
     })()
-  }, [])
+  }, [currentPage])
 
   if (loading) return <div>Loading...</div>
 
@@ -161,6 +186,7 @@ export default function Reviews() {
             </article>
           ))
         )}
+        <Pagination currentPage={currentPage} totalPages={Math.ceil(totalPages)} onPageChange={handlePageChange} />
       </div>
     </div>
   )
