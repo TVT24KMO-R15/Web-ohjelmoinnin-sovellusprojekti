@@ -1,5 +1,12 @@
 // for all group posts http endpoints
-import { queryPostGroupPost, queryAllGroupPosts, queryGroupPostsByGroupId, queryUpdateGroupPost, queryDeleteGroupPost } from "../models/groupPosts.js";
+import {
+    queryPostGroupPost,
+    queryAllGroupPosts,
+    queryGroupPostsByGroupId,
+    queryGroupPostsByPostId,
+    queryUpdateGroupPost,
+    queryDeleteGroupPost
+} from "../models/groupPosts.js";
 
 const getAllGroupPosts = async (req, res, next) => {
     try {
@@ -21,6 +28,21 @@ const getGroupPostsByGroupId = async (req, res, next) => {
             error.status = 404
             return next(error)
         }
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next(error)
+    }
+}
+const getGroupPostsByPostId = async (req, res, next) => {
+        try {
+        const postId = req.params.id;    
+        console.log(`Getting Group posts with postid: ${postId}`)
+        const result = await queryGroupPostsByPostId(postId)
+        if (result.rowCount === 0) {
+            const error = new Error('Post not found')
+            error.status = 404
+            return next(error)
+        }
         return res.status(200).json(result.rows[0])
     } catch (error) {
         return next(error)
@@ -28,20 +50,51 @@ const getGroupPostsByGroupId = async (req, res, next) => {
 }
 
 const postGroupPost = async (req, res, next) => {
+    
+      try {
+        const { postid, groupid, posttext, movieid } = req.body.groupposts;
 
-    const result = await queryPostGroupPost(postid, groupid, posttext, movieid);
+        const result = await queryPostGroupPost(postid, groupid, posttext, movieid);
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 }
 
 const updateGroupPost = async (req, res, next) => {
-
-    const result = await queryUpdateGroupPost(postid, groupid, posttext, movieid);
-}
+    try {
+        const postid = req.params.id
+        if (!req.body.groupposts) {
+            return res.status(400).json({ error: "Missing 'groupposts' object in request body" });
+        }
+        const { posttext, movieid, groupid } = req.body.groupposts;
+        const result = await queryUpdateGroupPost(postid, groupid, posttext, movieid);
+         res.status(200).json({ id: groupid, message: "Group post updated successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+    }
 
 const deleteGroupPost = async (req, res, next) => {
+      try {
+        const postid = req.params.id;
 
-    const result = await queryDeleteGroupPost(postid, );
+        const existingPost = await queryGroupB(postid);
+        if (existingPost.rowCount === 0) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+        // Delete the group
+        const result = await queryDeleteGroupPost(postid);
+        res.status(200).json({ message: "Group post deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 }
-
 export{
-    getAllGroupPosts, getGroupPostsByGroupId, postGroupPost, updateGroupPost, deleteGroupPost
+    getAllGroupPosts, 
+    getGroupPostsByGroupId, 
+    getGroupPostsByPostId, 
+    postGroupPost, 
+    updateGroupPost, 
+    deleteGroupPost
 }

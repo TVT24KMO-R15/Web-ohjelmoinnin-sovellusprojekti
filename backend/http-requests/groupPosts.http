@@ -1,29 +1,38 @@
+### GROUP POSTS CRUD OPERATIONS ###
 
-### GROUPPOST CRUD OPERATIONS ###
-
-### Get All Group posts
+### Get All Group Posts
 GET http://localhost:3000/groupposts/
 
-### Get Group posts by groupId
-GET http://localhost:3000/groupposts/1
+### Get Group Posts by Group ID
+GET http://localhost:3000/groupposts/groupid/1
 
-### Create a New Group post
+### Get Group Posts by Post ID
+GET http://localhost:3000/groupposts/postid/1
+
+### Create Group Post
 POST http://localhost:3000/groupposts/post
 Content-Type: application/json
 
 {
- 
+    "groupposts": {
+        "postid": 1,
+        "groupid": 1,
+        "posttext": "Suosittelen tätä leffaa",
+        "movieid": null
+    }
 }
 
-### Update a Group post
+### Update Group Post
 PUT http://localhost:3000/groupposts/update/1
 Content-Type: application/json
-Authorization: 
 
 {
-
+    "groupposts": {
+        "posttext": "Päivitetty teksti",
+        "movieid": null,
+        "groupid": 1
+    }
 }
 
-### Delete a Group post
+### Delete Group Post
 DELETE http://localhost:3000/groupposts/delete/1
-Authorization: 

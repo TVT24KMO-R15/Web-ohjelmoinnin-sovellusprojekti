@@ -2,12 +2,10 @@
 
 import { pool } from "../helpers/dbHelper.js"
 
-
-
+// TODO: Add Finnkino times to DB or provide parameters for Finnkino API to save FinnkinoTimes
 const queryPostGroupPost = async (postid, groupid, posttext, movieid) => {
     return await pool.query(`INSERT INTO "groupposts" (postid, fk_groupid, posttext, movieid) VALUES ($1, $2, $3, $4) RETURNING *`,
         [postid, groupid, posttext, movieid]
-        /* , finnkinoShowtime */
     )
 }
 
@@ -18,16 +16,25 @@ const queryAllGroupPosts = async () => {
 const queryGroupPostsByGroupId = async (groupId) => {
     return await pool.query(`SELECT * FROM "groupposts" WHERE fk_groupid = $1`, [groupId])
 }
+const queryGroupPostsByPostId = async (postId) => {
+    return await pool.query(`SELECT * FROM "groupposts" WHERE postid = $1`, [postId])
+}
+
 
 const queryUpdateGroupPost = async (postid, groupid, posttext, movieid)=> {
-    return await pool.query(`UPDATE "groupsposts"
-SET postid = $1, groupid = $2, posttext = $2, movieid = $2
-WHERE postid = $2 RETURNING *`, [postid, groupid, posttext, movieid]
+    return await pool.query(`UPDATE "groupposts"
+SET postid = $1, groupid = $2, posttext = $3, movieid = $4
+WHERE postid = $1 RETURNING *`, [postid, groupid, posttext, movieid]
     )
 }
 
 const queryDeleteGroupPost = async (postid) => {
-    return await pool.query(`DELETE FROM groupposts WHERE postid=$1 RETURNING *`, [postid])
+    return await pool.query(`DELETE FROM "groupposts" WHERE postid=$1 RETURNING *`, [postid])
 }
 
-export { queryPostGroupPost, queryAllGroupPosts, queryGroupPostsByGroupId, queryUpdateGroupPost, queryDeleteGroupPost }
+export { queryPostGroupPost, 
+    queryAllGroupPosts, 
+    queryGroupPostsByGroupId, 
+    queryGroupPostsByPostId, 
+    queryUpdateGroupPost, 
+    queryDeleteGroupPost }
