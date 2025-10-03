@@ -8,6 +8,3 @@ ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
 REFERENCES public.account (accountid) MATCH SIMPLE
 ON UPDATE NO ACTION
 ON DELETE CASCADE;
-
--- Make it not null (after adding the column, you might need to update existing records first)
--- ALTER TABLE public.groupposts ALTER COLUMN fk_accountid SET NOT NULL;
