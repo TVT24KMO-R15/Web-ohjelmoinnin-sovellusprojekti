@@ -4,6 +4,7 @@ import GroupSearchRow from './GroupSearchRow'
 import axios from "axios"
 import './GroupSearch.css'
 
+
 export default function GroupSearch() {
     const [searchWord, setSearchWord] = useState('')
     const [searchToggle, setSearchToggle] = useState(false)
@@ -83,6 +84,7 @@ export default function GroupSearch() {
 
                     <button onClick={handleSearch} id='searchBtn'>Search</button>
                 </form>
+                
             </div>
             {groups.length == 0 ? (<div>No Groups Found</div>) : (
                 <div>

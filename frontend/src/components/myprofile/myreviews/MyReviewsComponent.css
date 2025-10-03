@@ -39,6 +39,12 @@
     border-color: var(--color-primary-hover);
 }
 
+.deletebutton:disabled {
+    background-color: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+}
+
 .reviewImageDiv {
     display: inline;
     flex: 15%;
