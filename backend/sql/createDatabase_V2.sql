@@ -46,7 +46,8 @@ CREATE TABLE IF NOT EXISTS public.groups
     groupid serial,
     fk_ownerid integer NOT NULL,
     groupname character varying(32) NOT NULL,
-    groupdescription text,
+    groupdescription character varying(255) NOT NULL,
+    creation_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
     PRIMARY KEY (groupid),
     CONSTRAINT "UniqueGroupNamesOnly" UNIQUE (groupname)
 );
