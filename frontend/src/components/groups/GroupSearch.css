@@ -1,0 +1,21 @@
+@import "../../global.css";
+
+.gotogrouplink {
+    text-decoration: none;
+    color: black;
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    margin-top: 0.5em;
+    
+}
+
+.gotogrouplinkborder{
+    padding: 1em;
+    display: inline;
+}
+
+.requeststatusmessage {
+    margin-top: 2em;
+    margin-left: 1em;
+    min-width: 220px;
+}

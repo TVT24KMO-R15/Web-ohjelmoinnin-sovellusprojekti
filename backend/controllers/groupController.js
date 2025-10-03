@@ -1,5 +1,5 @@
 // for all group table http endpoints
-import { queryAllGroups, queryGroupById, queryPostGroup, queryDeleteGroup, queryUpdateGroup } from "../models/group.js";
+import { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup } from "../models/group.js";
 
 const postGroup= async (req, res, next) => {
    try {
@@ -67,6 +67,42 @@ const getGroupById = async (req, res, next) => {
     }
 }
 
+const getGroupByOwnerId = async (req, res, next) => {
+    const { ownerid } = req.params
+
+    try {
+        console.log(`getting groups by owner: ${ownerid}`)
+        const result = await queryGroupByOwnerId(ownerid)
+        if (result.rowCount === 0) {
+            const error = new Error('Groups not found')
+            error.status = 404
+            return next(error)
+        }
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const getGroupBySearchWord = async (req, res, next) => {
+    const { word } = req.params
+
+    try {
+        console.log(`Searching for group named: ${word}`)
+        const result = await queryGroupBySearchWord(word)
+        
+        if (result.rowCount === 0) {
+            const error = new Error('Group not found')
+            error.status = 404
+            return next(error)
+        }
+        return res.status(200).json(result.rows)
+
+    } catch (error) {
+        return next(error)
+    }
+}
+
 const deleteGroup = async (req, res, next) => {
     try {
         const ownerId = req.user.id;
@@ -89,7 +125,7 @@ const deleteGroup = async (req, res, next) => {
     }
 }
 export{
-    postGroup, getAllGroups, getGroupById, updateGroup, deleteGroup
+    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup
 }
 
 

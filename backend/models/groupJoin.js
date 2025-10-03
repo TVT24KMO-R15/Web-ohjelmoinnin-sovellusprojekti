@@ -67,20 +67,27 @@ const queryInsertJoinRequest = async (groupid, accountid) => {
   );
 };
 
+
+//removed from the end: AND status='pending'
 const queryGetRequestsFromAccountID = async (accountid) => {
   return await pool.query(
     "SELECT \
+      g.groupid, \
       g.groupname, \
       gjr.requestdate, \
       gjr.status \
     FROM \
       group_join_requests AS gjr \
     JOIN public.groups g on gjr.fk_groupid = g.groupid \
-    WHERE fk_accountid=$1 AND status='pending'; \
+    WHERE fk_accountid=$1 ; \
     ",
     [accountid]
   );
 };
+
+const queryRequestByAccountIdAndGroup = async ( groupid, accountid) => {
+  return await pool.query(`SELECT * FROM group_join_requests WHERE fk_groupid = $1 AND fk_accountid = $2`, [groupid, accountid])
+}
 
 const queryDeleteSentRequest = async (groupid, userid) => {
   return await pool.query(
@@ -124,6 +131,7 @@ export {
   queryInsertJoinRequest,
   queryPendingUsersWithOwnerID,
   queryGetRequestsFromAccountID,
+  queryRequestByAccountIdAndGroup,
   queryDeleteSentRequest,
   queryAcceptJoinRequest,
   queryDenyJoinRequest,

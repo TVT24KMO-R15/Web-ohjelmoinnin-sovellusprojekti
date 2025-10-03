@@ -3,6 +3,7 @@ import {
   queryRequestsForGroup,
   queryPendingUsersWithOwnerID,
   queryGetRequestsFromAccountID,
+  queryRequestByAccountIdAndGroup,
   queryDeleteSentRequest,
   queryAcceptJoinRequest,
   queryDenyJoinRequest,
@@ -81,6 +82,29 @@ const getPendingRequestsAsUser = async (req, res, next) => {
   }
 };
 
+
+const getRequestsByUserAndGroup = async (req, res, next) => {
+  const groupid = req.params.groupid;
+  const accountid = req.params.accountid;
+  console.log('getting group join request for user: ' + accountid + ' for group: ' + groupid)
+  if (!groupid || !accountid) {
+    return res.status(404).json({ error: "accountid and groupid required" });
+  }
+
+  try {
+    const result = await queryRequestByAccountIdAndGroup(groupid, accountid)
+    if (result.rows.length === 0) {
+      return res.status(200).json({ result: "No join request found for group " + groupid + " for user " + accountid });
+    }
+    console.log("Found join request for group "+ groupid + " for account " + accountid + " with status " + result.rows[0].status)
+    return res.status(200).json({ result: result.rows });
+
+  } catch (error) {
+    return next(error)
+  }
+}
+
+
 const removeSentRequest = async (req, res, next) => {
   console.log("trying to remove sent request")
   if (!req.params.accountid || !req.params.groupid) {
@@ -91,7 +115,7 @@ const removeSentRequest = async (req, res, next) => {
   const groupid = req.params.groupid;
 
   try {
-    const result = await queryDeleteSentRequest(accountid, groupid);
+    const result = await queryDeleteSentRequest( groupid, accountid);
     if (result.rowCount === 1) {
       console.log("deleted join request into group ", groupid, " by account: ", accountid);
       return res.status(200).json({ status: "Join request deleted" });
@@ -149,7 +173,7 @@ const denyJoinRequest = async (req, res, next) => {
 };
 
 
-export { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, removeSentRequest, acceptJoinRequest, denyJoinRequest };
+export { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, acceptJoinRequest, denyJoinRequest };
 
 
 /*

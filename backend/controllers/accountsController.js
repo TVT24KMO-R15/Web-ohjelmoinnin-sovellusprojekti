@@ -1,5 +1,5 @@
 // for all account table http endpoints
-import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount } from "../models/account.js"
+import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 
@@ -11,17 +11,17 @@ const getAllAccounts = async (req, res, next) => {
         console.log("get all accounts")
         return res.status(200).json(result.rows || [])
     } catch (error) {
-        return next (error) // send error to middleware in index.js
+        return next(error) // send error to middleware in index.js
     }
 }
 
 const getAccountById = async (req, res, next) => {
     try {
         const result = await selectAccountById(req.params.accountid)
-        console.log('get details for account: '+ req.params.accountid)
+        console.log('get details for account: ' + req.params.accountid)
         return res.status(200).json(result.rows || [])
     } catch (error) {
-        return next (error)
+        return next(error)
     }
 }
 
@@ -67,7 +67,7 @@ const accountSignIn = async (req, res, next) => {
             })
         })
 
-        
+
 
     } catch (error) {
         return next(error)
@@ -90,7 +90,7 @@ const postRegister = async (req, res, next) => {
     console.log("register endpoint called succesfully")
     const { account } = req.body
 
-    try { 
+    try {
         if (!account || !account.email || !account.password || !account.username) {
             return next(new Error("Email, username and password are required"))
         }
@@ -98,14 +98,14 @@ const postRegister = async (req, res, next) => {
         const hashedPassword = await hash(account.password, 10)
         // query result contains: accountid, username, email, password and registrationDate
         const result = await sendSignUp(account.email, hashedPassword, account.username)
-        
+
         res.status(201).json({
-            id: result.rows[0].accountid, 
+            id: result.rows[0].accountid,
             email: account.email,
             username: account.username
         })
-    console.log("Registered successfully")
-    } catch  (error) {
+        console.log("Registered successfully")
+    } catch (error) {
         console.log("ERROR: backend/controllers/accountsController.js caught exception")
         return next(error)
     }
@@ -144,7 +144,7 @@ const postDelete = async (req, res, next) => {
         const resultDBPassword = await getPasswordByID(accountID)
         // console.log("reult from db query get passwd by id: ")
         // console.log(resultDBPassword)
-        
+
         if (resultDBPassword.rows.length === 0 || !resultDBPassword.rows[0]) {
             const error = new Error('Couldnt get dbPassword for account deletion')
             error.status = 404
@@ -154,8 +154,8 @@ const postDelete = async (req, res, next) => {
 
 
         // when deleting account, check that password from user input and database match
-        const isMatch = await compare (account.password, dbPassword)
-        
+        const isMatch = await compare(account.password, dbPassword)
+
         if (!isMatch) {
             const error = new Error('Passwords do not match, cant delete account')
             error.status = 401
@@ -167,14 +167,78 @@ const postDelete = async (req, res, next) => {
             console.log("deleting account with id: " + accountID)
             const result = await deleteAccount(accountID)
             res.status(200).json({
-                status: "success" 
+                status: "success"
             })
         }
 
     } catch (error) {
         console.log("postDelete in accountsController.js throwing error")
-        return next (error)
+        return next(error)
     }
 }
 
-export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete }
+/* USAGE:
+PUT http://localhost:3000/users/updatepassword
+    { "account": 
+        {
+            "email": "x",
+            "username": "z",
+            "password": "y",
+            "newPassword": "z"
+        }
+    }
+    ^^ these parameters should come from frontend when a user requests password change, ask for password verification?
+*/
+
+const putAccountPassword = async (req, res, next) => {
+    try {
+        const { account } = req.body
+
+        const resultAccountID = await getAccountIDByUsernameEmail(account.username, account.email)
+        // console.log("result account id ")
+        // console.log(resultAccountID)
+        // if result has nothing, logging empty resultAccountID: rows: [],
+        if (!resultAccountID.rows[0]) {
+            const error = new Error(`Couldnt get accountID with username ${account.username} and email ${account.email}`)
+            error.status = 404
+            return next(error)
+        }
+
+        const accountID = resultAccountID.rows[0].accountid
+
+        const resultDBPassword = await getPasswordByID(accountID)
+
+        if (resultDBPassword.rows.length === 0 || !resultDBPassword.rows[0]) {
+            const error = new Error('Couldnt get dbPassword for password update')
+            error.status = 404
+            return next(error)
+        }
+
+        const dbPassword = resultDBPassword.rows[0].password
+
+        // when updating password, check that password from user input and database match
+        const isMatch = await compare(account.password, dbPassword)
+
+        if (!isMatch) {
+            const error = new Error('Passwords do not match, cant update password')
+            error.status = 401
+            return next(error)
+        }
+
+        // point of no return
+        if (isMatch) {
+            console.log("changing password for account with id: " + accountID)
+            const hashedPassword = await hash(account.newPassword, 10)
+
+            const result = await updatePassword(accountID, hashedPassword)
+            res.status(200).json({
+                status: "success"
+            })
+        }
+    } catch (error) {
+        console.log("putAccountPassword in accountsController.js throwing error")
+        return next(error)
+    }
+}
+
+export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete, putAccountPassword }

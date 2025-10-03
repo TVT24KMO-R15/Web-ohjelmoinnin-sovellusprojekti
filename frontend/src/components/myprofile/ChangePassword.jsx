@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import { useUser } from '../../context/UseUser';
 import axios from 'axios';
 
-export default function ChangePassword({ onClose }) {
+export default function ChangePassword({ onClose, username }) {
     const account = useUser()
     const [newUser, setNewUser] = useState({ password: '', newPassword1: '', newPassword2: '' })
     const [errorMessage, setErrorMessage] = useState('');
@@ -19,17 +19,29 @@ export default function ChangePassword({ onClose }) {
         e.preventDefault();
 
         if (!newUser.password || !newUser.newPassword1 || !newUser.newPassword2) {
-        setErrorMessage('All fields are required for registration.');
-        return;
-      } else if (newUser.newPassword1 != newUser.newPassword2) {
-        setErrorMessage('New passwords are not the same');
-        return;
-      }
-    
+            setErrorMessage('All fields are required for registration.');
+            return;
+        } else if (newUser.newPassword1 != newUser.newPassword2) {
+            setErrorMessage('New passwords are not the same');
+            return;
+        }
+
 
         try {
-            const payload = ''
+            const payload = { account: { email: account.user.email, username: username, password: newUser.password, newPassword: newUser.newPassword1 } }
             console.log(payload)
+            axios.put(import.meta.env.VITE_API_URL + `/users/updatepassword`, payload)
+                .then(response => {
+                    console.log(response)
+                    if (response.status == 200) {
+                        alert('Password changed successfully. Logging out...');
+                        sessionStorage.removeItem('user');
+                        window.location = '/';
+                    }
+
+                }).catch(error => {
+                    setErrorMessage('Something went wrong');
+                })
 
 
         } catch (error) {
