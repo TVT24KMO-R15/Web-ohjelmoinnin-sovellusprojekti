@@ -3,6 +3,8 @@ import GoToGroupPageButton from '../../components/groups/GoToGroupPageButton'
 import { Link } from 'react-router-dom'
 import MyOwnGroups from '../../components/myprofile/MyOwnGroups'
 
+import ProtectedRoute from '../../components/common/ProtectedRoute'
+
 import { useUser } from '../../context/UseUser'
 import axios from 'axios'
 
@@ -34,17 +36,18 @@ export default function MyGroups() {
             setLoading(false))
     }, [])
 
-    if (loading) { return (<div>Loading...</div>) }
+    if (loading) { return (<div><ProtectedRoute />Loading...</div>) }
 
     if (groups.length == 0 && pendingRequests.length == 0) {
-        return (<div>
+        return (<div><ProtectedRoute />
             <h2>Why is it so empty here?</h2>
             <h3>Go to <Link to={'/groups'}>Groups</Link> to get started!</h3>
         </div>)
     }
 
     return (
-        <div className='mygroupsdiv'>
+        
+        <div className='mygroupsdiv'><ProtectedRoute />
             <div>
                 <h2>My Own Groups</h2>
                 <MyOwnGroups />

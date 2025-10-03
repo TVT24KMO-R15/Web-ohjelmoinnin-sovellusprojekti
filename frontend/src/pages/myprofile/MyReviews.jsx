@@ -3,6 +3,7 @@ import MyReviewsComponent from '../../components/myprofile/myreviews/MyReviewsCo
 import { useUser } from '../../context/UseUser'
 import axios from 'axios'
 import PostReview from '../../components/singlemovie/PostReview'
+import ProtectedRoute from '../../components/common/ProtectedRoute'
 
 export default function MyReviews() {
   const account = useUser()
@@ -48,7 +49,7 @@ export default function MyReviews() {
   }
 
   return (
-    <div>
+    <div><ProtectedRoute />
       <h2>My Reviews</h2>
       {reviews.map(item =>
       (<div className='reviewborder'>
