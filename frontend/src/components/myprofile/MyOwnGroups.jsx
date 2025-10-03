@@ -39,9 +39,9 @@ export default function MyOwnGroups() {
                         <div className='reviewborder'>
 
 
-                            <p key={item.groupid}>
+                            <div key={item.groupid}>
                                 <Link key={item.groupid} className='popularmovielink' to={`/groups/${item.groupid}`}><h3 key={item.groupname}>{item.groupname}</h3></Link>
-                            </p>
+                            </div>
                         </div>
                     )))}
 

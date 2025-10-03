@@ -40,9 +40,9 @@ export default function MyOwnGroupsPreview() {
 
 
                         {(groups.slice(0, 5).map(item => (
-                            <p key={item.groupid}>
+                            <div key={item.groupid}>
                                 <Link key={item.groupid} className='popularmovielink' to={`/groups/${item.groupid}`}><h3 key={item.groupname}>{item.groupname}</h3></Link>
-                            </p>
+                            </div>
 
                         )))}
                     </div>
