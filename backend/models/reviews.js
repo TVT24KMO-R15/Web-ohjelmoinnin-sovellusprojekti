@@ -2,6 +2,8 @@
 
 import { pool } from "../helpers/dbHelper.js"
 
+const maxResultsPerPage = 10
+
 const queryAllReviews = async () => {
     return await pool.query(`SELECT * FROM review ORDER BY reviewdate DESC`)
 }
@@ -47,10 +49,39 @@ const queryReviewsPageAmount = async () => {
 }
 
 const queryAllReviewsPages = async ( page ) => {
-    const limit = 5
-    const offset = (page - 1) * limit
-    console.log("limit: " + limit + ", offset: " + offset)
-    return await pool.query(`SELECT * FROM review ORDER BY reviewdate DESC LIMIT $1 OFFSET $2`, [limit, offset])
+    const offset = (page - 1) * maxResultsPerPage
+    console.log("limit: " + maxResultsPerPage + ", offset: " + offset)
+    return await pool.query(`SELECT * FROM review ORDER BY reviewdate DESC LIMIT $1 OFFSET $2`, [maxResultsPerPage, offset])
 }
 
-export { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview , queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages }
+const queryFilteredReviewsPages = async (page, stars, orderby) => {
+    const offset = (page - 1) * maxResultsPerPage
+    let query = `SELECT * FROM review` // base query
+    const params = [] // create params array for building a query
+        if (stars) { // if using star filter
+        query += ` WHERE stars = $1` // set 
+        params.push(stars) // push
+    }
+    if (orderby === 'stars') { // if ordering by stars
+        query += ` ORDER BY stars DESC, reviewdate DESC` // add query
+    } else {
+        query += ` ORDER BY reviewdate DESC` // default ordering
+    }
+    query += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}` // limit results and page offset
+    params.push(maxResultsPerPage, offset) // push
+    console.log("query: " + query + ", params: " + params)
+    return await pool.query(query, params)
+}
+
+const queryFilteredReviewsPageAmount = async (stars) => {
+    let query = `SELECT CEIL(COUNT(*) / 5.0) AS pageamount FROM review`
+    const params = []
+    if (stars) { // if using star filter
+        query += ` WHERE stars = $1` // add to query
+        params.push(stars) // push
+    }
+    console.log("query: " + query + ", placeholder values: " + params)
+    return await pool.query(query, params)
+}
+
+export { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview , queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages, queryFilteredReviewsPages, queryFilteredReviewsPageAmount }

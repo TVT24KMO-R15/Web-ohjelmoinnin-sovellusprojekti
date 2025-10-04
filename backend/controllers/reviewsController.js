@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages } from "../models/reviews.js";
+import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages, queryFilteredReviewsPages, queryFilteredReviewsPageAmount } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -135,5 +135,28 @@ const getAllReviewsPages = async (req, res, next) => {
     }
 }
 
+const getFilteredReviewsPages = async (req, res, next) => {
+    const { page } = req.params
+    const { stars, orderby } = req.query
+    console.log(`CONTROLLER: getting filtered reviews - page: ${page}, stars: ${stars || 'all'}, orderby: ${orderby || 'date'}`)
+    try {
+        const result = await queryFilteredReviewsPages(page, stars, orderby)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next(error)
+    }
+}
 
-export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, putReview, deleteReview, getAllReviewsPages, getPageAmount }
+const getFilteredPageAmount = async (req, res, next) => {
+    const { stars } = req.query
+    console.log(`CONTROLLER: getting filtered page amount - stars: ${stars || 'all'}`)
+    try {
+        const result = await queryFilteredReviewsPageAmount(stars)
+        return res.status(200).json(result.rows[0])
+    } catch (error) {
+        return next(error)
+    }
+}
+
+
+export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, putReview, deleteReview, getAllReviewsPages, getPageAmount, getFilteredReviewsPages, getFilteredPageAmount }
