@@ -1,0 +1,28 @@
+{
+	"info": {
+		"_postman_id": "6976d427-fd6a-4027-a0f0-9ed340d18cbf",
+		"name": "test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40851870",
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-6976d427-fd6a-4027-a0f0-9ed340d18cbf?action=share&source=collection_link&creator=40851870"
+	},
+	"item": [
+		{
+			"name": "gettest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

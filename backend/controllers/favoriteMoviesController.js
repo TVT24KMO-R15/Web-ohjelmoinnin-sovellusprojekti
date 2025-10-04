@@ -22,13 +22,15 @@ const addFavorite = async (req, res, next) => {
 
     await pool.query(
       `INSERT INTO favoritemovies (fk_accountid, movieid)
-       VALUES ($1, $2)
-       ON CONFLICT (fk_accountid, movieid) DO NOTHING`,
+       VALUES ($1, $2)`,
       [userId, movieId]
     );
 
     res.json({ message: "Added to favorites" });
   } catch (err) {
+    if (err.code === '23505') { 
+      return res.status(400).json({ error: "Movie already in favorites" });
+    }
     next(err);
   }
 };

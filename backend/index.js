@@ -2,8 +2,6 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import swaggerJsdoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express'
 
 // -- route imports --
 import usersRouter from './routes/accountRouter.js'
@@ -12,24 +10,9 @@ import favoriteMoviesRouter from './routes/favoriteMoviesRouter.js';
 import reviewRouter from './routes/reviewsRouter.js'
 import groupRouter from './routes/groupRouter.js'
 import groupJoinRouter from './routes/groupJoinRouter.js'
+import postCommentRouter from './routes/postCommentRouter.js'
 
 dotenv.config()
-
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.3",
-    info: {
-      title: "Movie app API",
-      description: "API docs for movie app"
-    },
-    servers: [
-      {
-        url: `http://localhost:${process.env.PORT}`
-      }
-    ],
-  },
-  apis: ["./routes/*.js", "./controllers/*.js"]
-}
 
 // -- express config-- 
 const app = express()
@@ -45,10 +28,8 @@ app.use("/favorites", favoriteMoviesRouter);
 app.use('/reviews', reviewRouter)
 app.use('/groupjoin', groupJoinRouter)
 app.use('/groups', groupRouter)
+app.use('/postcomment', postCommentRouter)
 
-if (process.env.NODE_ENV === "development") {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)))
-}
 
 // -- middleware
 app.listen(process.env.PORT, () => {

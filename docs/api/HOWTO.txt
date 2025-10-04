@@ -1,0 +1,4 @@
+Create new workspace -> blank workspace -> import -> import folder -> ./api
+go to environments -> globals -> add variable base_url set value to url -> add variable token -> test login endpoint -> check token in environments/globals
+
+token auto updates when calling login endpoint in postman

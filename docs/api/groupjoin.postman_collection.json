@@ -1,0 +1,246 @@
+{
+	"info": {
+		"_postman_id": "68598dae-b4e6-4c28-8c68-b7da6c933394",
+		"name": "test213123",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40851870",
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-68598dae-b4e6-4c28-8c68-b7da6c933394?action=share&source=collection_link&creator=40851870"
+	},
+	"item": [
+		{
+			"name": "getRequestsByUserAndGroup",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}groupjoin/requeststatus/:groupid/:accountid",
+
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"requeststatus",
+						":groupid",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "groupid",
+							"value": "5"
+						},
+						{
+							"key": "accountid",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPendingRequestsAsOwner",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}groupjoin/pendingrequests/received/:ownerid",
+
+					"host": [
+						"{{base_url}}"
+					],
+					
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"received",
+						":ownerid"
+					],
+					"variable": [
+						{
+							"key": "ownerid",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPendingRequestsAsUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}groupjoin/pendingrequests/sent/:accountid",
+
+					"host": [
+						"{{base_url}}"
+					],
+					
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"sent",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sendGroupJoinRequest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}groupjoin/join/:accountid/:groupid",
+
+					"host": [
+						"{{base_url}}"
+					],
+					
+					"path": [
+						"groupjoin",
+						"join",
+						":accountid",
+						":groupid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "5"
+						},
+						{
+							"key": "groupid",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeSentJoinRequest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"groupid\" : 5,\r\n    \"accountid\" : 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}groupjoin/pendingrequests/remove/:userid/:groupid",
+
+					"host": [
+						"{{base_url}}"
+					],
+					
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"remove",
+						":userid",
+						":groupid"
+					],
+					"variable": [
+						{
+							"key": "userid",
+							"value": "5"
+						},
+						{
+							"key": "groupid",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rejectPendingRequest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"groupid\" : 5,\r\n    \"accountid\" : 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}groupjoin/pendingrequests/reject/:requestid",
+
+					"host": [
+						"{{base_url}}"
+					],
+					
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"reject",
+						":requestid"
+					],
+					"variable": [
+						{
+							"key": "requestid",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acceptPendingRequest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"groupid\" : 5,\r\n    \"accountid\" : 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}groupjoin/pendingrequests/accept/:requestid",
+
+					"host": [
+						"{{base_url}}"
+					],
+					
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"accept",
+						":requestid"
+					],
+					"variable": [
+						{
+							"key": "requestid",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

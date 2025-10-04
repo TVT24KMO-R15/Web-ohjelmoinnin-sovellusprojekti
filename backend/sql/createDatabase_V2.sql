@@ -46,7 +46,8 @@ CREATE TABLE IF NOT EXISTS public.groups
     groupid serial,
     fk_ownerid integer NOT NULL,
     groupname character varying(32) NOT NULL,
-    groupdescription text,
+    groupdescription character varying(255) NOT NULL,
+    creation_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
     PRIMARY KEY (groupid),
     CONSTRAINT "UniqueGroupNamesOnly" UNIQUE (groupname)
 );
@@ -83,6 +84,10 @@ CREATE TABLE IF NOT EXISTS public.groupposts
     posttext character varying(1000),
     movieid integer,
     postdate timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
+    finnkino_original_title character varying(255),
+    finnkino_showtime timestamp without time zone,
+    finnkino_theatre_id integer,
+    finnkino_poster_url character varying(255),
     PRIMARY KEY (postid)
 );
 
@@ -102,12 +107,11 @@ DROP TABLE IF EXISTS public.grouppost_comment;
 CREATE TABLE IF NOT EXISTS public.grouppost_comment
 (
     comment_id serial,
-    comment_text text NOT NULL,
+    comment_text character varying(255) NOT NULL,
     fk_grouppost integer NOT NULL,
     comment_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
     fk_accountid integer NOT NULL,
-    CONSTRAINT commentid_pk PRIMARY KEY (comment_id),
-    CONSTRAINT one_comment_per_account_per_post UNIQUE (fk_accountid, fk_grouppost)
+    CONSTRAINT commentid_pk PRIMARY KEY (comment_id)
 );
 
 COMMENT ON TABLE public.grouppost_comment

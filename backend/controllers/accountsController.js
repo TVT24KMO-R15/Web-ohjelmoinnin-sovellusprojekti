@@ -16,6 +16,11 @@ const getAllAccounts = async (req, res, next) => {
 }
 
 const getAccountById = async (req, res, next) => {
+    if (!req.params.accountid || req.params.accountid === 'undefined') {
+        const error = new Error('Account id is required')
+        error.status = 400
+        return next(error)
+    }
     try {
         const result = await selectAccountById(req.params.accountid)
         console.log('get details for account: ' + req.params.accountid)
@@ -172,6 +177,11 @@ const postDelete = async (req, res, next) => {
         }
 
     } catch (error) {
+        if (error.message.includes("update or delete on table \"account\" violates foreign key constraint")) {
+            const error = new Error("Cannot delete account: user is owner of a group. Delete the group first.")
+            error.status = 400
+            return next(error)
+        }
         console.log("postDelete in accountsController.js throwing error")
         return next(error)
     }
