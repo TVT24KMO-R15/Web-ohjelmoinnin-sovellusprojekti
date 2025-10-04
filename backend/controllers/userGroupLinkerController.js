@@ -6,7 +6,8 @@ import {
     queryPostUserGroupLinker, 
     queryDeleteByAccountId, 
     queryDeleteByGroupId, 
-    queryDeleteByAccountIdGroupId
+    queryDeleteByAccountIdGroupId,
+    queryAllByGroupIdAccountId
 } from "../models/userGroupLinker.js"
 
 const getAllUserGroupLinker = async (req, res, next) => {
@@ -42,6 +43,22 @@ const getAllGroupsByAccountId = async (req, res, next) => {
         const result = await queryAllGroupsByAccountId(accountId)
         if (result.rowCount === 0) {
             const error = new Error('Account not found')
+            error.status = 404
+            return next(error)
+        }
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const getAllByGroupIdAccountId = async (req, res, next) => {
+    try {
+        const { groupid, accountid } = req.params;
+        console.log(`Getting groups with groupid: ${groupid} and accountid: ${accountid}`)
+        const result = await queryAllByGroupIdAccountId(groupid, accountid)
+        if (result.rowCount === 0) {
+            const error = new Error('Group or Account not found')
             error.status = 404
             return next(error)
         }
@@ -119,6 +136,7 @@ export {
     getAllUserGroupLinker, 
     getAllUsersByGroupId, 
     getAllGroupsByAccountId, 
+    getAllByGroupIdAccountId,
     postUserGroupLinker, 
     deleteByAccountId, 
     deleteByGroupId, 

@@ -1,5 +1,7 @@
 // for all group table http endpoints
-import { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup } from "../models/group.js";
+import { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup } 
+from "../models/group.js";
+import { queryPostUserGroupLinker } from "../models/userGroupLinker.js";
 
 const postGroup= async (req, res, next) => {
    try {
@@ -8,6 +10,8 @@ const postGroup= async (req, res, next) => {
 
         const result = await queryPostGroup(ownerId, groupname, groupdescription);
         res.status(201).json(result.rows[0]);
+        // Automatically add the owner to the group user linker
+        await queryPostUserGroupLinker(result.rows[0].groupid, ownerId);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

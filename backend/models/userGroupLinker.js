@@ -5,12 +5,16 @@ const queryAllUserGroupLinker = async () => {
     return await pool.query(`SELECT * FROM "user_group_linker"`)
 }
 
-const queryAllUsersByGroupId = async () => {
-    return await pool.query(`SELECT * FROM "user_group_linker" where fk_groupid = $1`)
+const queryAllUsersByGroupId = async (groupid) => {
+    return await pool.query(`SELECT * FROM "user_group_linker" where fk_groupid = $1`, [groupid])
 }
 
-const queryAllGroupsByAccountId = async () => {
-    return await pool.query(`SELECT * FROM "user_group_linker" where fk_accountid = $1`)
+const queryAllGroupsByAccountId = async (accountid) => {
+    return await pool.query(`SELECT * FROM "user_group_linker" where fk_accountid = $1`, [accountid])
+}
+
+const queryAllByGroupIdAccountId = async (groupid, accountid) => {
+    return await pool.query(`SELECT * FROM "user_group_linker" where fk_accountid = $1 and fk_groupid = $2`, [accountid, groupid])
 }
 
 const queryPostUserGroupLinker = async (groupid, accountid) => {
@@ -31,4 +35,4 @@ const queryDeleteByAccountIdGroupId = async (groupid, accountid) => {
     return await pool.query(`DELETE FROM "user_group_linker" where fk_accountid = $1 and fk_groupid = $2 RETURNING *`,[groupid, accountid])
 }
 
-export {queryAllUserGroupLinker, queryAllUsersByGroupId, queryAllGroupsByAccountId, queryPostUserGroupLinker, queryDeleteByAccountId, queryDeleteByGroupId, queryDeleteByAccountIdGroupId} 
+export {queryAllUserGroupLinker, queryAllUsersByGroupId, queryAllGroupsByAccountId, queryPostUserGroupLinker, queryDeleteByAccountId, queryDeleteByGroupId, queryDeleteByAccountIdGroupId, queryAllByGroupIdAccountId } 
