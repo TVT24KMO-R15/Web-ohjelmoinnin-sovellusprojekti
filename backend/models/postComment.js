@@ -33,4 +33,18 @@ const queryCheckGroupMembership = async ( accountid, postid ) => {
   return result.rowCount > 0; // SELECT 1 returns one row if true
 }
 
-export { queryPostCommentsByPostId, createPostComment, deletePostCommentById, queryPostCommentsByUserId, queryCheckGroupMembership }
+// checks if user deleting is owner or a member of the group that owns the post
+const queryCheckCommentDeletePermission = async ( accountid, commentid ) => {
+  const result = await pool.query(`
+  SELECT 1
+  FROM public.grouppost_comment gc
+      JOIN public.groupposts gp ON gc.fk_grouppost = gp.postid
+      JOIN public.groups g ON gp.fk_groupid = g.groupid
+      JOIN public.user_group_linker ugl ON g.groupid = ugl.fk_groupid
+  WHERE gc.comment_id = $2
+      AND (gc.fk_accountid = $1 OR ugl.fk_accountid = $1);
+  `, [accountid, commentid]);
+  return result.rowCount > 0;
+}
+
+export { queryPostCommentsByPostId, createPostComment, deletePostCommentById, queryPostCommentsByUserId, queryCheckGroupMembership, queryCheckCommentDeletePermission }

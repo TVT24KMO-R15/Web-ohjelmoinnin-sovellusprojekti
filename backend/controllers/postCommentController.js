@@ -1,4 +1,4 @@
-import { queryPostCommentsByPostId, createPostComment, deletePostCommentById, queryPostCommentsByUserId, queryCheckGroupMembership } from '../models/postComment.js'
+import { queryPostCommentsByPostId, createPostComment, deletePostCommentById, queryPostCommentsByUserId, queryCheckGroupMembership, queryCheckCommentDeletePermission } from '../models/postComment.js'
 
 const getCommentById = async (req, res, next) => {
   // console.log("auth info: ", req.user)
@@ -53,13 +53,15 @@ const postComment = async (req, res, next) => {
 }
 
 
-// todo add auth to this
 const deleteComment = async (req, res, next) => {
   // console.log("auth info: ", req.user)
-  const ownerId = req.user.id
-
+  const userid = req.user.id
   const commentid = req.params.id
   try {
+    const hasPermission = await queryCheckCommentDeletePermission(userid, commentid)
+    if (!hasPermission) {
+      return res.status(403).json({ error: "forbidden, you must be the comment owner or a group member to delete this comment" })
+    }
     const result = await deletePostCommentById(commentid)
     console.log("post comment deleted with id: " + commentid)
     if(!result) {
