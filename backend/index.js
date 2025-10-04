@@ -13,7 +13,7 @@ import reviewRouter from './routes/reviewsRouter.js'
 import groupRouter from './routes/groupRouter.js'
 import groupPostsRouter from './routes/groupPostsRouter.js'
 import groupJoinRouter from './routes/groupJoinRouter.js'
-
+import userGroupLinker from './routes/UserGroupLinkerRouter.js'
 dotenv.config()
 
 const swaggerOptions = {
@@ -47,7 +47,7 @@ app.use('/reviews', reviewRouter)
 app.use('/groupjoin', groupJoinRouter)
 app.use('/groups', groupRouter)
 app.use('/groupposts', groupPostsRouter)
-
+app.use('/usergrouplinker', userGroupLinker)
 if (process.env.NODE_ENV === "development") {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)))
 }

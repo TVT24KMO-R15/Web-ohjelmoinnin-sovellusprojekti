@@ -13,7 +13,7 @@ const queryAllGroupsByAccountId = async () => {
     return await pool.query(`SELECT * FROM "user_group_linker" where fk_accountid = $1`)
 }
 
-const queryPostGroupLinker = async (groupid, accountid) => {
+const queryPostUserGroupLinker = async (groupid, accountid) => {
     return await pool.query(`INSERT INTO "user_group_linker" (fk_groupid, fk_accountid) VALUES ($1, $2) RETURNING *`,
         [groupid, accountid]
     )
@@ -31,4 +31,4 @@ const queryDeleteByAccountIdGroupId = async (groupid, accountid) => {
     return await pool.query(`DELETE FROM "user_group_linker" where fk_accountid = $1 and fk_groupid = $2 RETURNING *`,[groupid, accountid])
 }
 
-export {queryAllUserGroupLinker, queryAllUsersByGroupId, queryAllGroupsByAccountId, queryPostGroupLinker, queryDeleteByAccountId, queryDeleteByGroupId, queryDeleteByAccountIdGroupId} 
+export {queryAllUserGroupLinker, queryAllUsersByGroupId, queryAllGroupsByAccountId, queryPostUserGroupLinker, queryDeleteByAccountId, queryDeleteByGroupId, queryDeleteByAccountIdGroupId} 
