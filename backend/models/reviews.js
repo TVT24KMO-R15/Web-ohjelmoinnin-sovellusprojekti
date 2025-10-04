@@ -45,7 +45,7 @@ const queryDeleteReview = async (reviewid) => {
 }
 
 const queryReviewsPageAmount = async () => {
-    return await pool.query(`SELECT CEIL(COUNT(*) / 5.0) AS pageamount FROM review`)
+    return await pool.query(`SELECT CEIL(COUNT(*) / ${maxResultsPerPage}.0) AS pageamount FROM review`)
 }
 
 const queryAllReviewsPages = async ( page ) => {
@@ -69,18 +69,18 @@ const queryFilteredReviewsPages = async (page, stars, orderby) => {
     }
     query += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}` // limit results and page offset
     params.push(maxResultsPerPage, offset) // push
-    console.log("query: " + query + ", params: " + params)
+    // console.log("query: " + query + ", params: " + params)
     return await pool.query(query, params)
 }
 
 const queryFilteredReviewsPageAmount = async (stars) => {
-    let query = `SELECT CEIL(COUNT(*) / 5.0) AS pageamount FROM review`
+    let query = `SELECT CEIL(COUNT(*) / ${maxResultsPerPage}.0) AS pageamount FROM review`
     const params = []
     if (stars) { // if using star filter
         query += ` WHERE stars = $1` // add to query
         params.push(stars) // push
     }
-    console.log("query: " + query + ", placeholder values: " + params)
+    // console.log("query: " + query + ", placeholder values: " + params)
     return await pool.query(query, params)
 }
 
