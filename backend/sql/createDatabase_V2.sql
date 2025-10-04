@@ -111,8 +111,7 @@ CREATE TABLE IF NOT EXISTS public.grouppost_comment
     fk_grouppost integer NOT NULL,
     comment_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
     fk_accountid integer NOT NULL,
-    CONSTRAINT commentid_pk PRIMARY KEY (comment_id),
-    CONSTRAINT one_comment_per_account_per_post UNIQUE (fk_accountid, fk_grouppost)
+    CONSTRAINT commentid_pk PRIMARY KEY (comment_id)
 );
 
 COMMENT ON TABLE public.grouppost_comment

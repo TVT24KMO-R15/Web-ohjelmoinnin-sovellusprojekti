@@ -16,6 +16,8 @@ ALTER TABLE public.groupposts
     ADD COLUMN IF NOT EXISTS finnkino_poster_url character varying(255);
 
 ALTER TABLE public.grouppost_comment
-    ALTER COLUMN comment_text TYPE character varying(255);
+    ALTER COLUMN comment_text TYPE character varying(255),
+    DROP CONSTRAINT IF EXISTS one_comment_per_account_per_post;
+
 
 END;
