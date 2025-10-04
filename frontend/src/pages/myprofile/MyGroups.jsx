@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react'
 import GoToGroupPageButton from '../../components/groups/GoToGroupPageButton'
 import { Link } from 'react-router-dom'
 import MyOwnGroups from '../../components/myprofile/MyOwnGroups'
+import CreateGroup from '../../components/groups/CreateGroup'
 
 import ProtectedRoute from '../../components/common/ProtectedRoute'
 
@@ -14,6 +15,7 @@ export default function MyGroups() {
     const [groups, setGroups] = useState([])
     const [pendingRequests, setPendingRequests] = useState([])
     const account = useUser()
+    const [createGroupOpen, setCreateGroupOpen] = useState(false)
 
 
     useEffect(() => {
@@ -28,26 +30,23 @@ export default function MyGroups() {
                 }
                 setGroups(result.data.result.filter((item) => item.status == 'accepted'))
                 setPendingRequests(result.data.result.filter((item) => item.status == 'pending'))
-            }) .catch(error =>{
+            }).catch(error => {
                 setGroups([])
                 setPendingRequests([])
             })
             .finally(() =>
-            setLoading(false))
+                setLoading(false))
     }, [])
 
     if (loading) { return (<div><ProtectedRoute />Loading...</div>) }
 
-    if (groups.length == 0 && pendingRequests.length == 0) {
-        return (<div><ProtectedRoute />
-            <h2>Why is it so empty here?</h2>
-            <h3>Go to <Link to={'/groups'}>Groups</Link> to get started!</h3>
-        </div>)
-    }
+    
 
     return (
-        
+
         <div className='mygroupsdiv'><ProtectedRoute />
+            <div className='creategroupdiv'><button id='searchBtn' onClick={() => { setCreateGroupOpen(true) }}>Create a New Group</button></div>
+            {(createGroupOpen) && <><CreateGroup onClose={() => setCreateGroupOpen(false)} /></>}
             <div>
                 <h2>My Own Groups</h2>
                 <MyOwnGroups />
@@ -58,7 +57,7 @@ export default function MyGroups() {
                     {groups.map(item => (
                         <div className='reviewborder' key={item.groupid}>
                             <Link className='popularmovielink' to={`/groups/${item.groupid}`}><h3>{item.groupname}</h3></Link>
-                            
+
                         </div>
                     ))}
                 </div> :
@@ -75,7 +74,10 @@ export default function MyGroups() {
                         </div>
                     ))}
                 </div> :
-                <></>
+                <>
+                    <h2>Join Requests</h2>
+                    <h3>Go to <Link to={'/groups'}>Groups</Link> to send requests!</h3>
+                </>
             }
 
 
