@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete } from "../controllers/accountsController.js"
+import { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete, putAccountPassword } from "../controllers/accountsController.js"
 
 const router = Router()
 
@@ -10,5 +10,6 @@ router.get('/:accountid', getAccountById)
 router.post('/signin', accountSignIn)
 router.post('/register', postRegister)
 router.post('/delete', postDelete)
+router.put('/updatepassword', putAccountPassword)
 
 export default router

@@ -1,10 +1,10 @@
 import {React, useState, useEffect} from 'react'
 import "./ReviewsPreview.css"
 import ReviewsPreviewRow from './ReviewsPreviewRow.jsx'
+import { Link } from 'react-router-dom'
 
 import { useUser } from '../../context/UseUser'
 
-import { Link } from 'react-router-dom'
 
 export default function ReviewsPreview() {
   const account = useUser()
@@ -30,7 +30,7 @@ export default function ReviewsPreview() {
 
   return (
     <div>
-      <h2>My Reviews</h2>
+      <Link className='popularmovielink' to={'/myaccount/myreviews'}><h2>My Reviews</h2></Link>
 
       {reviews.map(item =>
         (<ReviewsPreviewRow key={item.movieid} property={item} />)

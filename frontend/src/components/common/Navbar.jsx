@@ -61,7 +61,7 @@ export default function Navbar() {
           <li onClick={() => setSidebarOpen(false)}><article className='sidebarButton'>
         {closeIcon}
         </article></li>
-          <li onClick={() => setSidebarOpen(false)}><Link to="/search">Movies</Link></li>
+          <li onClick={() => setSidebarOpen(false)}><Link to="/movies">Movies</Link></li>
           <li onClick={() => setSidebarOpen(false)}><Link to="/reviews">Reviews</Link></li>
           <li onClick={() => setSidebarOpen(false)}><Link to="/groups">Groups</Link></li>
           
@@ -72,7 +72,7 @@ export default function Navbar() {
         <ul>
           {/* Normaali valikko */}
           <li><Link to="/">Home</Link></li>
-          <li className="btn hideOnMobile"><Link to="/search">Movies</Link></li>
+          <li className="btn hideOnMobile"><Link to="/movies">Movies</Link></li>
           <li className="btn hideOnMobile"><Link to="/groups">Groups</Link></li>
           <li className="btn hideOnMobile"><Link to="/reviews">Reviews</Link></li>
           <li className="menu-btn" onClick={() => setSidebarOpen(true)}>
@@ -95,8 +95,11 @@ export default function Navbar() {
             {userMenuOpen && (
               <div className="account-dropdown">
                 <p className="dropdown-greetings">Hi {user?.email || 'User'}!</p>
-                <Link to="/myaccount/myreviews" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My reviews</Link>
                 <Link to="/myaccount" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My account</Link>
+                <Link to="/myaccount/myfavourites" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My favourites</Link>
+                <Link to="/myaccount/myreviews" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My reviews</Link>
+                
+                <Link to="/myaccount/mygroups" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My groups</Link>
                 <button
                   className="dropdown-item"
                   onClick={() => {
