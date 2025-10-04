@@ -35,4 +35,13 @@ const queryDeleteByAccountIdGroupId = async (groupid, accountid) => {
     return await pool.query(`DELETE FROM "user_group_linker" where fk_accountid = $1 and fk_groupid = $2 RETURNING *`,[groupid, accountid])
 }
 
-export {queryAllUserGroupLinker, queryAllUsersByGroupId, queryAllGroupsByAccountId, queryPostUserGroupLinker, queryDeleteByAccountId, queryDeleteByGroupId, queryDeleteByAccountIdGroupId, queryAllByGroupIdAccountId } 
+export {
+    queryAllUserGroupLinker, 
+    queryAllUsersByGroupId, 
+    queryAllGroupsByAccountId, 
+    queryPostUserGroupLinker, 
+    queryDeleteByAccountId, 
+    queryDeleteByGroupId, 
+    queryDeleteByAccountIdGroupId, 
+    queryAllByGroupIdAccountId 
+} 

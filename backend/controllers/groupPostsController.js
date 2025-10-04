@@ -7,6 +7,9 @@ import {
     queryUpdateGroupPost,
     queryDeleteGroupPost
 } from "../models/groupPosts.js";
+import { 
+    queryAllByGroupIdAccountId // to check if user is in group
+} from "../models/userGroupLinker.js";
 
 const getAllGroupPosts = async (req, res, next) => {
     try {
@@ -20,8 +23,19 @@ const getAllGroupPosts = async (req, res, next) => {
 
 const getGroupPostsByGroupId = async (req, res, next) => {
         try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ error: "User not authenticated" });
+        }
+        const accountid = req.user.id;
         const groupId = req.params.id;    
         console.log(`Getting Group posts with groupid: ${groupId}`)
+        
+   /*      // Check if user is a member of the group
+        const membershipCheck = await queryAllByGroupIdAccountId(groupId, accountid);
+        if (membershipCheck.rowCount === 0) {
+            return res.status(403).json({ error: "You must be a member of this group to view its posts" });
+        } */
+        
         const result = await queryGroupPostsByGroupId(groupId)
         if (result.rowCount === 0) {
             const error = new Error('Group not found')
@@ -57,6 +71,12 @@ const postGroupPost = async (req, res, next) => {
         }
         const accountid = req.user.id
         const { groupid, posttext, movieid } = req.body.groupposts;
+        
+        // Check if user is a member of the group
+        const membershipCheck = await queryAllByGroupIdAccountId(groupid, accountid);
+        if (membershipCheck.rowCount === 0) {
+            return res.status(403).json({ error: "You must be a member of this group to create posts" });
+        }
         
         const result = await queryPostGroupPost(groupid, posttext, movieid, accountid);
         res.status(201).json(result.rows[0]);

@@ -1,7 +1,17 @@
 // for all group table http endpoints
-import { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup } 
+import { 
+    queryAllGroups, 
+    queryGroupById, 
+    queryGroupBySearchWord, 
+    queryGroupByOwnerId, 
+    queryPostGroup, 
+    queryDeleteGroup, 
+    queryUpdateGroup } 
 from "../models/group.js";
-import { queryPostUserGroupLinker } from "../models/userGroupLinker.js";
+import { 
+    queryPostUserGroupLinker, // to automatically add owner to group
+    queryDeleteByGroupId // to remove linkers when group is deleted
+} from "../models/userGroupLinker.js";
 
 const postGroup= async (req, res, next) => {
    try {
@@ -9,9 +19,14 @@ const postGroup= async (req, res, next) => {
         const { groupname, groupdescription } = req.body.groups;
 
         const result = await queryPostGroup(ownerId, groupname, groupdescription);
+        // Automatically add the owner to the group user linker before sending response
+        try {
+            await queryPostUserGroupLinker(result.rows[0].groupid, ownerId);
+        } catch (linkError) {
+            // If linking fails, delete the created group or handle as needed
+            return res.status(500).json({ error: "Failed to add owner to group: " + linkError.message });
+        }
         res.status(201).json(result.rows[0]);
-        // Automatically add the owner to the group user linker
-        await queryPostUserGroupLinker(result.rows[0].groupid, ownerId);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -121,14 +136,21 @@ const deleteGroup = async (req, res, next) => {
             return res.status(403).json({ error: "You can only delete groups that you own" });
         }
 
-        // Delete the group
-        const result = await queryDeleteGroup(groupId, ownerId);
+        // Attempt to delete user-group linkers first
+        await queryDeleteByGroupId(groupId); 
+
+        // Then delete the group
+        const groupResult = await queryDeleteGroup(groupId, ownerId);
+        if (groupResult.rowCount === 0) {
+            return res.status(500).json({ error: "Failed to delete group after removing linkers." });
+        }
+
         res.json({ message: "Group deleted successfully" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 }
-export{
+export{ 
     postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup
 }
 

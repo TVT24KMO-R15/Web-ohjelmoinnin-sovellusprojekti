@@ -7,10 +7,10 @@ const router = Router()
 router.get('/', getAllUserGroupLinker)
 router.get('/groupid/:groupid', getAllUsersByGroupId)
 router.get('/accountid/:accountid', getAllGroupsByAccountId)
-router.get('/groupid/:groupid/accountid/:accountid', getAllByGroupIdAccountId)
-router.post('/post', auth, postUserGroupLinker)
-router.delete('/delete/accountid/:accountid', auth, deleteByAccountId)
-router.delete('/delete/groupid/:groupid', auth, deleteByGroupId)
-router.delete('/delete/accountid/:accountid/groupid/:groupid', auth, deleteByAccountIdGroupId)
+router.get('/groupid/:groupid/accountid/:accountid', getAllByGroupIdAccountId) // check if user is member of group
+router.post('/post', auth, postUserGroupLinker)  // add user to group
+router.delete('/delete/accountid/:accountid', auth, deleteByAccountId) // remove all groups from user
+router.delete('/delete/groupid/:groupid', auth, deleteByGroupId) // remove all users from group
+router.delete('/delete/accountid/:accountid/groupid/:groupid', auth, deleteByAccountIdGroupId) // remove user from group
 
 export default router

@@ -1,8 +1,7 @@
 // for all group posts sql queries
 
 import { pool } from "../helpers/dbHelper.js"
-// TODO: check if user is in group and groupOwner status
-// TODO: Add Finnkino times to DB or provide parameters for Finnkino API to save FinnkinoTimes
+
 const queryPostGroupPost = async (groupid, posttext, movieid, accountid) => {
     return await pool.query(`INSERT INTO "groupposts" (fk_groupid, posttext, movieid, fk_accountid) VALUES ($1, $2, $3, $4) RETURNING *`,
         [groupid, posttext, movieid, accountid]
