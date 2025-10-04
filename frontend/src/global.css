@@ -44,3 +44,8 @@ body {
   font-size: var(--font-size-base);
   background-color: var(--color-bg);
 }
+
+textarea {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+}
