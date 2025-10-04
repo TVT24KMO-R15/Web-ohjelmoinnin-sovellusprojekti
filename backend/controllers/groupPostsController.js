@@ -5,11 +5,15 @@ import {
     queryGroupPostsByGroupId,
     queryGroupPostsByPostId,
     queryUpdateGroupPost,
-    queryDeleteGroupPost
+    queryDeleteGroupPost,
+    queryDeleteGroupPostAsOwner
 } from "../models/groupPosts.js";
 import { 
     queryAllByGroupIdAccountId // to check if user is in group
 } from "../models/userGroupLinker.js";
+import { 
+    queryIsOwnerOfGroup 
+} from "../models/group.js";
 
 const getAllGroupPosts = async (req, res, next) => {
     try {
@@ -130,17 +134,42 @@ const deleteGroupPost = async (req, res, next) => {
         if (existingPost.rows[0].fk_accountid !== accountid) {
             return res.status(403).json({ error: "You can only delete group posts that you own" });
         }
-        const result = await queryDeleteGroupPost(postid, accountid);
+        await queryDeleteGroupPost(postid, accountid);
         res.status(200).json({ message: "Group post deleted successfully" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 }
+
+const deleteGroupPostAsOwner = async (req, res, next) => {
+    try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ error: "User not authenticated" });
+        }
+        const accountid = req.user.id;
+        const postid = req.params.id;
+        const existingPost = await queryGroupPostsByPostId(postid);
+        if (existingPost.rowCount === 0) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+        const groupid = existingPost.rows[0].fk_groupid;
+        const groupCheck = await queryIsOwnerOfGroup(groupid, accountid);
+        if (groupCheck.rowCount === 0) {
+            return res.status(403).json({ error: "You must be the owner of the group to delete this post" });
+        }
+        await queryDeleteGroupPostAsOwner(postid);
+        res.status(200).json({ message: "Group post deleted by group owner successfully" });
+    } catch (err) {
+        return next(err);
+    }
+}
+
 export{
     getAllGroupPosts, 
     getGroupPostsByGroupId, 
     getGroupPostsByPostId, 
     postGroupPost, 
     updateGroupPost, 
-    deleteGroupPost
+    deleteGroupPost,
+    deleteGroupPostAsOwner
 }

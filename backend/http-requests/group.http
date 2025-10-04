@@ -28,13 +28,13 @@ Authorization: {{token}}
 
 {
     "groups": {
-        "groupname": "Testiryhmä 1",
-        "groupdescription": "Tämä on testiryhmä 1"
+        "groupname": "Leffakerho",
+        "groupdescription": "Tämä on Leffakerho"
     }
 }
 
 ### Update a Group as a Group Owner
-PUT http://localhost:3000/groups/update/10
+PUT http://localhost:3000/groups/update/1
 Content-Type: application/json
 Authorization: {{token}}
 

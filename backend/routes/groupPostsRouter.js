@@ -6,7 +6,8 @@ import {
     getGroupPostsByPostId,
     postGroupPost, 
     deleteGroupPost, 
-    updateGroupPost 
+    updateGroupPost,
+    deleteGroupPostAsOwner
 } from "../controllers/groupPostsController.js"
 
 const router = Router()
@@ -16,6 +17,7 @@ router.get('/groupid/:id', getGroupPostsByGroupId)
 router.get('/postid/:id', getGroupPostsByPostId)
 router.post('/post', auth, postGroupPost)
 router.delete('/delete/:id', auth, deleteGroupPost)
+router.delete('/delete/owner/:id', auth, deleteGroupPostAsOwner)
 router.put('/update/:id', auth, updateGroupPost)
 
 export default router

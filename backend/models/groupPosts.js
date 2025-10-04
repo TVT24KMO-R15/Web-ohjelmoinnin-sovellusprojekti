@@ -30,9 +30,14 @@ const queryDeleteGroupPost = async (postid, accountid) => {
     return await pool.query(`DELETE FROM "groupposts" WHERE postid=$1 and fk_accountid = $2 RETURNING *`, [postid, accountid])
 }
 
+const queryDeleteGroupPostAsOwner = async (postid) => {
+    return await pool.query(`DELETE FROM "groupposts" WHERE postid=$1 RETURNING *`, [postid])
+}
+
 export { queryPostGroupPost, 
     queryAllGroupPosts, 
     queryGroupPostsByGroupId, 
     queryGroupPostsByPostId, 
     queryUpdateGroupPost, 
-    queryDeleteGroupPost }
+    queryDeleteGroupPost,
+    queryDeleteGroupPostAsOwner }
