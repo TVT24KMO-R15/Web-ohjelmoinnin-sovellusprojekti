@@ -33,6 +33,7 @@ const getGroupPostsByGroupId = async (req, res, next) => {
         return next(error)
     }
 }
+
 const getGroupPostsByPostId = async (req, res, next) => {
         try {
         const postId = req.params.id;    
