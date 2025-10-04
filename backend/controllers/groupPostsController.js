@@ -52,12 +52,12 @@ const getGroupPostsByPostId = async (req, res, next) => {
 const postGroupPost = async (req, res, next) => {
       try {
         if (!req.user || !req.user.id) {
-            return res.status(401).json({ error: "Unauthorized: user not authenticated" });
+            return res.status(401).json({ error: "User not authenticated" });
         }
         const accountid = req.user.id
-        const { postid, groupid, posttext, movieid } = req.body.groupposts;
+        const { groupid, posttext, movieid } = req.body.groupposts;
         
-        const result = await queryPostGroupPost(postid, groupid, posttext, movieid, accountid);
+        const result = await queryPostGroupPost(groupid, posttext, movieid, accountid);
         res.status(201).json(result.rows[0]);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -66,12 +66,15 @@ const postGroupPost = async (req, res, next) => {
 
 const updateGroupPost = async (req, res, next) => {
     try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ error: "User not authenticated" });
+        }
         const accountid = req.user.id
         const postid = req.params.id
         if (!req.body.groupposts) {
             return res.status(400).json({ error: "Missing 'groupposts' object in request body" });
         }
-        const { posttext, movieid, groupid } = req.body.groupposts;
+        const { posttext, movieid } = req.body.groupposts;
         const existingGroupPost = await queryGroupPostsByPostId(postid);
 
         if (existingGroupPost.rowCount === 0) {
@@ -82,7 +85,7 @@ const updateGroupPost = async (req, res, next) => {
             return res.status(403).json({ error: "You can only edit group posts that you own" });
         }
 
-        const result = await queryUpdateGroupPost(postid, groupid, posttext, movieid, accountid);
+        const result = await queryUpdateGroupPost(postid, posttext, movieid, accountid);
 
         res.status(200).json({ id: postid, message: "Group post updated successfully" });
     } catch (err) {
@@ -92,6 +95,9 @@ const updateGroupPost = async (req, res, next) => {
 
 const deleteGroupPost = async (req, res, next) => {
       try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ error: "User not authenticated" });
+        }
         const accountid = req.user.id
         const postid = req.params.id;
 

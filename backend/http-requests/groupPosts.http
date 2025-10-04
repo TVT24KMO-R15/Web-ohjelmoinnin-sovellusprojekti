@@ -16,7 +16,6 @@ Authorization: {{token}}
 
 {
     "groupposts": {
-        "postid": 2,
         "groupid": 1,
         "posttext": "Suosittelen tätä leffaa kaikille",
         "movieid": 157336
@@ -24,15 +23,14 @@ Authorization: {{token}}
 }
 
 ### Update Group Post
-PUT http://localhost:3000/groupposts/update/2
+PUT http://localhost:3000/groupposts/update/4
 Content-Type: application/json
 Authorization: {{token}}
 
 {
     "groupposts": {
         "posttext": "Päivitetty teksti",
-        "movieid": 157336,
-        "groupid": 1
+        "movieid": 157336
     }
 }
 
