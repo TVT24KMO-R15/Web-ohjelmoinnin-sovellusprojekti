@@ -25,8 +25,6 @@ export default function Reviews() {
       }
       
       const url = `${import.meta.env.VITE_API_URL}/reviews/filtered/pageamount?${params.toString()}`
-      console.log("_______________FRONTEND: _____________________")
-      console.log("fetching reviews page amount from url: " + url)
       const res = await fetch(url)
       const data = await res.json()
       console.log(data)
@@ -62,8 +60,6 @@ export default function Reviews() {
         }
         
         const url = `${import.meta.env.VITE_API_URL}/reviews/filtered/frompage/${currentPage}?${params.toString()}`
-        console.log("_______________FRONTEND: _____________________")
-        console.log("fetching reviews from url: " + url)
         const reviewsRes = await fetch(url)
         const reviews = await reviewsRes.json()
         console.log(reviews)
