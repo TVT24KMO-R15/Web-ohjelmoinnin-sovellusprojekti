@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "d20216a4-0fcb-44a7-babd-d930e91578cd",
+		"name": "Users endpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40851870",
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/apitest~cc20ae81-901b-4f66-bb06-01242c4f0555/collection/40851870-d20216a4-0fcb-44a7-babd-d930e91578cd?action=share&source=collection_link&creator=40851870"
+	},
+	"item": [
+		{
+			"name": "/users/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdatePassword",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"test@email.com\",\r\n        \"username\": \"testuser123\",\r\n        \"password\": \"pass\",\r\n        \"newPassword\": \"newpass\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/updatepassword",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"updatepassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"test@email.com\",\r\n        \"password\": \"pass\",\r\n        \"username\": \"testuser123\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.globals.set('token', jsonData.token);",
+							"",
+							"pm.test(\"received token and is string\", function () {",
+							"    pm.expect(jsonData.token).to.be.a('string');",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"test@email.com\",\r\n        \"password\": \"pass\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/signin",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUser",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"test@email.com\",\r\n        \"password\": \"pass\",\r\n        \"username\": \"testuser123\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/delete",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "parent",
+			"value": ""
+		}
+	]
+}
