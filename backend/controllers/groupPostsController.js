@@ -74,15 +74,18 @@ const postGroupPost = async (req, res, next) => {
             return res.status(401).json({ error: "User not authenticated" });
         }
         const accountid = req.user.id
-        const { groupid, posttext, movieid } = req.body.groupposts;
+        if (!req.body.groupposts) {
+            return res.status(400).json({ error: "Missing 'groupposts' object in request body" });
+        }
+        const { groupid, posttext, movieid, finnkino_original_title, finnkino_showtime, finnkino_theatre_id, finnkino_poster_url } = req.body.groupposts;
         
         // Check if user is a member of the group
         const membershipCheck = await queryAllByGroupIdAccountId(groupid, accountid);
         if (membershipCheck.rowCount === 0) {
             return res.status(403).json({ error: "You must be a member of this group to create posts" });
         }
-        
-        const result = await queryPostGroupPost(groupid, posttext, movieid, accountid);
+
+        const result = await queryPostGroupPost(groupid, posttext, movieid, accountid, finnkino_original_title, finnkino_showtime, finnkino_theatre_id, finnkino_poster_url);
         res.status(201).json(result.rows[0]);
     } catch (err) {
         res.status(500).json({ error: err.message });

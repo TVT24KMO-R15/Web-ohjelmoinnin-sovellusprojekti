@@ -2,9 +2,9 @@
 
 import { pool } from "../helpers/dbHelper.js"
 
-const queryPostGroupPost = async (groupid, posttext, movieid, accountid) => {
-    return await pool.query(`INSERT INTO "groupposts" (fk_groupid, posttext, movieid, fk_accountid) VALUES ($1, $2, $3, $4) RETURNING *`,
-        [groupid, posttext, movieid, accountid]
+const queryPostGroupPost = async (groupid, posttext, movieid, accountid, finnkino_original_title, finnkino_showtime, finnkino_theatre_id, finnkino_poster_url) => {
+    return await pool.query(`INSERT INTO "groupposts" (fk_groupid, posttext, movieid, fk_accountid, finnkino_original_title, finnkino_showtime, finnkino_theatre_id, finnkino_poster_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+        [groupid, posttext, movieid, accountid, finnkino_original_title, finnkino_showtime, finnkino_theatre_id, finnkino_poster_url]
     )
 }
 

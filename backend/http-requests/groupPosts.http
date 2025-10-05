@@ -18,7 +18,11 @@ Authorization: {{token}}
     "groupposts": {
         "groupid": 1,
         "posttext": "Suosittelen tätä leffaa kaikille",
-        "movieid": 157336
+        "movieid": 157336,
+        "finnkino_original_title": null,
+        "finnkino_showtime": null,
+        "finnkino_theatre_id": null,
+        "finnkino_poster_url": null
     }
 }
 
