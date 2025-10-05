@@ -1,23 +1,68 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import AccountEmailById from '../components/common/AccountEmailById'
 import './Reviews.css'
 import noPoster from '../assets/noPoster.png'
+import Pagination from '../components/search/Pagination'
 
 export default function Reviews() {
   const [reviewsWithDetails, setReviewsWithDetails] = useState([])
   const [filter, setFilter] = useState({ stars: '', orderby: 'date' })
   const [loading, setLoading] = useState(true)
+  const [totalPages, setTotalPages] = useState(1) // how many pages of reviews are there
+  const [currentPage, setCurrentPage] = useState(1) // which page of reviews is currently shown
 
   const handleChange = (e) => {
     setFilter({ ...filter, [e.target.name]: e.target.value })
+    setCurrentPage(1) // reset page on filter change
+  }
+
+  const getPageCount = useCallback(async () => { // get total amount of pages from backend
+    try {
+      const params = new URLSearchParams() // use url builder for backend
+      if (filter.stars) {
+        params.append('stars', filter.stars) // add ?stars= to url when filtering
+      }
+      
+      const url = `${import.meta.env.VITE_API_URL}/reviews/filtered/pageamount?${params.toString()}`
+      const res = await fetch(url)
+      const data = await res.json()
+      console.log(data)
+      // console.log("fetched page amount", data.pageamount)
+      setTotalPages(data.pageamount || 1)
+    } catch (err) {
+      // console.log('Failed to fetch page amount:', err)
+      setTotalPages(1)
+    }
+  }, [filter.stars])
+
+  const handlePageChange = (newPage) => { // update current page when pagination is used
+    // console.log("handlePageChange called: page changed to: " + newPage)
+    setCurrentPage(newPage) // set the current page to pagination selection, which makes a new axios request with page number change 
   }
 
   useEffect(() => {
+    getPageCount()
+  }, [filter.stars, getPageCount]) // get new page count when filters change
+
+
+  useEffect(() => {
     (async () => {
+      setLoading(true)
       try {
-        const reviewsRes = await fetch(`${import.meta.env.VITE_API_URL}/reviews/all`)
+        // build query for backend
+        const params = new URLSearchParams()
+        if (filter.stars) {
+          params.append('stars', filter.stars)
+        }
+        if (filter.orderby) {
+          params.append('orderby', filter.orderby)
+        }
+        
+        const url = `${import.meta.env.VITE_API_URL}/reviews/filtered/frompage/${currentPage}?${params.toString()}`
+        const reviewsRes = await fetch(url)
         const reviews = await reviewsRes.json()
+        console.log(reviews)
 
         if (!reviews?.length) {
           setReviewsWithDetails([])
@@ -53,32 +98,9 @@ export default function Reviews() {
         setLoading(false)
       }
     })()
-  }, [])
+  }, [currentPage, filter.stars, filter.orderby]) // build new query when page or filters change
 
   if (loading) return <div>Loading...</div>
-
-  const filteredReviews = reviewsWithDetails
-    .filter(
-      (item) =>
-        !filter.stars || Number(item.review.stars) === Number(filter.stars)
-    )
-    .sort((a, b) => {
-      if (filter.orderby === 'date') {
-        const dateA = new Date(
-          a.review.reviewdate 
-        )
-        const dateB = new Date(
-          b.review.reviewdate 
-        )
-        return dateB - dateA
-      }
-
-      if (filter.orderby === 'stars') {
-        return b.review.stars - a.review.stars
-      }
-
-      return 0
-    })
 
   return (
     <div className="reviewpage">
@@ -117,10 +139,10 @@ export default function Reviews() {
       </div>
 
       <div className="reviews-container">
-        {!filteredReviews.length ? (
+        {!reviewsWithDetails.length ? (
           <p>No reviews found.</p>
         ) : (
-          filteredReviews.map((item) => (
+          reviewsWithDetails.map((item) => (
             <article
               key={item.review.id}
               className="reviewborder2"
@@ -161,6 +183,7 @@ export default function Reviews() {
             </article>
           ))
         )}
+        <Pagination currentPage={currentPage} totalPages={Math.ceil(totalPages)} onPageChange={handlePageChange} />
       </div>
     </div>
   )

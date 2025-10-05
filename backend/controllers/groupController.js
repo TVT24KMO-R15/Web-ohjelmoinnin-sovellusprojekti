@@ -1,14 +1,31 @@
 // for all group table http endpoints
 import { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup } from "../models/group.js";
 
-const postGroup= async (req, res, next) => {
+const postGroup = async (req, res, next) => {
    try {
         const ownerId = req.user.id;
+        console.log("Creating group for user: " + ownerId);
+
+        if (!req.user || !req.user.id) {
+            console.log("Group create: unauthorized")
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+
+        if (!req.body.groups) {
+            console.log("Group create: missing 'groups' object")
+            return res.status(400).json({ error: "Missing 'groups' object in request body" });
+        }
+
+
         const { groupname, groupdescription } = req.body.groups;
 
         const result = await queryPostGroup(ownerId, groupname, groupdescription);
         res.status(201).json(result.rows[0]);
     } catch (err) {
+        console.log(err.code)
+        if (err.code === '23505') { // unique_violation
+            return res.status(400).json({ error: "Group name already exists" });
+        }
         res.status(500).json({ error: err.message });
     }
 }
