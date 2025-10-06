@@ -30,7 +30,11 @@ export default function ChangePassword({ onClose, username }) {
         try {
             const payload = { account: { email: account.user.email, username: username, password: newUser.password, newPassword: newUser.newPassword1 } }
             console.log(payload)
-            axios.put(import.meta.env.VITE_API_URL + `/users/updatepassword`, payload)
+            axios.put(import.meta.env.VITE_API_URL + `/users/updatepassword`, payload, {
+                headers: {
+                    Authorization: `Bearer ${account.user.token}`
+                }
+            })
                 .then(response => {
                     console.log(response)
                     if (response.status == 200) {
@@ -40,7 +44,11 @@ export default function ChangePassword({ onClose, username }) {
                     }
 
                 }).catch(error => {
-                    setErrorMessage('Something went wrong');
+                    if (error.response && error.response.data && error.response.data.error) {
+                        setErrorMessage(error.response.data.error.message || 'Something went wrong');
+                    } else {
+                        setErrorMessage('Something went wrong');
+                    }
                 })
 
 
