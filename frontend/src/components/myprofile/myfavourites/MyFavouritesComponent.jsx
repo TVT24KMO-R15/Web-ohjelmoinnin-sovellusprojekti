@@ -100,7 +100,7 @@ export default function MyFavouritesComponent() {
   return (
     <div className="myfavourites-container">
       <div className="fav-header">
-        <h1>{user.name}'s Favourites</h1>
+        <h1>{user.username}'s Favourites</h1>
         <button className="share-button" onClick={handleCopy}>
           🔗 Share Link
         </button>
