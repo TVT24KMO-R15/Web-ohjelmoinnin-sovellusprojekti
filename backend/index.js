@@ -34,9 +34,15 @@ app.use('/postcomment', postCommentRouter)
 app.use('/groupposts', groupPostsRouter)
 app.use('/usergrouplinker', userGroupLinker)
 
+// get env mode to verify test mode
+app.get('/__env', (req, res) => {
+    res.json({ env: process.env.NODE_ENV || 'unknown' })
+})
+
 // -- middleware
 app.listen(process.env.PORT, () => {
     console.log(`Server listening on port ${process.env.PORT}`)
+    console.log("server env: " + process.env.NODE_ENV)
 })
 
 // error handling middleware, called by next (err)

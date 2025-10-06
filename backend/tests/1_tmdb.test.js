@@ -1,4 +1,7 @@
 import { expect } from "chai"
+import { verifyNodeEnv } from "../helpers/verifyNodeEnv.js"
+
+verifyNodeEnv()
 
 describe("Testing tmdb backend functionality", () => {
     it("should get popular movies", async () => {
