@@ -51,17 +51,17 @@ export default function MovieCollection() {
             <div key={movie.id} className="collection-movie-card">
               <Link to={`/movies/${movie.id}`}>
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  className="collection-poster"
+                src={movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                  : '../src/assets/noPoster.png'} // placeholder jos poster puuttuu
+                alt={movie.title}
+                className="collection-poster"
                 />
-                <p>{movie.title}</p>
               </Link>
             </div>
           ))}
         </div>
 
-        {/* Collectionin kuvaus leffojen jälkeen */}
         {collection.overview && (
             <div className="collection-overview">
                 <p>{collection.overview}</p>

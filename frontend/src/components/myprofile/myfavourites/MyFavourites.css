@@ -1,0 +1,96 @@
+.myfavourites-container {
+  padding: 2rem;
+  color: white;
+}
+
+.fav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.fav-header h1 {
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.share-button {
+  padding: 0.5rem 1rem;
+  background-color: #000;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.share-button:hover {
+  background-color: #222;
+}
+
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.fav-card {
+  position: relative;
+  background-color: rgba(0,0,0,0.6);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+}
+
+.fav-card:hover {
+  transform: scale(1.05);
+}
+
+.fav-heart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  z-index: 2;
+  text-shadow: 2px 2px 3px black;
+}
+
+.fav-poster {
+  width: 100%;
+  display: block;
+}
+
+.fav-info {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.fav-info h3 {
+  font-size: 1.1rem;
+  margin: 0.3rem 0;
+}
+
+.fav-info p {
+  color: #ccc;
+  margin: 0;
+}
+
+.fav-status {
+  text-align: center;
+  padding: 2rem;
+  color: #ccc;
+}
+
+a,
+.fav-link,
+.fav-link:visited {
+  color: white;
+  text-decoration: none;
+}
+
+.fav-link:hover {
+  text-decoration: underline;
+}
