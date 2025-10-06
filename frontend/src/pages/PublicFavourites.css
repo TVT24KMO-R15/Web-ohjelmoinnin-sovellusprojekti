@@ -1,0 +1,66 @@
+.public-favourites-container {
+  padding: 1rem;
+}
+
+.pf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pf-card {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+.pf-card img {
+  width: 100px;
+  height: auto;
+  margin-right: 1rem;
+}
+
+.pf-link {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+}
+
+.pf-poster {
+  width: 100px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.pf-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.pf-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.pf-year {
+  margin: 0.2rem 0;
+  font-size: 0.85rem;
+  color: gray;
+}
+
+.pf-overview {
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.public-favourites-container h1 {
+  margin-bottom: 1rem;
+}
+
+.fav-movie-description {
+  white-space: normal;
+  overflow: visible;
+}

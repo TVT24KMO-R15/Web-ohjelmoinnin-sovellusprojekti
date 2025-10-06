@@ -12,7 +12,7 @@ export default function ExtraLinks() {
         </article>
       </Link>
 
-      <Link className='extraLink'>
+      <Link to='/myaccount/myfavourites' className='extraLink'>
         <article className='extraLinkArticle'>
           <h3 className='extraLinkH3'>Favourites</h3>
           <p className='extraLinkP'>Share your favourite movies list to friends.</p>

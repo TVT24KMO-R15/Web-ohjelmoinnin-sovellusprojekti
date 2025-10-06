@@ -99,7 +99,9 @@ export default function SingleMovie({ addToFavourites }) {
       <div className="movie-row">
         <div className="poster-container">
           <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            src={movie.poster_path
+              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+              : '../src/assets/noPoster.png'} // placeholder jos poster puuttuu
             alt={movie.title}
             className="poster"
           />
@@ -108,8 +110,10 @@ export default function SingleMovie({ addToFavourites }) {
         <div className="movie-content">
           <div className="header">
             <h1>{movie.original_title}</h1>
-              <button onClick={toggleFavorite}> 
-                {favorites.includes(movie.id) ? '❤️' : '🤍'} Add to favorites
+              <button onClick={toggleFavorite}>
+                {favorites.includes(movie.id)
+                  ? '❤️ Added to favorites'
+                  : '🤍 Add to favorites'}
               </button>
           </div>
 

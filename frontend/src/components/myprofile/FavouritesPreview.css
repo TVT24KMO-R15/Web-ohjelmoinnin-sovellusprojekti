@@ -1,0 +1,9 @@
+.favourites-grid {
+  display: flex;
+  gap: 1rem;
+}
+
+.poster-thumb {
+  width: 150px;
+  height: auto;
+}
