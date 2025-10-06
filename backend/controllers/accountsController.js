@@ -303,6 +303,11 @@ const putAccountUsername = async (req, res, next) => {
         const updateResult = await updateUsername(accountid, account.newUsername)
         return res.status(200).json({ status: 'success' })
     } catch (error) {
+        if (error.code === '23505') { // unique violation
+            const error = new Error('Username already in use, cannot update username')
+            error.status = 400
+            return next(error)
+        }
         console.log("putAccountUsername in accountsController.js throwing error")
         return next(error)
     }
@@ -357,6 +362,11 @@ const putAccountEmail = async (req, res, next) => {
         }
         return res.status(200).json({ status: 'success' })
     } catch (error) {
+        if (error.code === '23505') { // unique violation
+            const error = new Error('Email already in use, cannot update email')
+            error.status = 400
+            return next(error)
+        }
         console.log("putAccountEmail in accountsController.js throwing error")
         return next(error)
     }
