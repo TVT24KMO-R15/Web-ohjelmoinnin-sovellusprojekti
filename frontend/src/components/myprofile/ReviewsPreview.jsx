@@ -2,6 +2,7 @@ import {React, useState, useEffect} from 'react'
 import "./ReviewsPreview.css"
 import ReviewsPreviewRow from './ReviewsPreviewRow.jsx'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 import { useUser } from '../../context/UseUser'
 
@@ -13,12 +14,12 @@ export default function ReviewsPreview() {
   useEffect(() => {
     //setReviews([])
     const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}/5` //preview limited to 5 reviews
+    const headers = { Authorization: `Bearer ${account.user.token}` }
     //console.log(address)
-    fetch(address)
-      .then(response => response.json())
-      .then(json => {
-        //console.log(json.rows)
-        setReviews(json.rows)
+    axios(address, {headers})
+      .then(response => {
+        //console.log(response.data.rows)
+        setReviews(response.data.rows)
         //console.log(reviews)
       }
       )

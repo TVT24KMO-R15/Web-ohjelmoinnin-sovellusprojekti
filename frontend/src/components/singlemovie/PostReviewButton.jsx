@@ -19,7 +19,8 @@ export default function PostReviewButton({ onUpdate }) {
         
             console.log(account)
             try {
-                axios.get(import.meta.env.VITE_API_URL + `/reviews/movieuser/${movieId}/${account.user.id}`)
+                const headers = { Authorization: `Bearer ${account.user.token}` }
+                axios.get(import.meta.env.VITE_API_URL + `/reviews/movieuser/${movieId}/${account.user.id}`, {headers})
                     .then(response => {
                         console.log(response)
                         if (response.data.length === 0) {
