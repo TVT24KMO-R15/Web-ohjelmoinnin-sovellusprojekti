@@ -23,6 +23,7 @@ export default function Group() {
         return response.json()
       })
       .then(data =>  {
+        console.log("group data:", data)
         setGroupData(data)
       })
       .catch(error => console.error('Error fetching group data:', error))
@@ -40,6 +41,7 @@ export default function Group() {
       })
         .then(response => response.json())
         .then(data => {
+          console.log("is owner data:", data)
           setIsOwner(data.isOwner)
         })
         .catch(error => console.error('Error fetching owner status:', error))
