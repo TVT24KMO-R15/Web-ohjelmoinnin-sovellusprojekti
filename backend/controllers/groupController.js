@@ -167,8 +167,48 @@ const deleteGroup = async (req, res, next) => {
         res.status(500).json({ error: err.message });
     }
 }
+
+
+// router.get('/:id/accountid/:accountid', auth, getMembershipStatus) // to check if user is owner of the group
+const getMembershipStatus = async (req, res, next) => {
+    const userId = req.user.id;
+    console.log("THIS USER ID IS FROM AUTH", userId);
+    const groupId = req.params.id;
+    console.log("THIS GROUP ID IS FROM PARAMS", groupId);
+    const accountIdParam = req.params.accountid;
+    console.log("THIS ACCOUNT ID IS FROM PARAMS", accountIdParam);
+
+    try {
+        console.log(`Checking membership status for user ${userId} in group ${groupId}`);
+
+        // check auth user id with param id
+        if (parseInt(userId) !== parseInt(accountIdParam)) {
+            return res.status(403).json({ error: "Forbidden" });
+        }
+
+        if (!userId) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        if (!groupId) {
+            return res.status(400).json({ error: "Missing group ID" });
+        }
+
+        const groupResult = await queryGroupById(groupId);
+
+        if (groupResult.rowCount === 0) {
+            return res.status(404).json({ error: "Group not found" });
+        }
+
+        const isOwner = groupResult.rows[0].fk_ownerid === userId;
+
+        return res.status(200).json({ isOwner });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
 export{ 
-    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup
+    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup, getMembershipStatus
 }
 
 
