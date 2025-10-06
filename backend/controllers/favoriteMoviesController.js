@@ -91,4 +91,27 @@ const getFavorites = async (req, res, next) => {
   }
 };
 
-export { addFavorite, getFavorites, deleteFavorite };
+const getPublicFavorites = async (req, res, next) => {
+  try {
+    const { accountId } = req.params; // otetaan parametrista
+    if (!accountId) return res.status(400).json({ message: "No accountId provided" });
+
+    const userResult = await pool.query(
+      "SELECT accountid FROM account WHERE accountid = $1",
+      [accountId]
+    );
+    if (userResult.rows.length === 0)
+      return res.status(404).json({ message: "User not found" });
+
+    const favResult = await pool.query(
+      "SELECT movieid FROM favoritemovies WHERE fk_accountid = $1",
+      [accountId]
+    );
+
+    res.json({ favorites: favResult.rows.map(r => r.movieid) });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export { addFavorite, getFavorites, deleteFavorite, getPublicFavorites };
