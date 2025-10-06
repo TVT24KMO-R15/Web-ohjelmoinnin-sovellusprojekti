@@ -301,7 +301,6 @@ const putAccountUsername = async (req, res, next) => {
 
         // update username in db
         const updateResult = await updateUsername(accountid, account.newUsername)
-        console.log("Username updated in db, new username: ", updateResult)
         return res.status(200).json({ status: 'success' })
     } catch (error) {
         console.log("putAccountUsername in accountsController.js throwing error")
@@ -310,6 +309,12 @@ const putAccountUsername = async (req, res, next) => {
 }
 
 const putAccountEmail = async (req, res, next) => {
+    const accountid = req.user.id
+    const oldUsername = req.user.username
+    const oldEmail = req.user.account
+    // console.log("user details from auth: id: " + accountid + ", username: " + oldUsername + ", email: " + oldEmail)
+    console.log("Updating email for account id from auth token: " + accountid)
+
     try {
         const { account } = req.body
         console.log("Request body account: ", account)
@@ -318,6 +323,26 @@ const putAccountEmail = async (req, res, next) => {
             error.status = 400
             return next(error)
         }
+
+        if (account.username !== oldUsername || account.email !== oldEmail) {
+            const error = new Error('Username or email in request body do not match to auth token details, cant update email')
+            error.status = 401
+            return next(error)
+        }
+
+        const resultAccountID = await getAccountIDByUsernameEmail(account.username, account.email)
+        if (resultAccountID.rows.length === 0) {
+            const error = new Error('Could not find account with given email and username')
+            error.status = 404
+            return next(error)
+        }
+
+        if (accountid !== resultAccountID.rows[0].accountid) {
+            const error = new Error('Account id from auth token and account id from email and username do not match, cant update email')
+            error.status = 401
+            return next(error)
+        }
+
         const result = await getAccountIDByUsernameEmail(account.username, account.email)
         if (result.rows.length === 0) {
             const error = new Error('Could not find account with given email and username')
@@ -327,6 +352,9 @@ const putAccountEmail = async (req, res, next) => {
         const accountID = result.rows[0].accountid
         // update email in db
         const updateResult = await updateEmail(accountID, account.newEmail)
+        if(updateResult.rowCount === 1) {
+            console.log("Email updated successfully in db")
+        }
         return res.status(200).json({ status: 'success' })
     } catch (error) {
         console.log("putAccountEmail in accountsController.js throwing error")
