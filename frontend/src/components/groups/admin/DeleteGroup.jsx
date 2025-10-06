@@ -18,7 +18,7 @@ export default function DeleteGroup({ onClose, groupId }) {
 
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/groups/${groupId}`,
+        `${import.meta.env.VITE_API_URL}/groups/delete/${groupId}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`
