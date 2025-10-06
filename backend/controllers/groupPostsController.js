@@ -33,12 +33,12 @@ const getGroupPostsByGroupId = async (req, res, next) => {
         const accountid = req.user.id;
         const groupId = req.params.id;    
         console.log(`Getting Group posts with groupid: ${groupId}`)
-        
-   /*      // Check if user is a member of the group
+
+        // Check if user is a member of the group
         const membershipCheck = await queryAllByGroupIdAccountId(groupId, accountid);
         if (membershipCheck.rowCount === 0) {
             return res.status(403).json({ error: "You must be a member of this group to view its posts" });
-        } */
+        }
         
         const result = await queryGroupPostsByGroupId(groupId)
         if (result.rowCount === 0) {

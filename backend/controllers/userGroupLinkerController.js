@@ -23,7 +23,7 @@ const getAllUserGroupLinker = async (req, res, next) => {
 
 const getAllUsersByGroupId = async (req, res, next) => {
     try {
-        const groupId = req.params.id;
+        const groupId = req.params.groupid;
         console.log(`Getting users with groupid: ${groupId}`)
         const result = await queryAllUsersByGroupId(groupId)
         if (result.rowCount === 0) {
@@ -38,7 +38,7 @@ const getAllUsersByGroupId = async (req, res, next) => {
 }
 const getAllGroupsByAccountId = async (req, res, next) => {
     try {
-        const accountId = req.params.id;
+        const accountId = req.params.accountid;
         console.log(`Getting groups with accountid: ${accountId}`)
         const result = await queryAllGroupsByAccountId(accountId)
         if (result.rowCount === 0) {
@@ -83,7 +83,7 @@ const postUserGroupLinker = async (req, res, next) => {
     }
 }
 
-const deleteByAccountId = async (req, res, next) => {
+const deleteByAccountId = async (req, res, next) => { // todo auth
     const { accountid } = req.params
     try {
         console.log(`Deleting usergrouplinker with accountid: ${accountid}`)
@@ -99,7 +99,7 @@ const deleteByAccountId = async (req, res, next) => {
     }
 }
 
-const deleteByGroupId = async (req, res, next) => {
+const deleteByGroupId = async (req, res, next) => { // todo auth
     const { groupid } = req.params
     try {
         console.log(`Deleting usergrouplinker with groupid: ${groupid}`)
@@ -115,7 +115,7 @@ const deleteByGroupId = async (req, res, next) => {
         return next(error)
     }
 }
-const deleteByAccountIdGroupId = async (req, res, next) => {
+const deleteByAccountIdGroupId = async (req, res, next) => { // todo auth
     const { accountid, groupid } = req.params
     try {
         console.log(`Deleting usergrouplinker with accountid: ${accountid} and groupid: ${groupid}`)

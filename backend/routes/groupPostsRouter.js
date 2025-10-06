@@ -13,7 +13,7 @@ import {
 const router = Router()
 
 router.get('/', getAllGroupPosts)
-router.get('/groupid/:id', getGroupPostsByGroupId)
+router.get('/groupid/:id', auth, getGroupPostsByGroupId)
 router.get('/postid/:id', getGroupPostsByPostId)
 router.post('/post', auth, postGroupPost)
 router.delete('/delete/:id', auth, deleteGroupPost)
