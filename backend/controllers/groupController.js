@@ -6,8 +6,10 @@ import {
     queryGroupByOwnerId, 
     queryPostGroup, 
     queryDeleteGroup, 
-    queryUpdateGroup } 
-from "../models/group.js";
+    queryUpdateGroup,
+    queryAllMembersByGroupId,
+    queryMembershipStatus
+} from "../models/group.js";
 import { 
     queryPostUserGroupLinker, // to automatically add owner to group
     queryDeleteByGroupId // to remove linkers when group is deleted
@@ -207,8 +209,37 @@ const getMembershipStatus = async (req, res, next) => {
     }
 }
 
-export{ 
-    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup, getMembershipStatus
+const getMembersList = async (req, res, next) => {
+    const userId = req.user.id;
+    const groupId = req.params.groupid;
+    console.log("userid from auth:", userId);
+    console.log("groupid from params:", groupId);
+    try {
+        const membershipResult = await queryMembershipStatus(groupId, userId);
+        if (membershipResult.rowCount === 0) {
+            return res.status(403).json({ error: "Forbidden" });
+        }
+        console.log(`Getting members list for group ${groupId}`);
+        if (!userId) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        if (!groupId) {
+            return res.status(400).json({ error: "Missing group ID" });
+        }
+        const groupResult = await queryGroupById(groupId);
+
+        if (groupResult.rowCount === 0) {
+            return res.status(404).json({ error: "Group not found" });
+        }
+        const membersResult = await queryAllMembersByGroupId(groupId);
+        return res.status(200).json(membersResult.rows || []);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+export {
+    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup, getMembershipStatus, getMembersList
 }
 
 

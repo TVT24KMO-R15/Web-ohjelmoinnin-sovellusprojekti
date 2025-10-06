@@ -39,4 +39,19 @@ const queryDeleteGroup = async (groupid, ownerid) => {
     return await pool.query(`DELETE FROM groups WHERE groupid=$1 AND fk_ownerid=$2 RETURNING *`, [groupid, ownerid])
 }
 
-export { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup, queryIsOwnerOfGroup }
+const queryAllMembersByGroupId = async (groupid) => {
+    return await pool.query(`SELECT a.username
+    FROM account a
+    JOIN user_group_linker ugl ON a.accountid = ugl.fk_accountid
+    WHERE ugl.fk_groupid = $1`, [groupid])
+}
+
+const queryMembershipStatus = async (groupid, accountid) => {
+    console.log("Checking membership status for accountid:", accountid, "in groupid:", groupid);
+    return await pool.query(`SELECT 1 AS in_group
+    FROM user_group_linker
+    WHERE fk_groupid = $1 AND fk_accountid = $2`, [groupid, accountid]
+    )
+}
+
+export { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup, queryIsOwnerOfGroup, queryAllMembersByGroupId, queryMembershipStatus }
