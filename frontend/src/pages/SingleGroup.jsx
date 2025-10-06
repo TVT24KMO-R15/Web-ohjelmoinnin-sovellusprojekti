@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import AdminPanel from '../components/groups/admin/AdminPanel.jsx'
+import { useParams } from 'react-router-dom'
 import ProtectedRoute from '../components/common/ProtectedRoute'
 import { useUser } from '../context/UseUser'
-import GroupMemberList from '../components/groups/GroupMemberList.jsx'
-import GroupPostsListing from '../components/groups/GroupPostsListing.jsx'
+import GroupInfoHeader from '../components/groups/GroupInfoHeader.jsx'
+import GroupMembersSection from '../components/groups/GroupMembersSection.jsx'
+import GroupPostsSection from '../components/groups/GroupPostsSection.jsx'
+import GroupAdminSection from '../components/groups/GroupAdminSection.jsx'
 import './SingleGroup.css'
 
 export default function Group() {
@@ -12,9 +13,7 @@ export default function Group() {
   // user: email id token username
   const { groupId } = useParams()
   const [groupData, setGroupData] = useState({})
-  const [addNewPostHidden, setAddNewPostHidden] = useState(true)
   const [isOwner, setIsOwner] = useState(false)
-  const [adminPanelOpen, setAdminPanelOpen] = useState(false)
 
   // get group info
   useEffect(() => {
@@ -50,51 +49,29 @@ export default function Group() {
 
   return (
     <>
-      <div><ProtectedRoute /></div>
-
-      <div id="singlegrouppage">
-        <h1>Group {groupData.groupname}</h1>
-        <p>{groupData.groupdescription}</p>
-        <div><p>Created on: {new Date(groupData.creation_date).toLocaleDateString('en-GB')}</p></div>
-        <div id="memberscontainer">
-          <h2>Members:</h2>
-          <ul>
-            <GroupMemberList groupId={groupId} />
-          </ul>
-        </div>
-        <div id="postscontainer">
-          <h2>Posts:</h2>
-          <ul>
-            <GroupPostsListing groupId={groupId} />
-          </ul>
-        </div>
-        <div id="addpostcontainer">
-          <button onClick={() => setAddNewPostHidden(!addNewPostHidden)}>{addNewPostHidden ? 'Add New Post' : 'Cancel'}</button>
-          {!addNewPostHidden && (
-            <form id="addpostform">
-              <textarea placeholder="Write your post here..." rows="4" cols="50"></textarea>
-              <br />
-              <button type="submit">Submit Post</button>
-            </form>
-          )}
-      </div>
-        {isOwner && (
-          <div id="groupadmincontainer">
-            <h2>Group Administration</h2>
-            <div className='adminbuttoncontainer'>
-              <button className='deletebutton' onClick={() => setAdminPanelOpen(!adminPanelOpen)}>
-                {adminPanelOpen ? 'Close Admin Panel' : 'Open Admin Panel'}
-              </button>
-            </div>
-            {adminPanelOpen && (
-              <AdminPanel 
-                onClose={() => setAdminPanelOpen(false)}
-                groupId={groupId} 
-                groupData={groupData} 
-              />
-            )}
+      <ProtectedRoute />
+      <div className='singlegrouppage'>
+        <div className='groupcontentdiv'>
+          <div className='groupcontent'>
+            <GroupPostsSection groupId={groupId} />
           </div>
-        )}
+
+          {isOwner && (
+            <div className='groupcontent'>
+              <GroupAdminSection groupId={groupId} groupData={groupData} />
+            </div>
+          )}
+        </div>
+
+        <div className='groupinfodiv'>
+          <div className='groupcontent'>
+            <GroupInfoHeader groupData={groupData} />
+          </div>
+
+          <div className='groupcontent'>
+            <GroupMembersSection groupId={groupId} />
+          </div>
+        </div>
       </div>
     </>
   )
