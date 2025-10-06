@@ -52,4 +52,8 @@ const updateEmail = async (accountID, newEmail) => {
     return await pool.query(`UPDATE account SET email = $2 WHERE accountid = $1`, [accountID, newEmail])
 }
 
-export { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail }
+const queryGetUsername = async (accountid) => {
+    return await pool.query(`SELECT username FROM account WHERE accountid = $1`, [accountid])
+}
+
+export { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail , queryGetUsername }

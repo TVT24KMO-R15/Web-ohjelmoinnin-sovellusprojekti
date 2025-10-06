@@ -1,5 +1,5 @@
 // for all account table http endpoints
-import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail } from "../models/account.js"
+import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail, queryGetUsername } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 
@@ -372,4 +372,19 @@ const putAccountEmail = async (req, res, next) => {
     }
 }
 
-export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail }
+const getUsernameById = async (req, res, next) => {
+    if (!req.params.accountid || req.params.accountid === 'undefined') {
+        const error = new Error('Account id is required')
+        error.status = 400
+        return next(error)
+    }
+    try {
+        const result = await queryGetUsername(req.params.accountid)
+        console.log('get details for account: ' + req.params.accountid)
+        return res.status(200).json(result.rows || [])
+    } catch (error) {
+        return next(error)
+    }
+}
+
+export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById }
