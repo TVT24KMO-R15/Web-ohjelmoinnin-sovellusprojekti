@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "c8179478-0c6b-46f3-8f23-06e02ca9a0ad",
-		"name": "group",
+		"name": "Group",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "40851870",
 		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-c8179478-0c6b-46f3-8f23-06e02ca9a0ad?action=share&source=collection_link&creator=40851870"
@@ -13,12 +13,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groups/",
-
+					"raw": "{{base_url}}/groups/",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groups",
 						""
@@ -33,12 +31,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groups/:id",
-
+					"raw": "{{base_url}}/groups/:id",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groups",
 						":id"
@@ -59,12 +55,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groups/owner/:ownerid",
-
+					"raw": "{{base_url}}/groups/owner/:ownerid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groups",
 						"owner",
@@ -86,12 +80,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groups/searchword/:word",
-
+					"raw": "{{base_url}}/groups/searchword/:word",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groups",
 						"searchword",
@@ -122,12 +114,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}groups/post",
-
+					"raw": "{{base_url}}/groups/post",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groups",
 						"post"
@@ -142,12 +132,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groups/delete/:id",
-
+					"raw": "{{base_url}}/groups/delete/:id",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groups",
 						"delete",
@@ -178,12 +166,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}groups/update/:id",
-
+					"raw": "{{base_url}}/groups/update/:id",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groups",
 						"update",

@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "b245dc13-5c61-4b61-a02d-b064d94427dc",
-		"name": "favorites",
+		"name": "Favorites",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "40851870",
 		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-b245dc13-5c61-4b61-a02d-b064d94427dc?action=share&source=collection_link&creator=40851870"
@@ -13,12 +13,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}favorites/?email=test@email.com",
-
+					"raw": "{{base_url}}/favorites/?email=test@email.com",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"favorites",
 						""
@@ -48,12 +46,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}favorites/add",
-
+					"raw": "{{base_url}}/favorites/add",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"favorites",
 						"add"
@@ -77,15 +73,38 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}favorites/delete",
-
+					"raw": "{{base_url}}/favorites/delete",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"favorites",
 						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get public favorites",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/favorites/public/:accountid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"favorites",
+						"public",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "5"
+						}
 					]
 				}
 			},
