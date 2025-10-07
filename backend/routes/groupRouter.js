@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { auth } from '../helpers/authHelper.js'
-import { getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, postGroup, deleteGroup, updateGroup } from "../controllers/groupController.js"
+import { getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, postGroup, deleteGroup, updateGroup, getMembershipStatus, getMembersList } from "../controllers/groupController.js"
 
 const router = Router()
 
@@ -8,6 +8,8 @@ router.get('/', getAllGroups)
 router.get('/:id', getGroupById)
 router.get(`/owner/:ownerid`, getGroupByOwnerId)
 router.get('/searchword/:word', getGroupBySearchWord)
+router.get('/:id/accountid/:accountid', auth, getMembershipStatus) // to check if user is owner of the group
+router.get('/getmembers/:groupid', auth, getMembersList) // to get group members
 router.post('/post', auth, postGroup)
 router.delete('/delete/:id', auth, deleteGroup)
 router.put('/update/:id', auth, updateGroup)

@@ -1,4 +1,7 @@
 import { expect } from "chai"
+import { verifyNodeEnv } from "../helpers/verifyNodeEnv.js"
+
+verifyNodeEnv()
 
 describe("Testing favorites", () => {
     const favorite1 = { email: "test01@test.com", movieId: 12345 }

@@ -9,6 +9,7 @@ export default function PublicFavourites() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -23,6 +24,21 @@ export default function PublicFavourites() {
     };
 
     fetchFavorites();
+  }, [accountId]);
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/getid/${accountId}`);
+        console.log(res)
+        setUsername(res.data[0].username);
+      } catch (err) {
+        console.error("Failed to fetch username", err);
+        setError("Could not load username.");
+      }
+    };
+
+    fetchUsername();
   }, [accountId]);
 
   useEffect(() => {
@@ -56,7 +72,7 @@ export default function PublicFavourites() {
 
   return (
     <div className="public-favourites-container">
-      <h1>Public Favourites</h1>
+      <h1>Public Favourites for user {username}</h1>
       <div className="pf-list">
         {movies.map(movie => (
           <div key={movie.id} className="pf-card">

@@ -1,4 +1,7 @@
 import { expect } from "chai"
+import { verifyNodeEnv } from "../helpers/verifyNodeEnv.js"
+
+verifyNodeEnv()
 
 describe("Cleaning up", () => {
     const user1 = { email: "test01@test.com", password: "password01", username: "testUser01" }

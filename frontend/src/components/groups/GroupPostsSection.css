@@ -1,0 +1,28 @@
+#addpostcontainer {
+    margin-top: 1em;
+}
+
+#addpostform {
+    margin-top: 1em;
+}
+
+#addpostform textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 1px solid #ccc;
+    margin-bottom: 0.5em;
+}
+
+#addpostform button {
+    padding: 0.5em 1em;
+    border: solid 1px black;
+    border-radius: 1em;
+    background-color: rgba(255, 192, 76, 0.678);
+    cursor: pointer;
+}
+
+#addpostform button:hover {
+    background-color: rgba(255, 192, 76, 0.9);
+}

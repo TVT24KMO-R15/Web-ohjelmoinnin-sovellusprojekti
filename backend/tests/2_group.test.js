@@ -1,4 +1,7 @@
 import { expect } from "chai"
+import { verifyNodeEnv } from "../helpers/verifyNodeEnv.js"
+
+verifyNodeEnv()
 
 describe("Testing groups", () => {
     const group1 = { groups: { groupname: "testGroup1", groupdescription: "This is a group created by test code" } }

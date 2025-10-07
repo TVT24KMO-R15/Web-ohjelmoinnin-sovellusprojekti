@@ -13,12 +13,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/popular/",
-
+					"raw": "{{base_url}}/api/tmdb/popular/",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
@@ -35,12 +33,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/collection/:collectionid",
-
+					"raw": "{{base_url}}/api/tmdb/collection/:collectionid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
@@ -63,12 +59,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/popular?page=2",
-
+					"raw": "{{base_url}}/api/tmdb/popular?page=2",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
@@ -90,12 +84,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/search/oppenheimer",
-
+					"raw": "{{base_url}}/api/tmdb/search/oppenheimer",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
@@ -112,12 +104,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/search/oppenheimer?page=2",
-
+					"raw": "{{base_url}}/api/tmdb/search/oppenheimer?page=2",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
@@ -140,12 +130,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/search/oppenheimer/?primary_release_year=2022",
-
+					"raw": "{{base_url}}/api/tmdb/search/oppenheimer/?primary_release_year=2022",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
@@ -169,12 +157,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/search/:name/?primary_release_year=2022&page=2",
-
+					"raw": "{{base_url}}/api/tmdb/search/:name/?primary_release_year=2022&page=2",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
@@ -209,12 +195,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/details/1007734",
-
+					"raw": "{{base_url}}/api/tmdb/details/1007734",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
@@ -234,12 +218,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}api/tmdb/discovery/?primary_release_year=2022&sort_by=revenue.desc&page=2",
-
+					"raw": "{{base_url}}/api/tmdb/discovery/?primary_release_year=2022&sort_by=revenue.desc&page=2",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"api",
 						"tmdb",
