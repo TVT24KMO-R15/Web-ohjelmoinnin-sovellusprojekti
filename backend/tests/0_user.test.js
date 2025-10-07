@@ -1,7 +1,8 @@
 import { expect } from "chai"
 import { initializeTestDb, insertTestUser } from "../helpers/testDbHelper.js"
+import { verifyNodeEnv } from "../helpers/verifyNodeEnv.js"
 
-
+verifyNodeEnv()
 
 describe("Testing user management", () => {
     const user1 = { email: "test01@test.com", password: "password01", username: "testUser01" }

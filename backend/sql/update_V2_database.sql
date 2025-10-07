@@ -25,4 +25,8 @@ ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
 REFERENCES public.account (accountid) MATCH SIMPLE
 ON UPDATE NO ACTION
 ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS public.groupposts
+    ALTER COLUMN fk_accountid SET NOT NULL;
+
 END;

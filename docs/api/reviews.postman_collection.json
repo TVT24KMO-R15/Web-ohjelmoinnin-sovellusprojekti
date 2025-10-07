@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "e986b661-a6c4-4d7b-bbc3-6c583679975e",
-		"name": "reviews",
+		"name": "Reviews",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "40851870",
 		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-e986b661-a6c4-4d7b-bbc3-6c583679975e?action=share&source=collection_link&creator=40851870"
@@ -13,12 +13,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/all/",
-
+					"raw": "{{base_url}}/reviews/all/",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"all",
@@ -34,12 +32,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/pageamount",
-
+					"raw": "{{base_url}}/reviews/pageamount",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"pageamount"
@@ -54,12 +50,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/frompage/:page",
-
+					"raw": "{{base_url}}/reviews/frompage/:page",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"frompage",
@@ -81,12 +75,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/all/:limit",
-
+					"raw": "{{base_url}}/reviews/all/:limit",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"all",
@@ -108,12 +100,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/:accountid",
-
+					"raw": "{{base_url}}/reviews/:accountid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						":accountid"
@@ -134,12 +124,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/:accountid/:limit",
-
+					"raw": "{{base_url}}/reviews/:accountid/:limit",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						":accountid",
@@ -165,12 +153,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/movie/:movieid/:limit/:offset",
-
+					"raw": "{{base_url}}/reviews/movie/:movieid/:limit/:offset",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"movie",
@@ -202,12 +188,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/:accountid",
-
+					"raw": "{{base_url}}/reviews/:accountid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						":accountid"
@@ -237,12 +221,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}reviews/put",
-
+					"raw": "{{base_url}}/reviews/put",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"put"
@@ -257,12 +239,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/movieuser/:movieid/:accountid",
-
+					"raw": "{{base_url}}/reviews/movieuser/:movieid/:accountid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"movieuser",
@@ -289,12 +269,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/filtered/pageamount?stars=1",
-
+					"raw": "{{base_url}}/reviews/filtered/pageamount?stars=1",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"filtered",
@@ -317,12 +295,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}reviews/filtered/frompage/:page?stars=1&orderby=date",
-
+					"raw": "{{base_url}}/reviews/filtered/frompage/:page?stars=1&orderby=date",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"reviews",
 						"filtered",

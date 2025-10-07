@@ -3,31 +3,6 @@ import { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, g
 
 const router = Router();
 
-/**
- * @swagger
- * tags:
- *   - name: GroupJoin
- *     description: Group join request endpoints
-*/
-
-/**
- * @swagger
- * /groupjoin/pendingrequests/received/{ownerid}:
- *   get:
- *     summary: Get all pending join requests for groups owned by the user
- *     tags: [GroupJoin]
- *     parameters:
- *       - in: path
- *         name: ownerid
- *         required: true
- *         description: The ID of the group owner
- *         schema:
- *           type: string
- * responses:
- *   200:
- *     description: A list of pending join requests
- */
-
 // url/groupjoin/*endpoint*
 //router.get('/requests/:groupid', getRequestsForGroup); // not used (?)
 router.get('/pendingrequests/received/:ownerid', getPendingRequestsAsOwner); // with group owner id, returns all usernames that want to join groups
