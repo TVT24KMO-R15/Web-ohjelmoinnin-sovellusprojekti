@@ -84,6 +84,7 @@ export default function ChangePassword({ onClose, username }) {
                     <div className="field">
                         <p>Current Password:</p>
                         <input
+                            maxLength={255}
                             type="password"
                             name="password"
                             value={newUser.password}
@@ -94,6 +95,7 @@ export default function ChangePassword({ onClose, username }) {
                     <div className="field">
                         <p>New Password:</p>
                         <input
+                            maxLength={255}
                             type="password"
                             name="newPassword1"
                             value={newUser.password1}
@@ -108,6 +110,7 @@ export default function ChangePassword({ onClose, username }) {
                     <div className="field">
                         <p>New Password Again:</p>
                         <input
+                            maxLength={255}
                             type="password"
                             name="newPassword2"
                             value={newUser.password2}

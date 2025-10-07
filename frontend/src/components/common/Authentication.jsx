@@ -50,7 +50,7 @@ const registerValidate = (user) => {
     setErrorMessagePassword('');
   }
 
-  if (!user.username || user.username.length > 15 || !containsOnlyLettersAndNumbers(user.username)) {
+  if (!user.username || user.username.length > 32 || !containsOnlyLettersAndNumbers(user.username)) {
     setErrorMessageUsername('32 characters max, letters and numbers only');
     valid = false;
   } else {
@@ -154,6 +154,7 @@ const handleSubmit = async (e) => {
           <div className="field">
             <p className="field-label">Email</p>
             <input
+              maxLength={255}
               type="email"
               name="email"
               value={user.email || ''}
@@ -166,6 +167,7 @@ const handleSubmit = async (e) => {
           <div className="field">
             <p className="field-label">Password</p>
             <input
+              maxLength={255}
               type="password"
               name="password"
               value={user.password || ''}
