@@ -9,7 +9,7 @@ export default function GroupAdminSection({ groupId, groupData }) {
     <div>
       <h2>Group Administration</h2>
       <div className='adminbuttoncontainer'>
-        <button className='deletebutton' onClick={() => setAdminPanelOpen(!adminPanelOpen)}>
+        <button className='adminControlButton' onClick={() => setAdminPanelOpen(!adminPanelOpen)}>
           {adminPanelOpen ? 'Close Admin Panel' : 'Open Admin Panel'}
         </button>
       </div>
