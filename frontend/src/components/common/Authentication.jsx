@@ -32,13 +32,13 @@ export default function Authentication({ onClose }) {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-function containsUppercase(str) {
+const containsUppercase = (str) => {
   return /[A-Z]/.test(str);
 }
-function containsNumber(str) {
+const containsNumber = (str) => {
   return /\d/.test(str);
 }
-function containsOnlyLettersAndNumbers(str) {
+const containsOnlyLettersAndNumbers = (str) => {
   return /^[A-Za-z0-9]+$/.test(str);
 }
 const registerValidate = (user) => {
