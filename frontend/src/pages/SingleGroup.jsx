@@ -55,6 +55,29 @@ export default function Group() {
     }
   }, [user, groupId])
 
+  // get membership status, returns 403 forbidden if not member
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/groups/getmembers/${groupId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if(data?.error) {
+          setNotFound(true);
+          return;
+        }
+        console.log("Group members:", data);
+      })
+      .catch(error => {
+        console.error("Error fetching group members:", error);
+      });
+  }, [groupId])
+
+
   return (
     <>
       <ProtectedRoute />
