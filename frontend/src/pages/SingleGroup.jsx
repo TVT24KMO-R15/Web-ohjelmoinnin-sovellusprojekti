@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import ProtectedRoute from '../components/common/ProtectedRoute'
 import { useUser } from '../context/UseUser'
 import GroupInfoHeader from '../components/groups/GroupInfoHeader.jsx'
@@ -14,6 +14,7 @@ export default function Group() {
   const { groupId } = useParams()
   const [groupData, setGroupData] = useState({})
   const [isOwner, setIsOwner] = useState(false)
+  const [notFound, setNotFound] = useState(false)
 
   // get group info
   useEffect(() => {
@@ -23,6 +24,12 @@ export default function Group() {
       })
       .then(data =>  {
         console.log("group data:", data)
+        if (data?.error?.status === 404) {
+          console.log("Group not found")
+          setGroupData({})
+          setNotFound(true)
+          return
+        }
         setGroupData(data)
       })
       .catch(error => console.error('Error fetching group data:', error))
@@ -30,6 +37,7 @@ export default function Group() {
 
   // check if user is owner
   useEffect(() => {
+    if(notFound) return
     if (user && user.id && user.token) {
       fetch(`${import.meta.env.VITE_API_URL}/groups/${groupId}/accountid/${user.id}`, {
         method: 'GET',
@@ -50,6 +58,7 @@ export default function Group() {
   return (
     <>
       <ProtectedRoute />
+      {notFound && <Navigate to="/notfound" replace />}
       <div className='singlegrouppage'>
         <div className='groupcontentdiv'>
           <div className='groupcontent'>
