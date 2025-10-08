@@ -21,6 +21,7 @@ export default function Authentication({ onClose }) {
     setErrorMessageEmail('');
     setErrorMessagePassword('');
     setErrorMessageUsername('');
+    setCountName(0);
     if (newMode === 'signin') {
       setUser({ email: '', password: '' }); 
     } else {
