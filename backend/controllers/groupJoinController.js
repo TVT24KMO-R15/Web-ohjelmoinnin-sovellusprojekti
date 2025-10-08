@@ -173,10 +173,6 @@ const denyJoinRequest = async (req, res, next) => {
 };
 
 
-export { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, acceptJoinRequest, denyJoinRequest };
-
-
-/*
 const getRequestsForGroup = async (req, res, next) => {
   const groupid = req.params.groupid;
   console.log("Getting join requests for group id: ", groupid);
@@ -193,4 +189,6 @@ const getRequestsForGroup = async (req, res, next) => {
     return next(error);
   }
 };
-*/
+
+
+export { getRequestsForGroup, sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, acceptJoinRequest, denyJoinRequest };

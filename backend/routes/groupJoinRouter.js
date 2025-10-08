@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, acceptJoinRequest, denyJoinRequest } from "../controllers/groupJoinController.js";
+import { getRequestsForGroup, sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, acceptJoinRequest, denyJoinRequest } from "../controllers/groupJoinController.js";
 
 const router = Router();
 
@@ -29,7 +29,7 @@ const router = Router();
  */
 
 // url/groupjoin/*endpoint*
-//router.get('/requests/:groupid', getRequestsForGroup); // not used (?)
+router.get('/requests/:groupid', getRequestsForGroup); // not used (?) YES used (!)
 router.get('/pendingrequests/received/:ownerid', getPendingRequestsAsOwner); // with group owner id, returns all usernames that want to join groups
 router.get('/pendingrequests/sent/:accountid', getPendingRequestsAsUser); // with user id, see all sent requests to groups
 router.get('/requeststatus/:groupid/:accountid', getRequestsByUserAndGroup);
