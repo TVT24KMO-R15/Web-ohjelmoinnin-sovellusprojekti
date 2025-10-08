@@ -16,12 +16,13 @@ export default function MyGroups() {
     const [pendingRequests, setPendingRequests] = useState([])
     const account = useUser()
     const [createGroupOpen, setCreateGroupOpen] = useState(false)
+    const headers = { Authorization: `Bearer ${account.user.token}` };
 
 
     useEffect(() => {
         console.log('get pending requests')
         const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/sent/${account.user.id}`
-        axios.get(address)
+        axios.get(address, { headers })
             .then(result => {
                 //console.log(result.data)
 
