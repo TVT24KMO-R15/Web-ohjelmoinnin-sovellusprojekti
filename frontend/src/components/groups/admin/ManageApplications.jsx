@@ -3,18 +3,18 @@ import axios from 'axios'
 import ModalWrapper from './ModalWrapper'
 import AccountEmailById from '../../common/AccountEmailById'
 import ManageApplicationsRow from './ManageApplicationsRow'
+import { useUser } from '../../../context/UseUser'
 
 export default function ManageApplications({ onClose, groupId }) {
   const [loading, setLoading] = useState(true)
   const [requests, setRequests] = useState(null)
-
-
+  const { user } = useUser()
+  const headers = { Authorization: `Bearer ${user.token}` };
 
   useEffect(() => {
     const address = import.meta.env.VITE_API_URL + `/groupjoin/requests/${groupId}`
-    axios.get(address)
+    axios.get(address, { headers })
       .then(response => {
-        console.log(response.data)
         setRequests(response.data.filter(item => (item.status.includes('pending'))))
       }).catch(error => {
         console.log(error)
