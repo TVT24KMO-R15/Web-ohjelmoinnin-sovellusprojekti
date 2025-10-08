@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages, queryFilteredReviewsPages, queryFilteredReviewsPageAmount } from "../models/reviews.js";
+import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryGetReviewById, queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages, queryFilteredReviewsPages, queryFilteredReviewsPageAmount } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -99,17 +99,31 @@ const putReview = async (req, res, next) => {
 }
 
 const deleteReview = async (req, res, next) => {
-    const { id } = req.params
-
+    const id = req.params.id
+    const user = req.user
+    console.log("User requesting delete: ", user)
     try {
         console.log(`Deleting review with id: ${id}`)
-        const result = await queryDeleteReview(id)
-        if (result.rowCount === 0) {
+        
+        // First, get the review to check ownership
+        const reviewResult = await queryGetReviewById(id)
+        
+        if (reviewResult.rowCount === 0) {
             const error = new Error('Review not found')
-            error.status = 400
+            error.status = 404
             return next(error)
         }
-        return res.status(200).json({ id: id })
+
+        const review = reviewResult.rows[0]
+        
+        if (review.fk_accountid !== user.id) {
+            const error = new Error('Unauthorized: You can only delete your own reviews')
+            error.status = 403
+            return next(error)
+        }
+
+        const result = await queryDeleteReview(id)
+        return res.status(200).json({ id: id, message: 'Review deleted successfully' })
     } catch (error) {
         return next(error)
     }

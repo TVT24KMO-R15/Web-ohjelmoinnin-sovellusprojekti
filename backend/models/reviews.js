@@ -40,6 +40,10 @@ const queryUpdateReview = async (movieid, stars, accountid, reviewtext) => {
     )
 }
 
+const queryGetReviewById = async (reviewid) => {
+    return await pool.query(`SELECT * FROM review WHERE reviewid = $1`, [reviewid])
+}
+
 const queryDeleteReview = async (reviewid) => {
     return await pool.query(`DELETE FROM review WHERE reviewid = $1`, [reviewid])
 }
@@ -84,4 +88,4 @@ const queryFilteredReviewsPageAmount = async (stars) => {
     return await pool.query(query, params)
 }
 
-export { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview , queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages, queryFilteredReviewsPages, queryFilteredReviewsPageAmount }
+export { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryGetReviewById, queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages, queryFilteredReviewsPages, queryFilteredReviewsPageAmount }
