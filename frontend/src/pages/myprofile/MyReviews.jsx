@@ -18,12 +18,13 @@ export default function MyReviews() {
     //setReviews([])
     console.log('reload: '+ reloadState)
     const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}`
+    const headers = {Authorization: `Bearer ${account.user.token}` }
+                
 
-    fetch(address)
-      .then(response => response.json())
-      .then(json => {
-        console.log(json.rows)
-        setReviews(json.rows)
+    axios.get(address, {headers})
+      .then(response => {
+        console.log(response.data.rows)
+        setReviews(response.data.rows)
         //console.log(reviews)
       }
       )
@@ -37,11 +38,14 @@ export default function MyReviews() {
     , [reloadState])
 
   const removeReview = (deleted) => {
+
     axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`, {
       headers: {
         Authorization: `Bearer ${account.user.token}`
       }
     })
+    const headers = { Authorization: `Bearer ${account.user.token}` }
+    axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`, {headers})
       .then(response => {
         setReviews(reviews.filter(item => item.reviewid !== deleted))
 

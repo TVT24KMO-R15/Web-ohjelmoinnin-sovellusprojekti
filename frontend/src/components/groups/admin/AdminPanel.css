@@ -21,3 +21,19 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.applicationrow {
+  border-bottom: solid 1px grey;
+  margin: 0.5em 0em;
+  
+  font-size: var(--font-size-sm);
+}
+
+.applicationrow:last-of-type {
+  border: none;
+}
+
+.applicationrow p {
+  margin: 0.5em 0em;
+  font-size: var(--font-size-sm);
+}
