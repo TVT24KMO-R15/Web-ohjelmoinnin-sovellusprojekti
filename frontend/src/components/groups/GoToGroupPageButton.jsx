@@ -7,6 +7,7 @@ import axios from "axios"
 export default function GoToGroupPageButton(group) {
     const [accessGranted, setAccessGranted] = useState(false)
     const [accessRequestPending, setAccessRequestPending] = useState(false)
+    const [rejected, setRejected] = useState(false)
     const [ownGroup, setOwnGroup] = useState(false)
     const [reload, setReload] = useState(false)
 
@@ -43,6 +44,21 @@ export default function GoToGroupPageButton(group) {
             })
     }
 
+    const tryAgain = () => {
+        console.log(`removing earlier request to join group ${group.group.groupid}`)
+        const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/removerejected/${account.user.id}/${group.group.groupid}`
+        console.log(address)
+        axios.post(address)
+            .then(result => {
+                console.log(result)
+            }).catch(error => {
+                alert(error)
+            }).finally(() => {
+                sendRequest();
+            })
+
+
+    }
 
     useEffect(() => {
         if (!account.user.id) {
@@ -61,6 +77,7 @@ export default function GoToGroupPageButton(group) {
                 if (result.data.result.includes('No join request found')) {
                     setAccessGranted(false)
                     setAccessRequestPending(false)
+                    setRejected(false)
                     return
                 }
                 const tulos = result.data.result[0]
@@ -68,12 +85,19 @@ export default function GoToGroupPageButton(group) {
                 if (tulos.status === 'pending') {
                     setAccessGranted(false)
                     setAccessRequestPending(true)
+                    setRejected(false)
                 } else if (tulos.status === 'accepted') {
                     setAccessGranted(true)
                     setAccessRequestPending(false)
-                } else if (tulos.status === 'rejected' || tulos.status === 'canceled') {
+                    setRejected(false)
+                } else if ( tulos.status === 'canceled') {
                     setAccessGranted(false)
                     setAccessRequestPending(false)
+                    setRejected(false)
+                } else if (tulos.status === 'rejected'){
+                    setAccessGranted(false)
+                    setAccessRequestPending(false)
+                    setRejected(true)
                 }
             })
     }, [reload])
@@ -85,8 +109,9 @@ export default function GoToGroupPageButton(group) {
     return (
         <div>
             {(accessGranted && account.user.id) && <><p className='requeststatusmessage'>Join request accepted</p><button className='deletebutton'><Link className='gotogrouplink' to={`/groups/${group.group.groupid}`}>Go to Group Page</Link></button></>}
-            {(!accessGranted && accessRequestPending && account.user.id) && <><p className='requeststatusmessage'>Join request pending</p><button className='deletebutton' onClick={cancelRequest}>Cancel Request</button></>}
-            {(!accessGranted && !accessRequestPending && account.user.id) && <><p className='requeststatusmessage'>Want to join?</p><button className='deletebutton' onClick={sendRequest}>Send Request</button></>}
+            {(!accessGranted && accessRequestPending && account.user.id && !rejected) && <><p className='requeststatusmessage'>Join request pending</p><button className='deletebutton' onClick={cancelRequest}>Cancel Request</button></>}
+            {(!accessGranted && !accessRequestPending && account.user.id && !rejected) && <><p className='requeststatusmessage'>Want to join?</p><button className='deletebutton' onClick={sendRequest}>Send Request</button></>}
+            {(rejected && account.user.id) && <><p className='requeststatusmessage'>Application rejected</p><button className='deletebutton'onClick={tryAgain}>Try Again</button></>}
         </div>
     )
 }

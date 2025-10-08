@@ -5,6 +5,7 @@ import {
   queryGetRequestsFromAccountID,
   queryRequestByAccountIdAndGroup,
   queryDeleteSentRequest,
+  queryDeleteRejectedRequest,
   queryAcceptJoinRequest,
   queryDenyJoinRequest,
   queryInsertUserIntoTables
@@ -130,6 +131,31 @@ const removeSentRequest = async (req, res, next) => {
   }
 };
 
+const removeRejectedRequest = async (req, res, next) => {
+  console.log("trying to remove rejected request")
+  if (!req.params.accountid || !req.params.groupid) {
+    return res.status(500).json({ error: "accountid and groupid required" });
+  }
+
+  const accountid = req.params.accountid;
+  const groupid = req.params.groupid;
+
+  try {
+    const result = await queryDeleteRejectedRequest( groupid, accountid);
+    if (result.rowCount === 1) {
+      console.log("deleted join request into group ", groupid, "by account: ", accountid);
+      return res.status(200).json({ status: "Rejected request deleted" });
+    } else {
+      return res.status(500).json({ error: "delete failed" });
+    }
+  } catch (error) {
+    if (error.message.includes("invalid input syntax for type integer")) {
+      return res.status(500).json({ error: "invalid url input" });
+    }
+    return next(error);
+  }
+};
+
 const acceptJoinRequest = async (req, res, next) => {
   if (!req.params.requestid) {
     return res.status(500).json({ error: "No join request provided" });
@@ -191,4 +217,4 @@ const getRequestsForGroup = async (req, res, next) => {
 };
 
 
-export { getRequestsForGroup, sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, acceptJoinRequest, denyJoinRequest };
+export { getRequestsForGroup, sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, removeRejectedRequest, acceptJoinRequest, denyJoinRequest };
