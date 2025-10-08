@@ -134,6 +134,10 @@ const queryInsertUserIntoTables = async (requestid) => {
   console.log("success")
 }
 
+const queryGetRequestById = async (requestid) => {
+  return await pool.query("SELECT * FROM group_join_requests WHERE request_id=$1", [requestid])
+}
+
 export {
   queryRequestsForGroup,
   queryInsertJoinRequest,
@@ -144,5 +148,6 @@ export {
   queryDeleteRejectedRequest,
   queryAcceptJoinRequest,
   queryDenyJoinRequest,
-  queryInsertUserIntoTables
+  queryInsertUserIntoTables,
+  queryGetRequestById
 };

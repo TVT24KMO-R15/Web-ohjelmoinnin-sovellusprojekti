@@ -8,12 +8,23 @@ import {
   queryDeleteRejectedRequest,
   queryAcceptJoinRequest,
   queryDenyJoinRequest,
-  queryInsertUserIntoTables
+  queryInsertUserIntoTables,
+  queryGetRequestById
 } from "../models/groupJoin.js";
+import { queryIsOwnerOfGroup } from "../models/group.js";
 
 const getPendingRequestsAsOwner = async (req, res, next) => {
   const ownerid = req.params.ownerid;
+  const user = req.user;
+  
   console.log("getting join requests into groups owned by owner_id: ", ownerid);
+  
+  if (parseInt(ownerid) !== user.id) {
+    const error = new Error('Unauthorized: You can only view requests for your own groups');
+    error.status = 403;
+    return next(error);
+  }
+  
   try {
     const result = await queryPendingUsersWithOwnerID(ownerid)
     if (result.rows.length === 0) {
@@ -38,12 +49,19 @@ POST http://localhost:3000/groupjoin/join/
 
 const sendJoinRequest = async (req, res, next) => {
   console.log("Sending join request")
-  if (!req.params.groupid || !req.params.accountid) {
+  const user = req.user;
+  const groupid = req.params.groupid
+  const accountid = req.params.accountid
+  
+  if (!groupid || !accountid) {
     return res.status(500).json({error: "group id and account id required"});
   }
 
-  const groupid = req.params.groupid
-  const accountid = req.params.accountid
+  if (parseInt(accountid) !== user.id) {
+    const error = new Error('Unauthorized: You can only send join requests for yourself');
+    error.status = 403;
+    return next(error);
+  }
 
   try {
     const result = await queryInsertJoinRequest(groupid, accountid);
@@ -62,18 +80,25 @@ const sendJoinRequest = async (req, res, next) => {
 // http://localhost:3000/groupjoin/pendingrequests/sent/7
 const getPendingRequestsAsUser = async (req, res, next) => {
   console.log("trying to get sent requests as user")
-  if (!req.params.accountid) {
+  const user = req.user;
+  const accountid = req.params.accountid;
+  
+  if (!accountid) {
     return res.status(404).json({ error: "accountid required" });
   }
 
-  const accountid = req.params.accountid;
+  if (parseInt(accountid) !== user.id) {
+    const error = new Error('Unauthorized: You can only view your own requests');
+    error.status = 403;
+    return next(error);
+  }
   
   try {
     const result = await queryGetRequestsFromAccountID(accountid);
     if (result.rows.length === 0) {
       return res.status(200).json({ result: "No pending requests found" });
     }
-    console.log("got sent join requests for user: ", req.params.accountid);
+    console.log("got sent join requests for user: ", accountid);
     return res.status(200).json({ result: result.rows });
   } catch (error) {
     if (error.message.includes("invalid input syntax for type integer")) {
@@ -87,9 +112,17 @@ const getPendingRequestsAsUser = async (req, res, next) => {
 const getRequestsByUserAndGroup = async (req, res, next) => {
   const groupid = req.params.groupid;
   const accountid = req.params.accountid;
+  const user = req.user;
+  
   console.log('getting group join request for user: ' + accountid + ' for group: ' + groupid)
   if (!groupid || !accountid) {
     return res.status(404).json({ error: "accountid and groupid required" });
+  }
+
+  if (parseInt(accountid) !== user.id) {
+    const error = new Error('Unauthorized: You can only view your own requests');
+    error.status = 403;
+    return next(error);
   }
 
   try {
@@ -108,12 +141,19 @@ const getRequestsByUserAndGroup = async (req, res, next) => {
 
 const removeSentRequest = async (req, res, next) => {
   console.log("trying to remove sent request")
-  if (!req.params.accountid || !req.params.groupid) {
+  const user = req.user;
+  const accountid = req.params.accountid;
+  const groupid = req.params.groupid;
+  
+  if (!accountid || !groupid) {
     return res.status(500).json({ error: "accountid and groupid required" });
   }
 
-  const accountid = req.params.accountid;
-  const groupid = req.params.groupid;
+  if (parseInt(accountid) !== user.id) {
+    const error = new Error('Unauthorized: You can only remove your own requests');
+    error.status = 403;
+    return next(error);
+  }
 
   try {
     const result = await queryDeleteSentRequest( groupid, accountid);
@@ -132,6 +172,15 @@ const removeSentRequest = async (req, res, next) => {
 };
 
 const removeRejectedRequest = async (req, res, next) => {
+  const user = req.user;
+  console.log("user trying to remove rejected request: ", user)
+
+  if (parseInt(req.params.accountid) !== user.id) {
+    const error = new Error('Unauthorized: You can only remove your own requests');
+    error.status = 403;
+    return next(error);
+  }
+
   console.log("trying to remove rejected request")
   if (!req.params.accountid || !req.params.groupid) {
     return res.status(500).json({ error: "accountid and groupid required" });
@@ -157,11 +206,29 @@ const removeRejectedRequest = async (req, res, next) => {
 };
 
 const acceptJoinRequest = async (req, res, next) => {
-  if (!req.params.requestid) {
+  const user = req.user;
+  const requestid = req.params.requestid;
+  
+  if (!requestid) {
     return res.status(500).json({ error: "No join request provided" });
   }
-  const requestid = req.params.requestid;
+  
   try {
+    const requestResult = await queryGetRequestById(requestid);
+    
+    if (requestResult.rowCount === 0) {
+      const error = new Error('Join request not found');
+      error.status = 404;
+      return next(error);
+    }
+    const request = requestResult.rows[0];
+    const ownerCheck = await queryIsOwnerOfGroup(request.fk_groupid, user.id);
+    if (ownerCheck.rowCount === 0) {
+      const error = new Error('Unauthorized: Only group owners can accept join requests');
+      error.status = 403;
+      return next(error);
+    }
+    
     const result = await queryAcceptJoinRequest(requestid);
     if (result.rowCount === 0) {
       return res.status(500).json({ error: "failed to accept join request" });
@@ -179,11 +246,30 @@ const acceptJoinRequest = async (req, res, next) => {
 };
 
 const denyJoinRequest = async (req, res, next) => {
-  if (!req.params.requestid) {
+  const user = req.user;
+  const requestid = req.params.requestid;
+  if (!requestid) {
     return res.status(500).json({ error: "No request ID provided" });
   }
-  const requestid = req.params.requestid;
+  
   try {
+    const requestResult = await queryGetRequestById(requestid);
+    
+    if (requestResult.rowCount === 0) {
+      const error = new Error('Join request not found');
+      error.status = 404;
+      return next(error);
+    }
+    const request = requestResult.rows[0];
+
+    const ownerCheck = await queryIsOwnerOfGroup(request.fk_groupid, user.id);
+    
+    if (ownerCheck.rowCount === 0) {
+      const error = new Error('Unauthorized: Only group owners can reject join requests');
+      error.status = 403;
+      return next(error);
+    }
+    
     const result = await queryDenyJoinRequest(requestid);
     if (result.rowCount === 0) {
       return res.status(500).json({ error: "failed to deny join request" });
