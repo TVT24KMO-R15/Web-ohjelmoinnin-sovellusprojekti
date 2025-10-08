@@ -1,3 +1,9 @@
+.field-label {
+  font-weight: 600;
+}
+.field-description {
+  color: #666;
+}
 .auth-modal {
   background: #fff;
   color: #111;
@@ -11,7 +17,9 @@
   flex-direction: column;
   align-items: stretch;
 }
-
+.auth-error {
+  color: red;
+}
 .auth-header {
   display: flex;
   justify-content: center;
@@ -40,12 +48,9 @@
   margin-bottom: 1.7rem;
 }
 .field{
+  font-size: 14px;
   display: flex;
   flex-direction: column;
-}
-.field p{
-  font-size: 14px;
-  font-weight: 600;
 }
 .auth-fields input{
   padding: 0.7rem 1rem;
@@ -53,7 +58,7 @@
   border: 1.5px solid #333;
   font-size: 1rem;
   background: #fff;
-  color: #111;
+  color: #000;
   outline: none;
   transition: border 0.2s;
 }
@@ -65,7 +70,7 @@
   border: 1.5px solid #333;
   font-size: 1rem;
   background: #fff;
-  color: #111;
+  color: #000;
   outline: none;
   transition: border 0.2s;
 }
@@ -81,7 +86,7 @@
   border: 1.5px solid #b30000;
 }
 .auth-submit {
-  background: #111;
+  background: #000;
   color: #fff;
   border: none;
   border-radius: 8px;

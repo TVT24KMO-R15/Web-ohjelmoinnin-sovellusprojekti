@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "b0db4d75-6ab1-4ea0-bcbd-ac4dea2f7ae4",
+		"name": "Group Posts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40851870",
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-b0db4d75-6ab1-4ea0-bcbd-ac4dea2f7ae4?action=share&source=collection_link&creator=40851870"
+	},
+	"item": [
+		{
+			"name": "Get all groupposts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupposts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupposts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"groupposts\": {\r\n    \"groupid\": 1,\r\n    \"posttext\": \"Check out this amazing movie!\",\r\n    \"movieid\": 123456,\r\n    \"finnkino_original_title\": \"Movie something\", // xml tag originalTitle\r\n    \"finnkino_showtime\": \"2025-10-06T19:30:00Z\", // xml tag ShowStart\r\n    \"finnkino_theatre_id\": \"1018\", // oulu finnkino ID\r\n    \"finnkino_poster_url\": \"https://example.com/poster.jpg\" // xml tag EventLargeImagePortrait\r\n  }\r\n}\r\n\r\n// can post just a movieID from TMDB, or finnkino movie details as like a \"lets watch this?\", or just a text post ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/groupposts/post",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupposts",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete self-made group post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupposts/delete/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupposts",
+						"delete",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "11"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete group post as owner",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupposts/delete/owner/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupposts",
+						"delete",
+						"owner",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "13"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update group post BY id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"groupposts\": {\r\n    \"posttext\": \"Updated post text\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/groupposts/update/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupposts",
+						"update",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

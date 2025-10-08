@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "82497d0c-cfb2-4eea-9e36-5000c0d5534a",
-		"name": "post comments",
+		"name": "Group Post Comments",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "40851870",
 		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-82497d0c-cfb2-4eea-9e36-5000c0d5534a?action=share&source=collection_link&creator=40851870"
@@ -13,12 +13,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}postcomment/:postid",
-
+					"raw": "{{base_url}}/postcomment/:postid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"postcomment",
 						":postid"
@@ -39,12 +37,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}postcomment/user/",
-
+					"raw": "{{base_url}}/postcomment/user/",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"postcomment",
 						"user",
@@ -69,12 +65,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}postcomment/",
-
+					"raw": "{{base_url}}/postcomment/",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"postcomment",
 						""
@@ -89,12 +83,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}postcomment/:id",
-
+					"raw": "{{base_url}}/postcomment/:id",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"postcomment",
 						":id"

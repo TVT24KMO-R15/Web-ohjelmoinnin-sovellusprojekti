@@ -44,4 +44,16 @@ const updatePassword = async (accountID, hashedPassword) => {
     return await pool.query(`UPDATE account SET password = $2 WHERE accountid = $1`, [accountID, hashedPassword])
 }
 
-export { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword }
+const updateUsername = async (accountID, newUsername) => {
+    return await pool.query(`UPDATE account SET username = $2 WHERE accountid = $1`, [accountID, newUsername])
+}
+
+const updateEmail = async (accountID, newEmail) => {
+    return await pool.query(`UPDATE account SET email = $2 WHERE accountid = $1`, [accountID, newEmail])
+}
+
+const queryGetUsername = async (accountid) => {
+    return await pool.query(`SELECT username FROM account WHERE accountid = $1`, [accountid])
+}
+
+export { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail , queryGetUsername }

@@ -1,5 +1,5 @@
 // for all account table http endpoints
-import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword } from "../models/account.js"
+import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail, queryGetUsername } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 
@@ -201,7 +201,14 @@ PUT http://localhost:3000/users/updatepassword
 */
 
 const putAccountPassword = async (req, res, next) => {
+    const accountid = req.user.id // get auth account id to match to db id from email and username
+    // console.log("account id from auth token: " + accountid)
     try {
+        if (!accountid) {
+            const error = new Error('No account id found from auth token, cant update password')
+            error.status = 401
+            return next(error)
+        }
         const { account } = req.body
 
         const resultAccountID = await getAccountIDByUsernameEmail(account.username, account.email)
@@ -214,9 +221,14 @@ const putAccountPassword = async (req, res, next) => {
             return next(error)
         }
 
-        const accountID = resultAccountID.rows[0].accountid
+        // console.log("account id from email and username: " + resultAccountID.rows[0].accountid)
+        if (parseInt(resultAccountID.rows[0].accountid) !== parseInt(accountid)) {
+            const error = new Error('Account id from auth token and account id from email and username do not match, cant update password')
+            error.status = 401
+            return next(error)
+        }
 
-        const resultDBPassword = await getPasswordByID(accountID)
+        const resultDBPassword = await getPasswordByID(accountid)
 
         if (resultDBPassword.rows.length === 0 || !resultDBPassword.rows[0]) {
             const error = new Error('Couldnt get dbPassword for password update')
@@ -237,10 +249,10 @@ const putAccountPassword = async (req, res, next) => {
 
         // point of no return
         if (isMatch) {
-            console.log("changing password for account with id: " + accountID)
+            console.log("changing password for account with id: " + accountid)
             const hashedPassword = await hash(account.newPassword, 10)
 
-            const result = await updatePassword(accountID, hashedPassword)
+            const result = await updatePassword(accountid, hashedPassword)
             res.status(200).json({
                 status: "success"
             })
@@ -251,4 +263,128 @@ const putAccountPassword = async (req, res, next) => {
     }
 }
 
-export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete, putAccountPassword }
+
+const putAccountUsername = async (req, res, next) => {
+    const accountid = req.user.id
+    const oldUsername = req.user.username
+    const oldEmail = req.user.account
+    console.log("user details from auth: id: " + accountid + ", username: " + oldUsername + ", email: " + oldEmail)
+    console.log("Updating username for account id from auth token: " + accountid)
+    try {
+        const { account } = req.body
+        console.log("Request body account: ", account)
+        if (!account || !account.email || !account.username || !account.newUsername) {
+            const error = new Error('Email, current username and new username are required')
+            error.status = 400
+            return next(error)
+        }
+
+        if (account.username !== oldUsername || account.email !== oldEmail) {
+            const error = new Error('Username or email in request body do not match to auth token details, cant update username')
+            error.status = 401
+            return next(error)
+        }
+        // check that accountid matches to email and username
+        const resultAccountID = await getAccountIDByUsernameEmail(account.username, account.email)
+
+        if (resultAccountID.rows.length === 0) {
+            const error = new Error('Could not find account with given email and username')
+            error.status = 404
+            return next(error)
+        }
+
+        if(accountid !== resultAccountID.rows[0].accountid) {
+            const error = new Error('Account id from auth token and account id from email and username do not match, cant update username')
+            error.status = 401
+            return next(error)
+        }
+
+        // update username in db
+        const updateResult = await updateUsername(accountid, account.newUsername)
+        return res.status(200).json({ status: 'success' })
+    } catch (error) {
+        if (error.code === '23505') { // unique violation
+            const error = new Error('Username already in use, cannot update username')
+            error.status = 400
+            return next(error)
+        }
+        console.log("putAccountUsername in accountsController.js throwing error")
+        return next(error)
+    }
+}
+
+const putAccountEmail = async (req, res, next) => {
+    const accountid = req.user.id
+    const oldUsername = req.user.username
+    const oldEmail = req.user.account
+    // console.log("user details from auth: id: " + accountid + ", username: " + oldUsername + ", email: " + oldEmail)
+    console.log("Updating email for account id from auth token: " + accountid)
+
+    try {
+        const { account } = req.body
+        console.log("Request body account: ", account)
+        if (!account || !account.email || !account.username || !account.newEmail) {
+            const error = new Error('Current email, username and new email are required')
+            error.status = 400
+            return next(error)
+        }
+
+        if (account.username !== oldUsername || account.email !== oldEmail) {
+            const error = new Error('Username or email in request body do not match to auth token details, cant update email')
+            error.status = 401
+            return next(error)
+        }
+
+        const resultAccountID = await getAccountIDByUsernameEmail(account.username, account.email)
+        if (resultAccountID.rows.length === 0) {
+            const error = new Error('Could not find account with given email and username')
+            error.status = 404
+            return next(error)
+        }
+
+        if (accountid !== resultAccountID.rows[0].accountid) {
+            const error = new Error('Account id from auth token and account id from email and username do not match, cant update email')
+            error.status = 401
+            return next(error)
+        }
+
+        const result = await getAccountIDByUsernameEmail(account.username, account.email)
+        if (result.rows.length === 0) {
+            const error = new Error('Could not find account with given email and username')
+            error.status = 404
+            return next(error)
+        }
+        const accountID = result.rows[0].accountid
+        // update email in db
+        const updateResult = await updateEmail(accountID, account.newEmail)
+        if(updateResult.rowCount === 1) {
+            console.log("Email updated successfully in db")
+        }
+        return res.status(200).json({ status: 'success' })
+    } catch (error) {
+        if (error.code === '23505') { // unique violation
+            const error = new Error('Email already in use, cannot update email')
+            error.status = 400
+            return next(error)
+        }
+        console.log("putAccountEmail in accountsController.js throwing error")
+        return next(error)
+    }
+}
+
+const getUsernameById = async (req, res, next) => {
+    if (!req.params.accountid || req.params.accountid === 'undefined') {
+        const error = new Error('Account id is required')
+        error.status = 400
+        return next(error)
+    }
+    try {
+        const result = await queryGetUsername(req.params.accountid)
+        console.log('get details for account: ' + req.params.accountid)
+        return res.status(200).json(result.rows || [])
+    } catch (error) {
+        return next(error)
+    }
+}
+
+export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById }

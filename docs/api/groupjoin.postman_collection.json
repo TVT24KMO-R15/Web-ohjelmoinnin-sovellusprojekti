@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "68598dae-b4e6-4c28-8c68-b7da6c933394",
-		"name": "test213123",
+		"name": "Group Join",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "40851870",
 		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-68598dae-b4e6-4c28-8c68-b7da6c933394?action=share&source=collection_link&creator=40851870"
@@ -13,8 +13,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groupjoin/requeststatus/:groupid/:accountid",
-
+					"raw": "{{base_url}}/groupjoin/requeststatus/:groupid/:accountid",
 					"host": [
 						"{{base_url}}"
 					],
@@ -44,12 +43,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groupjoin/pendingrequests/received/:ownerid",
-
+					"raw": "{{base_url}}/groupjoin/pendingrequests/received/:ownerid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groupjoin",
 						"pendingrequests",
@@ -72,12 +69,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groupjoin/pendingrequests/sent/:accountid",
-
+					"raw": "{{base_url}}/groupjoin/pendingrequests/sent/:accountid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groupjoin",
 						"pendingrequests",
@@ -100,12 +95,10 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}groupjoin/join/:accountid/:groupid",
-
+					"raw": "{{base_url}}/groupjoin/join/:accountid/:groupid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groupjoin",
 						"join",
@@ -141,12 +134,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}groupjoin/pendingrequests/remove/:userid/:groupid",
-
+					"raw": "{{base_url}}/groupjoin/pendingrequests/remove/:userid/:groupid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groupjoin",
 						"pendingrequests",
@@ -183,12 +174,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}groupjoin/pendingrequests/reject/:requestid",
-
+					"raw": "{{base_url}}/groupjoin/pendingrequests/reject/:requestid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groupjoin",
 						"pendingrequests",
@@ -220,12 +209,10 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}groupjoin/pendingrequests/accept/:requestid",
-
+					"raw": "{{base_url}}/groupjoin/pendingrequests/accept/:requestid",
 					"host": [
 						"{{base_url}}"
 					],
-					
 					"path": [
 						"groupjoin",
 						"pendingrequests",
