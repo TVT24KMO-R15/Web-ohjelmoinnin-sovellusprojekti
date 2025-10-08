@@ -17,7 +17,7 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
     if (!(reqUrl)) return // loading /search/ directly passes null as url, break here to avoid breaking
     const separator = reqUrl.includes('?') ? '&' : '?' // some frontend components send url without "/?" so add page with & or ? depending on if ? is already in the url
     const address = `${reqUrl}${separator}page=${currentPage}`
-    console.log("PopularMovies: using url: ", address)
+    // console.log("PopularMovies: using url: ", address)
     setLoading(true)
     axios.get(address)
       .then(response => {
@@ -64,7 +64,17 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
       <div className='popularMoviesDiv'>
 
         {
-
+          // removed annoying scrollbar resetting by adding placeholder cards while loading
+          loading ? (
+            Array.from({ length: 20 }).map((_, index) => (
+              <article key={`placeholder-${index}`} className='popularMoviesArticle placeholder'>
+                <div className='popularmovielink'>
+                  <div className='placeholder-image'>Loading...</div>
+                  <div className='placeholder-title'>Loading...</div>
+                </div>
+              </article>
+            ))
+          ) : ( // regular movie cards when loaded
           movies.map(item => (
             // console.log("current item being iterated: "),
             // console.log(item),
@@ -77,6 +87,7 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
             </article>
 
           ))
+          )
         }
         
       </div>
