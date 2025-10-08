@@ -5,7 +5,7 @@ import { auth } from "../helpers/authHelper.js";
 const router = Router();
 
 // url/groupjoin/*endpoint*
-router.get('/requests/:groupid', getRequestsForGroup); // not used (?) YES used (!)
+router.get('/requests/:groupid', auth, getRequestsForGroup); // not used (?) YES used (!)
 router.get('/pendingrequests/received/:ownerid', auth, getPendingRequestsAsOwner); // with group owner id, returns all usernames that want to join groups
 router.get('/pendingrequests/sent/:accountid', auth, getPendingRequestsAsUser); // with user id, see all sent requests to groups
 router.get('/requeststatus/:groupid/:accountid', auth, getRequestsByUserAndGroup);

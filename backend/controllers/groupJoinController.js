@@ -286,9 +286,17 @@ const denyJoinRequest = async (req, res, next) => {
 
 
 const getRequestsForGroup = async (req, res, next) => {
+  const user = req.user;
   const groupid = req.params.groupid;
   console.log("Getting join requests for group id: ", groupid);
   try {
+    const ownerCheck = await queryIsOwnerOfGroup(groupid, user.id);
+    if (ownerCheck.rowCount === 0) {
+      const error = new Error('Unauthorized: Only group owners can view join requests');
+      error.status = 403;
+      return next(error);
+    }
+    
     const result = await queryRequestsForGroup(groupid);
     console.log("got group join requests for group id: ", result.rows);
     if (result.rows.length === 0) {
