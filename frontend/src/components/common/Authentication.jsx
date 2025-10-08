@@ -12,6 +12,7 @@ export default function Authentication({ onClose }) {
   const [errorMessageEmail, setErrorMessageEmail] = useState('');
   const [errorMessagePassword, setErrorMessagePassword] = useState('');
   const [errorMessageUsername, setErrorMessageUsername] = useState('');
+  const [countName, setCountName] = useState(0);
 
   /* Reset form state when switching modes */
   const handleModeChange = (newMode) => {
@@ -20,7 +21,6 @@ export default function Authentication({ onClose }) {
     setErrorMessageEmail('');
     setErrorMessagePassword('');
     setErrorMessageUsername('');
-
     if (newMode === 'signin') {
       setUser({ email: '', password: '' }); 
     } else {
@@ -30,6 +30,10 @@ export default function Authentication({ onClose }) {
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+
+    if (e.target.name === 'username') {
+      setCountName(e.target.value.length);
+    }
   };
 
 const containsUppercase = (str) => {
@@ -51,7 +55,7 @@ const registerValidate = (user) => {
   }
 
   if (!user.username || user.username.length > 32 || !containsOnlyLettersAndNumbers(user.username)) {
-    setErrorMessageUsername('32 characters max, letters and numbers only');
+    setErrorMessageUsername(`${countName} / 32 characters max, letters and numbers only`);
     valid = false;
   } else {
     setErrorMessageUsername('');
@@ -145,7 +149,7 @@ const handleSubmit = async (e) => {
                 placeholder="Username"
               />
               {!errorMessageUsername && (
-                <p className="field-description">32 characters max, letters and numbers only</p>
+                <p className="field-description">{countName} / 32 characters max, letters and numbers only</p>
               )}
               {errorMessageUsername && (<p className="auth-error">{errorMessageUsername}</p>)}
             </div>
