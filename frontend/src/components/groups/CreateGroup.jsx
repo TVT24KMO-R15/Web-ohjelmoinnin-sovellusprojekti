@@ -33,7 +33,9 @@ export default function CreateGroup({ onClose }) {
         }
 
         try {
-            const headers = { "Content-Type": "application/json", "Authorization": account.user.token }
+            const headers = {
+                    Authorization: `Bearer ${account.user.token}`
+                }
             const payload = {groups: {'groupname': newGroup.groupname, 'groupdescription': newGroup.groupdescription}}
             const url = import.meta.env.VITE_API_URL + `/groups/post`
             //console.log(url)

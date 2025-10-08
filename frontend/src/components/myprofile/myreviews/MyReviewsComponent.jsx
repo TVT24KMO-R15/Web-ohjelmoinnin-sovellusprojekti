@@ -50,7 +50,7 @@ export default function MyReviewsComponent(property) {
   useEffect(getDetails, [])
   
   if (loading) {
-    console.log('loading: '+ loading)
+    // console.log('loading: '+ loading)
     return (
     <div>
       Loading...
