@@ -37,7 +37,11 @@ export default function MyReviews() {
     , [reloadState])
 
   const removeReview = (deleted) => {
-    axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`)
+    axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`, {
+      headers: {
+        Authorization: `Bearer ${account.user.token}`
+      }
+    })
       .then(response => {
         setReviews(reviews.filter(item => item.reviewid !== deleted))
 
