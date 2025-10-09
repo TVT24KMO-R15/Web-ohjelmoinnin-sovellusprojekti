@@ -4,7 +4,7 @@
 		"name": "Group",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "40851870",
-		"_collection_link": "https://todo-app-7250.postman.co/workspace/Movie-APP~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-c8179478-0c6b-46f3-8f23-06e02ca9a0ad?action=share&source=collection_link&creator=40851870"
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-c8179478-0c6b-46f3-8f23-06e02ca9a0ad?action=share&source=collection_link&creator=40851870"
 	},
 	"item": [
 		{
@@ -100,92 +100,6 @@
 			"response": []
 		},
 		{
-			"name": "create a new group",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"groups\":\r\n    {\r\n        \"groupname\": \"test\",\r\n        \"groupdescription\": \"group\"\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/groups/post",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"groups",
-						"post"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete group",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/groups/delete/:id",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"groups",
-						"delete",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "3"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Group",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"groups\":\r\n    {\r\n        \"groupname\": \"updatedgroup\",\r\n        \"groupdescription\": \"this group has been updated\"\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/groups/update/:id",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"groups",
-						"update",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "2"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "owner status",
 			"request": {
 				"auth": {
@@ -214,11 +128,12 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "3"
+							"value": "1"
 						},
 						{
 							"key": "accountid",
-							"value": "27"
+							"value": "16",
+							"description": "id of logged in token user "
 						}
 					]
 				}
@@ -261,7 +176,7 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "create a new group",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -273,22 +188,141 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"groups\":\r\n    {\r\n        \"groupname\": \"test3\",\r\n        \"groupdescription\": \"group\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{base_url}}/groups/getmembers/:groupid",
+					"raw": "{{base_url}}/groups/post",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"groups",
-						"getmembers",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Leave from group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groups/leave/:groupid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groups",
+						"leave",
 						":groupid"
 					],
 					"variable": [
 						{
 							"key": "groupid",
-							"value": "21"
+							"value": "1",
+							"description": "make sure token holder is member of id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groups/delete/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groups",
+						"delete",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "38",
+							"description": "log in as group owner"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"groups\":\r\n    {\r\n        \"groupname\": \"updatedgrouptest\",\r\n        \"groupdescription\": \"this group has been updated\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/groups/update/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groups",
+						"update",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "39",
+							"description": "logged in token holders group owner's group id"
 						}
 					]
 				}
