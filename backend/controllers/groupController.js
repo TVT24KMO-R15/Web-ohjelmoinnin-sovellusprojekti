@@ -12,8 +12,10 @@ import {
 } from "../models/group.js";
 import { 
     queryPostUserGroupLinker, // to automatically add owner to group
-    queryDeleteByGroupId // to remove linkers when group is deleted
+    queryDeleteByGroupId, // to remove linkers when group is deleted
+    queryDeleteByAccountIdGroupId // to remove specific user from group
 } from "../models/userGroupLinker.js";
+import { queryDeleteAcceptedRequest } from "../models/groupJoin.js";
 
 const postGroup = async (req, res, next) => {
    try {
@@ -238,8 +240,59 @@ const getMembersList = async (req, res, next) => {
     }
 }
 
+const leaveGroup = async (req, res, next) => {
+    const userId = req.user.id;
+    const groupId = req.params.groupid;
+
+    try {
+        console.log(`User ${userId} attempting to leave group ${groupId}`);
+
+        if (!userId) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+
+        if (!groupId) {
+            return res.status(400).json({ error: "Missing group ID" });
+        }
+
+        const groupResult = await queryGroupById(groupId);
+        if (groupResult.rowCount === 0) {
+            return res.status(404).json({ error: "Group not found" });
+        }
+
+        if (groupResult.rows[0].fk_ownerid === userId) {
+            return res.status(403).json({ error: "Group owner cannot leave the group. Delete the group instead." });
+        }
+
+        const membershipResult = await queryMembershipStatus(groupId, userId);
+        if (membershipResult.rowCount === 0) {
+            return res.status(403).json({ error: "You are not a member of this group" });
+        }
+
+        // delete accepted join request after leaving
+        const resultDeleteAccepted = await queryDeleteAcceptedRequest(groupId, userId);
+        // console.log("Result of deleting accepted join request:", resultDeleteAccepted);
+        if (resultDeleteAccepted.rowCount === 0) {
+            console.log("No accepted join request found to delete.");
+        }
+
+        // remove from ugl table after leaving
+        const resultDeleteUGL = await queryDeleteByAccountIdGroupId(userId, groupId);
+        // console.log("Result of deleting from user_group_linker:", resultDeleteUGL);
+        if (resultDeleteUGL.rowCount === 0) {
+            console.log("No entry found in user_group_linker to delete.");
+        }
+
+        console.log(`User ${userId} successfully left group ${groupId}`);
+        return res.status(200).json({ message: "Successfully left the group" });
+    } catch (err) {
+        console.error("Error leaving group:", err);
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 export {
-    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup, getMembershipStatus, getMembersList
+    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup, getMembershipStatus, getMembersList, leaveGroup
 }
 
 

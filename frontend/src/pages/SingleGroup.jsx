@@ -15,6 +15,7 @@ export default function Group() {
   const [groupData, setGroupData] = useState({})
   const [isOwner, setIsOwner] = useState(false)
   const [notFound, setNotFound] = useState(false)
+  const [loading, setLoading] = useState(true)
 
 // get membership status, returns 403 forbidden if not member
   useEffect(() => {
@@ -75,13 +76,39 @@ export default function Group() {
         })
         .catch(error => console.error('Error fetching owner status:', error))
     }
+    setLoading(false)
   }, [user, groupId])
+
+  // leave group as user
+  const handleLeaveGroup = () => {
+    const confirmLeave = window.confirm('Are you sure you want to leave this group? This action cannot be undone.')
+    if (!confirmLeave) {
+      return
+    }
+
+    fetch(`${import.meta.env.VITE_API_URL}/groups/leave/${groupId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        setNotFound(true)
+      } else {
+        console.error('Failed to leave group')
+      }
+    })
+    .catch(error => console.error('Error leaving group:', error))
+  }
 
 
 
   return (
     <>
       <ProtectedRoute />
+      {loading && <div>Loading...</div>}
       {notFound && <Navigate to="/" replace />} {/* notfound or home here? */}
       <div className='singlegrouppage'>
         <div className='groupcontentdiv'>
@@ -99,6 +126,9 @@ export default function Group() {
         <div className='groupinfodiv'>
           <div className='groupcontent'>
             <GroupInfoHeader groupData={groupData} />
+            {!isOwner && (
+              <button className='adminControlButton' onClick={handleLeaveGroup}>Leave group</button>
+            )}
           </div>
 
           <div className='groupcontent'>
