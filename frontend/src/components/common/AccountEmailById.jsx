@@ -7,6 +7,8 @@ export default function AccountEmailById(property) {
 
     useEffect(() => {
         //setId(property.accountid)
+        if (!id.property) return // bugfix
+        
         const address = import.meta.env.VITE_API_URL + `/users/${id.property}`
         //console.log(address)
         fetch(address)

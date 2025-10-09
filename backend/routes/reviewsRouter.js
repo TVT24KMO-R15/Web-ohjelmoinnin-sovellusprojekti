@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { auth } from "../helpers/authHelper.js";
+import { auth } from '../helpers/authHelper.js'
+
 
 import { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, putReview, deleteReview, getPageAmount, getAllReviewsPages, getFilteredReviewsPages, getFilteredPageAmount } from "../controllers/reviewsController.js";
 
@@ -16,7 +17,7 @@ router.get('/:accountid/:limit', auth, getReviewsByUserWithLimit)
 router.get('/movie/:movieid/:limit/:offset', getReviewsByMovieIdWithLimitOffset)
 router.get('/movieuser/:movieid/:accountid', auth, getReviewsByMovieUser)
 router.post('/post', auth, postReview)
-router.put(`/put`, auth, putReview)
+router.put('/put', auth, putReview)
 router.delete('/delete/:id', auth, deleteReview)
 
 export default router

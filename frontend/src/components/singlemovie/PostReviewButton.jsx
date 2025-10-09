@@ -16,7 +16,11 @@ export default function PostReviewButton({ onUpdate }) {
     const account = useUser()
 
     useEffect(() => {
-        
+        if(!account.user.id) { // this did pointless 404 requests when viewing singlemovie without being logged in
+            setAllowReview(false)
+            setLoading(false)
+            return
+        }
             console.log(account)
             try {
                 const headers = { Authorization: `Bearer ${account.user.token}` }

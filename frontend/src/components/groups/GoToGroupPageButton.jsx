@@ -13,12 +13,14 @@ export default function GoToGroupPageButton(group) {
 
     const account = useUser();
 
+    // note these are cringe in the requests because headers must be in third parameter for auth
+    const headers = { Authorization: `Bearer ${account.user.token}` };
 
     const sendRequest = () => {
         console.log(`sending request to join group ${group.group.groupid}`)
         const address = import.meta.env.VITE_API_URL + `/groupjoin/join/${account.user.id}/${group.group.groupid}`
         console.log(address)
-        axios.post(address)
+        axios.post(address, {}, { headers })
             .then(result => {
                 console.log(result)
             }).catch(error => {
@@ -34,7 +36,7 @@ export default function GoToGroupPageButton(group) {
         console.log(`canceling request to join group ${group.group.groupid}`)
         const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/remove/${account.user.id}/${group.group.groupid}`
         console.log(address)
-        axios.post(address)
+        axios.post(address, {}, { headers })
             .then(result => {
                 console.log(result)
             }).catch(error => {
@@ -48,7 +50,7 @@ export default function GoToGroupPageButton(group) {
         console.log(`removing earlier request to join group ${group.group.groupid}`)
         const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/removerejected/${account.user.id}/${group.group.groupid}`
         console.log(address)
-        axios.post(address)
+        axios.post(address, {}, { headers })
             .then(result => {
                 console.log(result)
             }).catch(error => {
@@ -71,7 +73,7 @@ export default function GoToGroupPageButton(group) {
         }
         const address = import.meta.env.VITE_API_URL + `/groupjoin/requeststatus/${group.group.groupid}/${account.user.id}`
         //console.log(address)
-        axios.get(address)
+        axios.get(address, { headers })
             .then(result => {
                 console.log(result.data.result)
                 if (result.data.result.includes('No join request found')) {

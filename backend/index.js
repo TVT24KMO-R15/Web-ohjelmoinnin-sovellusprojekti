@@ -11,7 +11,7 @@ import reviewRouter from './routes/reviewsRouter.js'
 import groupRouter from './routes/groupRouter.js'
 import groupPostsRouter from './routes/groupPostsRouter.js'
 import groupJoinRouter from './routes/groupJoinRouter.js'
-import userGroupLinker from './routes/UserGroupLinkerRouter.js'
+import userGroupLinker from './routes/userGroupLinkerRouter.js'
 import postCommentRouter from './routes/postCommentRouter.js'
 
 dotenv.config()

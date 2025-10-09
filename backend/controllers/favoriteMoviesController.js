@@ -1,5 +1,5 @@
-import { pool } from "../helpers/dbHelper.js";
 // import jwt from "jsonwebtoken";
+import { getAccountIdByEmail, getAccountIdById, insertFavorite, removeFavorite, selectFavoritesByAccountId } from "../models/favoriteMovies.js";
 
 
 const addFavorite = async (req, res, next) => {
@@ -12,19 +12,12 @@ const addFavorite = async (req, res, next) => {
     const { email, movieId } = req.body;
     if (!email) return res.status(401).json({ message: "No email provided" });
 
-    const userResult = await pool.query(
-      "SELECT accountid FROM account WHERE email = $1",
-      [email]
-    );
+    const userResult = await getAccountIdByEmail(email);
     if (userResult.rows.length === 0) return res.status(404).json({ message: "User not found" });
 
     const userId = userResult.rows[0].accountid;
 
-    await pool.query(
-      `INSERT INTO favoritemovies (fk_accountid, movieid)
-       VALUES ($1, $2)`,
-      [userId, movieId]
-    );
+    await insertFavorite(userId, movieId);
 
     res.json({ message: "Added to favorites" });
   } catch (err) {
@@ -45,18 +38,12 @@ const deleteFavorite = async (req, res, next) => {
     const { email, movieId } = req.body;
     if (!email) return res.status(401).json({ message: "No email provided" });
 
-    const userResult = await pool.query(
-      "SELECT accountid FROM account WHERE email = $1",
-      [email]
-    );
+    const userResult = await getAccountIdByEmail(email);
     if (userResult.rows.length === 0) return res.status(404).json({ message: "User not found" });
 
     const userId = userResult.rows[0].accountid;
 
-    await pool.query(
-      "DELETE FROM favoritemovies WHERE fk_accountid = $1 AND movieid = $2",
-      [userId, movieId]
-    );
+    await removeFavorite(userId, movieId);
 
     res.json({ message: "Removed from favorites" });
   } catch (err) {
@@ -73,19 +60,13 @@ const getFavorites = async (req, res, next) => {
 
     const userEmail = req.query.email; // ei JWT:tä
 
-    const userResult = await pool.query(
-      "SELECT accountid FROM account WHERE email = $1",
-      [userEmail]
-    );
+    const userResult = await getAccountIdByEmail(userEmail);
     if (userResult.rows.length === 0)
       return res.status(404).json({ message: "User not found" });
 
     const userId = userResult.rows[0].accountid;
 
-    const favResult = await pool.query(
-      "SELECT movieid FROM favoritemovies WHERE fk_accountid = $1",
-      [userId]
-    );
+    const favResult = await selectFavoritesByAccountId(userId);
 
     res.json({ favorites: favResult.rows.map((r) => r.movieid) });
   } catch (err) {
@@ -98,17 +79,11 @@ const getPublicFavorites = async (req, res, next) => {
     const { accountId } = req.params; // otetaan parametrista
     if (!accountId) return res.status(400).json({ message: "No accountId provided" });
 
-    const userResult = await pool.query(
-      "SELECT accountid FROM account WHERE accountid = $1",
-      [accountId]
-    );
+    const userResult = await getAccountIdById(accountId);
     if (userResult.rows.length === 0)
       return res.status(404).json({ message: "User not found" });
 
-    const favResult = await pool.query(
-      "SELECT movieid FROM favoritemovies WHERE fk_accountid = $1",
-      [accountId]
-    );
+    const favResult = await selectFavoritesByAccountId(accountId);
 
     res.json({ favorites: favResult.rows.map(r => r.movieid) });
   } catch (err) {

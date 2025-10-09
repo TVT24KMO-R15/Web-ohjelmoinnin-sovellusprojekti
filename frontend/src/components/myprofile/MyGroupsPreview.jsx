@@ -9,12 +9,13 @@ export default function MyGroupsPreview() {
     const [loading, setLoading] = useState(true)
     const account = useUser()
     const [groups, setGroups] = useState([])
-
+    const headers = { Authorization: `Bearer ${account.user.token}` };
+    console.log("my groups preview headers", headers)
 
     useEffect(() => {
         console.log('getting groups')
         const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/sent/${account.user.id}`
-        axios.get(address)
+        axios.get(address, { headers })
             .then(result => {
                 //console.log(result.data)
 
@@ -23,6 +24,7 @@ export default function MyGroupsPreview() {
                 }
                 setGroups(result.data.result.filter((item) => item.status == 'accepted'))
             }) .catch(error =>{
+                console.log(error)
                 setGroups([])
             })
             .finally(() =>
