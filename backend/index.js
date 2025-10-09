@@ -24,15 +24,15 @@ app.use(express.urlencoded({extended: false}))
 
 
 // -- routes
-app.use('/users', usersRouter)
-app.use('/api/tmdb', tmdbRouter) // url/api/tmdb
-app.use("/favorites", favoriteMoviesRouter);
-app.use('/reviews', reviewRouter)
-app.use('/groupjoin', groupJoinRouter)
-app.use('/groups', groupRouter)
-app.use('/postcomment', postCommentRouter)
-app.use('/groupposts', groupPostsRouter)
-app.use('/usergrouplinker', userGroupLinker)
+app.use('/api/users', usersRouter)
+app.use('/api/api/tmdb', tmdbRouter)
+app.use("/api/favorites", favoriteMoviesRouter);
+app.use('/api/reviews', reviewRouter)
+app.use('/api/groupjoin', groupJoinRouter)
+app.use('/api/groups', groupRouter)
+app.use('/api/postcomment', postCommentRouter)
+app.use('/api/groupposts', groupPostsRouter)
+app.use('/api/usergrouplinker', userGroupLinker)
 
 // get env mode to verify test mode
 app.get('/__env', (req, res) => {

@@ -1,7 +1,4 @@
--- Database initialization script for Docker
--- This script creates the database schema with all tables and constraints
-
--- Drop existing constraints if they exist
+-- DB init for docker
 ALTER TABLE IF EXISTS public.groups DROP CONSTRAINT IF EXISTS "groupOwnerID";
 
 ALTER TABLE IF EXISTS public.user_group_linker DROP CONSTRAINT IF EXISTS fk_accountid;
@@ -24,14 +21,11 @@ ALTER TABLE IF EXISTS public.group_join_requests DROP CONSTRAINT IF EXISTS fk_gr
 
 ALTER TABLE IF EXISTS public.group_join_requests DROP CONSTRAINT IF EXISTS fk_account;
 
--- Drop existing type if exists
 DROP TYPE IF EXISTS request_status CASCADE;
 
--- Create request_status enum type
 CREATE TYPE request_status AS ENUM
     ('pending', 'accepted', 'rejected', 'canceled');
 
--- Create account table
 DROP TABLE IF EXISTS public.account CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.account
@@ -46,7 +40,6 @@ CREATE TABLE IF NOT EXISTS public.account
     CONSTRAINT "UniqueEmailsOnly" UNIQUE (email)
 );
 
--- Create groups table
 DROP TABLE IF EXISTS public.groups CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.groups
@@ -60,7 +53,6 @@ CREATE TABLE IF NOT EXISTS public.groups
     CONSTRAINT "UniqueGroupNamesOnly" UNIQUE (groupname)
 );
 
--- Create user_group_linker table
 DROP TABLE IF EXISTS public.user_group_linker CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.user_group_linker
@@ -70,7 +62,6 @@ CREATE TABLE IF NOT EXISTS public.user_group_linker
     PRIMARY KEY (fk_groupid, fk_accountid)
 );
 
--- Create review table
 DROP TABLE IF EXISTS public.review CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.review
@@ -85,14 +76,13 @@ CREATE TABLE IF NOT EXISTS public.review
     CONSTRAINT "avoidReviewBombing" UNIQUE (movieid, fk_accountid)
 );
 
--- Create groupposts table
 DROP TABLE IF EXISTS public.groupposts CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.groupposts
 (
     postid serial,
     fk_groupid integer NOT NULL,
-    posttext character varying(1000),
+    posttext character varying(1000) NOT NULL,
     movieid integer,
     postdate timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
     fk_accountid integer NOT NULL,
@@ -103,7 +93,6 @@ CREATE TABLE IF NOT EXISTS public.groupposts
     PRIMARY KEY (postid)
 );
 
--- Create favoritemovies table
 DROP TABLE IF EXISTS public.favoritemovies CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.favoritemovies
@@ -115,7 +104,6 @@ CREATE TABLE IF NOT EXISTS public.favoritemovies
     CONSTRAINT uq_favorites_account_movie UNIQUE (fk_accountid, movieid)
 );
 
--- Create grouppost_comment table
 DROP TABLE IF EXISTS public.grouppost_comment CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.grouppost_comment
@@ -131,7 +119,6 @@ CREATE TABLE IF NOT EXISTS public.grouppost_comment
 COMMENT ON TABLE public.grouppost_comment
     IS 'Comments inside a post';
 
--- Create group_join_requests table
 DROP TABLE IF EXISTS public.group_join_requests CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.group_join_requests
@@ -144,8 +131,6 @@ CREATE TABLE IF NOT EXISTS public.group_join_requests
     CONSTRAINT pk_reqid PRIMARY KEY (request_id),
     CONSTRAINT unique_requests_group_account UNIQUE (fk_groupid, fk_accountid)
 );
-
--- Add foreign key constraints
 
 ALTER TABLE IF EXISTS public.groups
     ADD CONSTRAINT "groupOwnerID" FOREIGN KEY (fk_ownerid)
