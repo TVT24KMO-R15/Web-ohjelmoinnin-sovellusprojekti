@@ -105,6 +105,14 @@ const queryDeleteRejectedRequest = async (groupid, userid) => {
   );
 };
 
+const queryDeleteAcceptedRequest = async (groupid, userid) => {
+  return await pool.query(
+    "DELETE FROM group_join_requests \
+    WHERE fk_groupid=$1 AND fk_accountid=$2 AND status='accepted'",
+    [groupid, userid]
+  );
+};
+
 const queryAcceptJoinRequest = async (requestid) => {
   return await pool.query(
     "UPDATE group_join_requests SET status='accepted' WHERE request_id=$1 AND status='pending' RETURNING *",
@@ -146,6 +154,7 @@ export {
   queryRequestByAccountIdAndGroup,
   queryDeleteSentRequest,
   queryDeleteRejectedRequest,
+  queryDeleteAcceptedRequest,
   queryAcceptJoinRequest,
   queryDenyJoinRequest,
   queryInsertUserIntoTables,

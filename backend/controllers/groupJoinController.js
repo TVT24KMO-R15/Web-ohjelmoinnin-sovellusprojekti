@@ -6,6 +6,7 @@ import {
   queryRequestByAccountIdAndGroup,
   queryDeleteSentRequest,
   queryDeleteRejectedRequest,
+  queryDeleteAcceptedRequest,
   queryAcceptJoinRequest,
   queryDenyJoinRequest,
   queryInsertUserIntoTables,
@@ -205,6 +206,41 @@ const removeRejectedRequest = async (req, res, next) => {
   }
 };
 
+const removeAcceptedRequest = async (req, res, next) => {
+  const user = req.user;
+  console.log("trying to remove accepted request")
+
+  const accountid = req.params.accountid;
+  const groupid = req.params.groupid;
+
+  if (!accountid || !groupid) {
+    return res.status(500).json({ error: "accountid and groupid required" });
+  }
+
+  try {
+    const ownerCheck = await queryIsOwnerOfGroup(groupid, user.id);
+    if (ownerCheck.rowCount === 0) {
+      const error = new Error('Unauthorized: Only group owners can remove members');
+      error.status = 403;
+      return next(error);
+    }
+
+    const result = await queryDeleteAcceptedRequest(groupid, accountid);
+    if (result.rowCount === 1) {
+      console.log("deleted accepted join request for group", groupid, "by account:", accountid);
+      return res.status(200).json({ status: "Accepted request deleted" });
+    } else {
+      return res.status(404).json({ error: "No accepted request found" });
+    }
+  } catch (error) {
+    if (error.message.includes("invalid input syntax for type integer")) {
+      return res.status(500).json({ error: "invalid url input" });
+    }
+    return next(error);
+  }
+};
+
+
 const acceptJoinRequest = async (req, res, next) => {
   const user = req.user;
   const requestid = req.params.requestid;
@@ -311,4 +347,4 @@ const getRequestsForGroup = async (req, res, next) => {
 };
 
 
-export { getRequestsForGroup, sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, removeRejectedRequest, acceptJoinRequest, denyJoinRequest };
+export { getRequestsForGroup, sendJoinRequest, getPendingRequestsAsOwner, getPendingRequestsAsUser, getRequestsByUserAndGroup, removeSentRequest, removeRejectedRequest, removeAcceptedRequest, acceptJoinRequest, denyJoinRequest };
