@@ -112,15 +112,18 @@ export default function Group() {
       {notFound && <Navigate to="/" replace />} {/* notfound or home here? */}
       <div className='singlegrouppage'>
         <div className='groupcontentdiv'>
-          <div className='groupcontent'>
-            <GroupPostsSection groupId={groupId} />
-          </div>
 
           {isOwner && (
             <div className='groupcontent'>
               <GroupAdminSection groupId={groupId} groupData={groupData} />
             </div>
           )}
+          
+          <div className='groupcontent'>
+            <GroupPostsSection groupId={groupId} />
+          </div>
+
+          
         </div>
 
         <div className='groupinfodiv'>
