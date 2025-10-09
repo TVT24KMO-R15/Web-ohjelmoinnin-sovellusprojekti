@@ -13,7 +13,7 @@ const queryAllGroupPosts = async () => {
 }
 
 const queryGroupPostsByGroupId = async (groupId) => {
-    return await pool.query(`SELECT * FROM "groupposts" WHERE fk_groupid = $1`, [groupId])
+    return await pool.query(`SELECT * FROM "groupposts" WHERE fk_groupid = $1 ORDER BY postdate DESC`, [groupId])
 }
 const queryGroupPostsByPostId = async (postId) => {
     return await pool.query(`SELECT * FROM "groupposts" WHERE postid = $1`, [postId])
