@@ -1,5 +1,5 @@
 // for all account table http endpoints
-import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail, queryGetUsername } from "../models/account.js"
+import { selectAllAccounts, selectAccountById, selectAccountEmailById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail, queryGetUsername } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 
@@ -16,9 +16,17 @@ const getAllAccounts = async (req, res, next) => {
 }
 
 const getAccountById = async (req, res, next) => {
+    const authAccountId = req.user.id
+    console.log("auth account id from token: " + authAccountId)
+    
     if (!req.params.accountid || req.params.accountid === 'undefined') {
         const error = new Error('Account id is required')
         error.status = 400
+        return next(error)
+    }
+    if (parseInt(req.params.accountid) !== parseInt(authAccountId)) {
+        const error = new Error('Account id from auth token and account id from request params do not match, unauthorized')
+        error.status = 401
         return next(error)
     }
     try {
@@ -387,4 +395,21 @@ const getUsernameById = async (req, res, next) => {
     }
 }
 
-export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById }
+const getAccountEmailById = async (req, res, next) => {
+    if (!req.params.accountid || req.params.accountid === 'undefined') {
+        const error = new Error('Account id is required')
+        error.status = 400
+        return next(error)
+    }
+    try {
+        const result = await selectAccountEmailById(req.params.accountid)
+        console.log('get details for account: ' + req.params.accountid)
+        return res.status(200).json(result.rows[0] || [])
+    }
+    catch (error) {
+        return next(error)
+    }
+}
+
+
+export { getAllAccounts, getAccountById, getAccountEmailById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById }
