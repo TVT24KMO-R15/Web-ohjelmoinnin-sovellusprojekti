@@ -13,6 +13,8 @@ COPY . .
 
 RUN chmod +x node_modules/.bin/* 
 
+ENV VITE_API_URL=/api
+
 RUN npm run build
 
 FROM nginx

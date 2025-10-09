@@ -23,7 +23,10 @@ services:
 
 
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      args:
+        VITE_API_URL: /api
     container_name: movie_frontend
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
