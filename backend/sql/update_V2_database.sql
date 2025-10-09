@@ -29,4 +29,7 @@ ON DELETE CASCADE;
 ALTER TABLE IF EXISTS public.groupposts
     ALTER COLUMN fk_accountid SET NOT NULL;
 
+ALTER TABLE IF EXISTS public.groupposts
+    ALTER COLUMN posttext SET NOT NULL;
+
 END;

@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS public.groupposts
 (
     postid serial,
     fk_groupid integer NOT NULL,
-    posttext character varying(1000),
+    posttext character varying(1000) NOT NULL,
     movieid integer,
     postdate timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
     fk_accountid integer NOT NULL,
