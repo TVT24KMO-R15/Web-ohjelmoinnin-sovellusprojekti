@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import "./PublicFavourites.css";
+import noPoster from '../assets/noPoster.png';
 
 export default function PublicFavourites() {
   const { accountId } = useParams();
@@ -78,7 +79,7 @@ export default function PublicFavourites() {
           <div key={movie.id} className="pf-card">
             <Link to={`/movies/${movie.id}`} className="pf-link">
               <img
-                src={movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : "/src/assets/noPoster.png"}
+                src={movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : noPoster}
                 alt={movie.title}
                 className="pf-poster"
               />
