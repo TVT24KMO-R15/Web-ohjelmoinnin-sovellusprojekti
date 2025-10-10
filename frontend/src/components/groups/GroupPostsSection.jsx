@@ -12,6 +12,7 @@ export default function GroupPostsSection({ groupId }) {
 
   const [postText, setPostText] = useState('')
   const [movieId, setMovieId] = useState(null)
+  const [showMovieSection, setShowMovieSection] = useState(false)
 
   // finnkino post states
   const [originalTitle, setOriginalTitle] = useState('')
@@ -26,8 +27,24 @@ export default function GroupPostsSection({ groupId }) {
   const [showFinnkinoSection, setShowFinnkinoSection] = useState(false)
   const [finnkinoDetails, setFinnkinoDetails] = useState(null)
 
+  // toggle button on off when details are set
   const handleToggleFinnkinoSection = () => {
-    setShowFinnkinoSection(!showFinnkinoSection)
+    if (finnkinoDetails) return
+    setShowFinnkinoSection((prev) => {
+      const next = !prev
+      if (next) setShowMovieSection(false)
+      return next
+    })
+  }
+
+  // toggle button on off when details are set
+  const handleToggleMovieSection = () => {
+    if (finnkinoDetails) return
+    setShowMovieSection((prev) => {
+      const next = !prev
+      if (next) setShowFinnkinoSection(false)
+      return next
+    })
   }
 
   // callback from finnkino component
@@ -44,13 +61,26 @@ export default function GroupPostsSection({ groupId }) {
 
   const handleChange = (e) => {
     setPostText(e.target.value)
-    console.log(postText)
+  }
+
+  const handleToggleAddNewPost = () => {
+    const next = !addNewPostHidden
+    setAddNewPostHidden(next)
+    if (next) {
+      setShowFinnkinoSection(false)
+      setShowMovieSection(false)
+    }
   }
 
   // group post submission handler
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('here')
+    // dont allow empty posts
+    const trimmed = (postText || '').trim()
+    if (!trimmed) {
+      setErrorMessage('Post content cannot be empty.')
+      return
+    }
 
     try {
       const payload = {
@@ -76,6 +106,7 @@ export default function GroupPostsSection({ groupId }) {
           setUpdateListing(!updateListing)
 
         }).catch(error => {
+          console.error('Failed to submit group post:', error)
           setErrorMessage('Something went wrong');
         }).finally(() => {
           // clear form when submit is done
@@ -92,6 +123,7 @@ export default function GroupPostsSection({ groupId }) {
         )
 
     } catch (error) {
+      console.error('Unexpected error when submitting group post:', error)
       setErrorMessage('Something went wrong');
     }
   }
@@ -100,7 +132,7 @@ export default function GroupPostsSection({ groupId }) {
     <div>
       <div id="posts-header">
         <h2>Posts</h2>
-        <button onClick={() => setAddNewPostHidden(!addNewPostHidden)}>
+        <button onClick={handleToggleAddNewPost}>
           {addNewPostHidden ? 'Add New Post' : 'Cancel'}
         </button>
       </div>
@@ -149,14 +181,17 @@ export default function GroupPostsSection({ groupId }) {
                 cols="50"
                 name='groupposttext'
                 onChange={handleChange}
+                value={postText}
               />
 
               <br />
-              <button type="button">Add a Movie</button>
-              <button type="button" onClick={handleToggleFinnkinoSection}>
+              <button type="button" onClick={handleToggleMovieSection} disabled={showFinnkinoSection || !!finnkinoDetails}>
+                {showMovieSection ? 'Hide Movie' : 'Add a Movie'}
+              </button>
+              <button type="button" onClick={handleToggleFinnkinoSection} disabled={showMovieSection || !!finnkinoDetails}>
                 {showFinnkinoSection ? 'Hide Finnkino Showtime' : 'Add a Finnkino Showtime'}
               </button>
-              <button className='grouppostsubmitbutton' type="submit">Submit Post</button>
+              <button className='grouppostsubmitbutton' type="submit" disabled={!postText || !postText.trim()}>Submit Post</button>
             </form>
 
             <FinnkinoShowtimeSelector
