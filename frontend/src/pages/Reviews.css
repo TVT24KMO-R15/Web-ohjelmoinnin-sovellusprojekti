@@ -3,7 +3,7 @@
 }
 
 .reviewborder2 {
-    border: solid 4px gold;
+    border: solid 4px var(--color-contrast);
     border-radius: 1em;
     margin: 1em;
     padding: 1em;
@@ -35,9 +35,5 @@
 }
 
 .reviewer {
-    color: var(--gray);
     margin-bottom: 1em;
-}
-.date{
-    color: var(--gray);
 }

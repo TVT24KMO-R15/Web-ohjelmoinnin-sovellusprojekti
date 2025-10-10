@@ -11,7 +11,7 @@
     width: 100vw;
     margin-top: 2em;
     margin-bottom: 2em;
-    background-color: #44413d;
+    background-color: var(--color-bg-alt);
     position: relative;
     left: -2em;
 }
@@ -19,9 +19,9 @@
 .extraLink {
     flex: 25%;
     max-width: 20%;
-    color: #000;
+    color: var(--color-text);
     text-decoration: none;
-    border: 2px solid gold;
+    border: 2px solid var(--color-contrast);
     border-radius: 1em;
     margin: auto;
     margin-top: 2em;

@@ -20,7 +20,7 @@
   width: auto;
   height: 2em;
   border-radius: 8px;
-  border: 1px solid black;
+  border: 1px solid var(--color-border);
   color: black;
   padding: 5px 10px;
   font-size: 1em;

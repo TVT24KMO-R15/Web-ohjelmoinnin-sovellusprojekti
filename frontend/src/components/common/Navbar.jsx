@@ -94,7 +94,7 @@ export default function Navbar() {
             </button>
             {userMenuOpen && (
               <div className="account-dropdown">
-                <p className="dropdown-greetings">Hi {user?.email || 'User'}!</p>
+                <p className="dropdown-greetings">Hi {user?.username || 'User'}!</p>
                 <Link to="/myaccount" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My account</Link>
                 <Link to="/myaccount/myfavourites" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My favourites</Link>
                 <Link to="/myaccount/myreviews" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My reviews</Link>

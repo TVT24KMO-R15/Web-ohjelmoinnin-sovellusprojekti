@@ -11,9 +11,10 @@ import { useNavigate } from 'react-router-dom';
  * @param URL for search destination (eg. /search)
  * @param defaultValue to pre-fill the search input (searching from homepage, also sets the value in moviesearch)
  * @param onChangeMovieName callback function to update movie name in parent component (used in MovieFilters to update movieName state)
+ * @param alwaysVisible when true, search bar is always visible regardless of screen size
  * @returns \<SearchBar\> component
  */
-export default function SearchBar({searchDestination, defaultValue, onChangeMovieName}) {
+export default function SearchBar({searchDestination, defaultValue, onChangeMovieName, alwaysVisible = false}) {
   const closeIcon = (<svg xmlns="http://www.w3.org/2000/svg" className="close-btn" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffffff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>);
   const searchIcon = (<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffffff"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>);
   const searchIconDark = (<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>);
@@ -31,7 +32,9 @@ export default function SearchBar({searchDestination, defaultValue, onChangeMovi
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 801) {
+      if (alwaysVisible) {
+        setVisible(true); // always show if alwaysVisible prop is true
+      } else if (window.innerWidth > 801) {
         setVisible(true); // leveällä näytöllä näkyviin
       } else {
         setVisible(false); // pienemmällä näytöllä piiloon
@@ -42,17 +45,20 @@ export default function SearchBar({searchDestination, defaultValue, onChangeMovi
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [alwaysVisible]);
 
 
   return (
-    <div>
-      <button 
-      className={`show-search ${visible ? "close" : ""}`} 
-      onClick={() => setVisible(!visible)}
-    >
-      {visible ? closeIcon : searchIcon}
-    </button>
+    <div className ="search-bar-container">
+      {/* Hide the toggle button when alwaysVisible is true */}
+      {!alwaysVisible && (
+        <button 
+        className={`show-search ${visible ? "close" : ""}`} 
+        onClick={() => setVisible(!visible)}
+      >
+        {visible ? closeIcon : searchIcon}
+      </button>
+      )}
 
       {visible && (
         <div className="search-bar">

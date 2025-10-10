@@ -30,5 +30,6 @@
 
 /* able to edit searchbar css without affecting header */
 #customSearchBar > div > .search-bar input {
-  padding-right: 5em;
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
 }
