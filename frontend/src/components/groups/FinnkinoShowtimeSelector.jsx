@@ -10,16 +10,25 @@ export default function FinnkinoShowtimeSelector({ onShowtimeSelect, isVisible }
   const [selectedEventId, setSelectedEventId] = useState(null) // selected event id
   const [showtimes, setShowtimes] = useState([]) // available showtimes for selected area, date, and event
 
+  const fetchFinnkinoXML = async (url) => {
+    try {
+      const res = await fetch(url)
+      const xml = await res.text()
+      const parser = new DOMParser()
+      const xmlDoc = parser.parseFromString(xml, 'application/xml')
+      return xmlDoc
+    } catch (error) {
+      console.error('Failed to fetch XML from:', url, error)
+      throw error
+    }
+  }
+
   // get all areas when component loads, this is "Theatre area:" dropdown
   useEffect(() => {
     const fetchTheatreAreas = async () => {
       try {
-        const res = await fetch('https://www.finnkino.fi/xml/TheatreAreas/')
-        const xml = await res.text()
-        const parser = new DOMParser()
-        const xmlDoc = parser.parseFromString(xml, 'application/xml')
-        const root = xmlDoc.children
-        const theatres = root[0].children
+        const xmlDoc = await fetchFinnkinoXML('https://www.finnkino.fi/xml/TheatreAreas/')
+        const theatres = xmlDoc.children[0].children
         const tempAreas = []
         for (let i = 0; i < theatres.length; i++) {
           tempAreas.push({ 
@@ -48,12 +57,8 @@ export default function FinnkinoShowtimeSelector({ onShowtimeSelect, isVisible }
     const fetchScheduleDates = async () => {
       try {
         console.log("fetching schedule dates for area:", selectedTheatreArea)
-        const res = await fetch(`https://www.finnkino.fi/xml/ScheduleDates/?area=${selectedTheatreArea}`)
-        const xml = await res.text()
-        const parser = new DOMParser()
-        const xmlDoc = parser.parseFromString(xml, 'application/xml')
-        const root = xmlDoc.children
-        const dates = root[0].children
+        const xmlDoc = await fetchFinnkinoXML(`https://www.finnkino.fi/xml/ScheduleDates/?area=${selectedTheatreArea}`)
+        const dates = xmlDoc.children[0].children
         const tempDates = []
         for (let i = 0; i < dates.length; i++) {
           tempDates.push(dates[i].innerHTML)
@@ -80,12 +85,8 @@ export default function FinnkinoShowtimeSelector({ onShowtimeSelect, isVisible }
         const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}.${String(dateObj.getMonth() + 1).padStart(2, '0')}.${dateObj.getFullYear()}`
         // console.log("formatted date:", formattedDate)
         // console.log(`getting finnkino schedule for area ${selectedTheatreArea} on date ${formattedDate}`)
-        const res = await fetch(`https://www.finnkino.fi/xml/Schedule/?area=${selectedTheatreArea}&dt=${formattedDate}`)
-        const xml = await res.text()
-        const parser = new DOMParser()
-        const xmlDoc = parser.parseFromString(xml, 'application/xml')
-        const root = xmlDoc.children
-        const shows = root[0].querySelector('Shows')?.children || []
+        const xmlDoc = await fetchFinnkinoXML(`https://www.finnkino.fi/xml/Schedule/?area=${selectedTheatreArea}&dt=${formattedDate}`)
+        const shows = xmlDoc.children[0].querySelector('Shows')?.children || []
         
         const eventMap = new Map()
         for (let i = 0; i < shows.length; i++) {
@@ -120,12 +121,8 @@ export default function FinnkinoShowtimeSelector({ onShowtimeSelect, isVisible }
         const dateObj = new Date(selectedDate)
         const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}.${String(dateObj.getMonth() + 1).padStart(2, '0')}.${dateObj.getFullYear()}`
         console.log(`getting showtimes for url https://www.finnkino.fi/xml/Schedule/?area=${selectedTheatreArea}&dt=${formattedDate}&eventID=${selectedEventId}`)
-        const res = await fetch(`https://www.finnkino.fi/xml/Schedule/?area=${selectedTheatreArea}&dt=${formattedDate}&eventID=${selectedEventId}`)
-        const xml = await res.text()
-        const parser = new DOMParser()
-        const xmlDoc = parser.parseFromString(xml, 'application/xml')
-        const root = xmlDoc.children
-        const shows = root[0].querySelector('Shows')?.children || []
+        const xmlDoc = await fetchFinnkinoXML(`https://www.finnkino.fi/xml/Schedule/?area=${selectedTheatreArea}&dt=${formattedDate}&eventID=${selectedEventId}`)
+        const shows = xmlDoc.children[0].querySelector('Shows')?.children || []
         
         const tempShowtimes = []
         for (let i = 0; i < shows.length; i++) {
