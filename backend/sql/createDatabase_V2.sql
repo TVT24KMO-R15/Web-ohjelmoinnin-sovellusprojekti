@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS public.groupposts
     finnkino_showtime timestamp without time zone,
     finnkino_theatre_id integer,
     finnkino_poster_url character varying(255),
+    finnkino_theatre_name character varying(255),
     PRIMARY KEY (postid)
 );
 

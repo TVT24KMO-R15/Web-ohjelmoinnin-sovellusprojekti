@@ -32,4 +32,7 @@ ALTER TABLE IF EXISTS public.groupposts
 ALTER TABLE IF EXISTS public.groupposts
     ALTER COLUMN posttext SET NOT NULL;
 
+ALTER TABLE public.groupposts
+    ADD COLUMN IF NOT EXISTS finnkino_theatre_name character varying(255);
+
 END;

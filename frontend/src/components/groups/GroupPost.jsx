@@ -1,25 +1,78 @@
-import React from 'react'
-import AccountEmailById from '../common/AccountEmailById'
+import React from "react";
+import AccountEmailById from "../common/AccountEmailById";
+import "./GroupPost.css";
 
 export default function GroupPost({ GroupPost }) {
-    return (
-        <div className='grouppostborder'>
-            <h4><AccountEmailById property={GroupPost.fk_accountid} /></h4>
-            <p>{GroupPost.posttext}</p>
-            <div>
-                {GroupPost.movieid && <>Add details for movie {GroupPost.movieid}</>}
+  // format finnkino date and time
+  const formatFinnkinoDateTime = (showtime) => {
+    if (!showtime) return null;
+    const date = new Date(showtime);
+    return {
+      date: date.toLocaleDateString(),
+      time: date.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+  };
 
-                {GroupPost.finnkino_original_title && <>Add details for finnkino showtime here for {GroupPost.finnkino_original_title}</>}
+  const finnkinoDateTime = GroupPost.finnkino_showtime
+    ? formatFinnkinoDateTime(GroupPost.finnkino_showtime)
+    : null;
+
+  return (
+    <div className="grouppostborder">
+      <h4>
+        <AccountEmailById property={GroupPost.fk_accountid} />
+      </h4>
+      <p>{GroupPost.posttext}</p>
+      <div>
+        {GroupPost.movieid && <>Add details for movie {GroupPost.movieid}</>}
+
+        {GroupPost.finnkino_original_title && (
+          <div className="grouppost-finnkino-details">
+            <h3>Finnkino Showtime</h3>
+            <div className="finnkino-content">
+              <div className="finnkino-info">
+                <p>
+                  <strong>Movie: </strong> {GroupPost.finnkino_original_title}
+                </p>
+                {GroupPost.finnkino_theatre_name && (
+                  <p>
+                    <strong>Theatre: </strong> {GroupPost.finnkino_theatre_name}
+                  </p>
+                )}
+                {finnkinoDateTime && (
+                  <>
+                    <p>
+                      <strong>Date: </strong> {finnkinoDateTime.date}
+                    </p>
+                    <p>
+                      <strong>Time: </strong> {finnkinoDateTime.time}
+                    </p>
+                  </>
+                )}
+              </div>
+              {GroupPost.finnkino_poster_url && (
+                <div className="grouppost-poster">
+                    <img
+                      src={GroupPost.finnkino_poster_url}
+                    />
+                </div>
+              )}
             </div>
-            <div>
-                <p>{GroupPost.postdate.substring(0, 10)}</p>
-            </div>
-            <div>
-                <button>button for commenting</button>
-            </div>
-            <div className='grouppostcommentborder'>
-                <h4>Get comments here!</h4>
-            </div>
-        </div>
-    )
+          </div>
+        )}
+      </div>
+      <div>
+        <p>{GroupPost.postdate.substring(0, 10)}</p>
+      </div>
+      <div>
+        <button className="groupPageButton">button for commenting</button>
+      </div>
+      <div className="grouppostcommentborder">
+        <h4>Get comments here!</h4>
+      </div>
+    </div>
+  );
 }

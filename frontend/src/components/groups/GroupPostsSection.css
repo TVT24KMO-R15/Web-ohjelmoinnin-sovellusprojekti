@@ -2,6 +2,30 @@
     margin-top: 1em;
 }
 
+#posts-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+    position: relative;
+}
+
+#posts-header h2 {
+    margin: 0;
+}
+
+#posts-header button {
+    padding: 0.5em 1em;
+    border: solid 1px black;
+    border-radius: 1em;
+    background-color: rgba(255, 192, 76, 0.678);
+    cursor: pointer;
+}
+
+#posts-header button:hover {
+    background-color: rgba(255, 192, 76, 0.9);
+}
+
 #addpostform {
     margin-top: 1em;
 }
@@ -51,3 +75,23 @@
 .grouppostcommentborder{
     padding: 1em;
 }
+
+.finnkino-selected-details {
+    margin: 1em 0;
+    padding: 1em;
+    background-color: #e8edd4;
+    border: 3px solid #939c18;
+    border-radius: 0.5em;
+}
+
+.finnkino-selected-details h4 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    color: #155724;
+}
+
+.finnkino-selected-details p {
+    margin: 0.25em 0;
+    color: #155724;
+}
+
