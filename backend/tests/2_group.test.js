@@ -8,7 +8,7 @@ describe("Testing groups", () => {
     console.log("User1 token: ", global.user1Token)
 
     it('should create a group', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/groups/post`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/post`, {
             method: "post",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
             body: JSON.stringify(group1)
@@ -22,7 +22,7 @@ describe("Testing groups", () => {
     })
 
     it('should not create a duplicate group', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/groups/post`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/post`, {
             method: "post",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
             body: JSON.stringify(group1)
@@ -34,7 +34,7 @@ describe("Testing groups", () => {
     })
 
     it('should find group by owner ID', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/groups/owner/${global.user1Id}`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/owner/${global.user1Id}`, {
             method: "get",
             headers: { "Content-Type": "application/json" }
         })
@@ -49,7 +49,7 @@ describe("Testing groups", () => {
     })
 
     it('should find group by search term', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/groups/searchword/testGroup1`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/searchword/testGroup1`, {
             method: "get",
             headers: { "Content-Type": "application/json" }
         })
@@ -64,7 +64,7 @@ describe("Testing groups", () => {
     })
 
     it('should update group', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/groups/update/${global.group1Id}`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/update/${global.group1Id}`, {
             method: "put",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
             body: JSON.stringify({ groups: { groupname: "testGroup1Updated", groupdescription: "This is an updated description" } })

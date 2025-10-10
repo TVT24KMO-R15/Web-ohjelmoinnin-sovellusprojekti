@@ -13,7 +13,7 @@ describe("Testing user management", () => {
     })
 
     it("should register", async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/users/register`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/users/register`, {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ account: user1 })
@@ -26,7 +26,7 @@ describe("Testing user management", () => {
     })
 
     it('should log in', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/users/signin`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/users/signin`, {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ account: user1 })
