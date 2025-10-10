@@ -2,6 +2,7 @@
 import { selectAllAccounts, selectAccountById, selectAccountEmailById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail, queryGetUsername } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
+import { auth } from "../helpers/authHelper.js"
 
 const { sign } = jwt
 
@@ -139,6 +140,13 @@ POST http://localhost:3000/users/delete
 */
 
 const postDelete = async (req, res, next) => {
+    const authAccountId = req.user.id // get auth account id to match to db id from email and username
+    console.log("account id from auth token: " + authAccountId)
+    if (!authAccountId) {
+        const error = new Error('No account id found from auth token, cant delete account')
+        error.status = 401
+        return next(error)
+    }
     try {
         const { account } = req.body
 
@@ -153,6 +161,12 @@ const postDelete = async (req, res, next) => {
             return next(error)
         }
         const accountID = resultAccountID.rows[0].accountid
+        console.log("account id from email and username: " + accountID)
+        if (parseInt(accountID) !== parseInt(authAccountId)) {
+            const error = new Error('Account id from auth token and account id from email and username do not match, cant delete account')
+            error.status = 401
+            return next(error)
+        }
 
         const resultDBPassword = await getPasswordByID(accountID)
         // console.log("reult from db query get passwd by id: ")

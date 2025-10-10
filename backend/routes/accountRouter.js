@@ -12,7 +12,7 @@ router.get('/:accountid', auth, getAccountById) // get account details by id wit
 router.get('/getemail/:accountid', getAccountEmailById) // get email by id without auth for AccountEmailById component 
 router.post('/signin', accountSignIn)
 router.post('/register', postRegister)
-router.post('/delete', postDelete)
+router.post('/delete', auth, postDelete)
 router.put('/updatepassword', auth, putAccountPassword)
 router.put('/updateusername', auth, putAccountUsername)
 router.put('/updateemail', auth, putAccountEmail)
