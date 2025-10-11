@@ -1,10 +1,11 @@
 #searchBtn {
-  padding: 0.75em 1em;
-  margin: 0.5em;
   cursor: pointer;
-  background-color: black;
-  color: white;
-  border: none;
+  margin: 0.5em;
+  padding: 10px 12px;
   border-radius: 8px;
-  width: 16em;
+  text-decoration: none;
+  background-color: var(--color-bg-invert);
+  color: var(--color-text-invert);
+  font-size: var(--font-size-medium);
+  border: 1.5px solid var(--color-border);
 }

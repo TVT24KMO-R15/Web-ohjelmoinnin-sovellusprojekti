@@ -1,23 +1,30 @@
+input {
+  all: unset;
+}
 .show-search{
-  padding: 10px 12px;
   border: 0;
   margin-left: 10px;
   margin-right: 10px;
-  background:#000;
+  background:none;
 }
 .search-bar {
   margin-left: 10px;
   margin-right: 10px;
   position: relative;
   display: inline-block;
+  background: var(--color-bg);
+  border-radius: 8px;
 }
 .search-bar input {
   padding-right: 32px; 
   padding-left: 8px;
-  height: 36px;
-  border-radius: 8px;
+  height: 38px;
   border: 0px;
-  outline: 1px solid black;
+  box-sizing: border-box;
+}
+.search-bar-container {
+  display: flex;
+  align-items: center;
 }
 .search-bar .search-icon {
   position: absolute;

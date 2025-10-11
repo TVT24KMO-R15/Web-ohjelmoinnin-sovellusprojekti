@@ -4,7 +4,7 @@
 
 .moviereview {
     margin: 1em;
-    border: 4px solid gold;
+    border: 4px solid var(--color-contrast);
     border-radius: 1em;
     padding: 1em;
     background-color: lightgoldenrodyellow;

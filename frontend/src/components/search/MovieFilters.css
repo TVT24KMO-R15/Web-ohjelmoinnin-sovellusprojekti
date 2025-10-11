@@ -1,34 +1,43 @@
 .movieFilters {
-  display: flex;
-  flex-direction: row;
+  display: flex;  
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .inputField {
-  padding: 0.5em;
-  margin: 1em;
+  margin: 0.5em;
+  padding: 10px 12px;
   border-radius: 8px;
-  height: 1.5em;
-  border: 1px solid black;
+  text-decoration: none;
+  font-size: var(--font-size-medium);
+  border: 1.5px solid var(--color-border);
+  box-sizing: border-box;
+}
+.inputField:focus {
+  border: 1.5px solid var(--color-primary);
 }
 
 #filterToggle {
-  width: 110%;
-  padding: 0.75em;
-  margin: 0.5em;
-  height: 3em;
-  border: 1px solid black;
-  border-radius: 8px;
   cursor: pointer;
+  margin: 0.5em;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: var(--font-size-medium);
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-bg-invert);
+  color: var(--color-text-invert);
 }
 
 #filterOptions {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   width: auto;
 }
 
 /* able to edit searchbar css without affecting header */
 #customSearchBar > div > .search-bar input {
-  padding-right: 5em;
+  border-radius: 8px;
+  width: 100%;
+  border: 1.5px solid var(--color-border);
 }
