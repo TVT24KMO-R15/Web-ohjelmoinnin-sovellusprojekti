@@ -1,15 +1,15 @@
 .grouppost-finnkino-details {
     margin: 1em 0;
     padding: 1em;
-    background-color: #e8f4f8;
-    border: 2px solid #17a2b8;
+    background-color: var(--color-bg-alt);
+    border: 2px solid var(--color-primary);
     border-radius: 0.5em;
     overflow: hidden;
 }
 
 .grouppost-finnkino-details h3 {
     margin-top: 0;
-    color: #0c5460;
+    color: var(--gray-dark);
 }
 
 .finnkino-content {
@@ -25,7 +25,7 @@
 
 .finnkino-info p {
     margin: 0.5em 0;
-    color: #0c5460;
+    color: var(--gray-dark);
     display: block;
 }
 

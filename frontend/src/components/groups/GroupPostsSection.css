@@ -16,14 +16,14 @@
 
 #posts-header button {
     padding: 0.5em 1em;
-    border: solid 1px black;
+    border: solid 1px var(--black);
     border-radius: 1em;
-    background-color: rgba(255, 192, 76, 0.678);
+    background-color: var(--color-primary);
     cursor: pointer;
 }
 
 #posts-header button:hover {
-    background-color: rgba(255, 192, 76, 0.9);
+    background-color: var(--color-contrast);
 }
 
 #addpostform {
@@ -35,23 +35,23 @@
     box-sizing: border-box;
     padding: 0.5em;
     border-radius: 0.5em;
-    border: 1px solid #ccc;
+    border: 1px solid var(--gray-light);
     margin-bottom: 0.5em;
     resize: none;
 }
 
 #addpostcontainer button {
     padding: 0.5em 1em;
-    border: solid 1px black;
+    border: solid 1px var(--black);
     border-radius: 1em;
-    background-color: rgba(255, 192, 76, 0.678);
+    background-color: var(--color-primary);
     cursor: pointer;
     margin: 0 0.5em;
     margin-bottom: 0.5em;
 }
 
 #addpostcontainer button:hover {
-    background-color: rgba(255, 192, 76, 0.9);
+    background-color: var(--color-contrast);
 }
 
 .grouppostsubmitbutton {
@@ -61,7 +61,7 @@
 .grouppostborder{
     margin: 0.5em;
     padding: 0.5em;
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid var(--gray-medium);
 }
 
 .grouppostborder:last-of-type {
@@ -79,19 +79,19 @@
 .finnkino-selected-details {
     margin: 1em 0;
     padding: 1em;
-    background-color: #e8edd4;
-    border: 3px solid #939c18;
+    background-color: var(--success-bg);
+    border: 3px solid var(--success-border);
     border-radius: 0.5em;
 }
 
 .finnkino-selected-details h4 {
     margin-top: 0;
     margin-bottom: 0.5em;
-    color: #155724;
+    color: var(--gray-dark);
 }
 
 .finnkino-selected-details p {
     margin: 0.25em 0;
-    color: #155724;
+    color: var(--gray-dark);
 }
 

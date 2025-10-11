@@ -1,9 +1,9 @@
 .finnkino-section {
     margin-top: 1em;
     padding: 1em;
-    border: 1px solid #ccc;
+    border: 1px solid var(--gray-light);
     border-radius: 0.5em;
-    background-color: #f9f9f9;
+    background-color: var(--color-bg-alt);
 }
 
 .finnkino-section h3 {
@@ -31,27 +31,27 @@
 .dropdown-container select {
     padding: 0.5em;
     border-radius: 0.5em;
-    border: 1px solid #ccc;
-    background-color: white;
+    border: 1px solid var(--gray-light);
+    background-color: var(--white);
     cursor: pointer;
-    font-size: 1em;
+    font-size: var(--font-size-base);
 }
 
 .dropdown-container select:hover {
-    border-color: #999;
+    border-color: var(--gray-medium);
 }
 
 .dropdown-container select:focus {
     outline: none;
-    border-color: rgba(255, 192, 76, 0.9);
+    border-color: var(--color-contrast);
 }
 
 .selected-event-info {
     margin-top: 1em;
     padding: 0.5em;
-    background-color: #e8f4f8;
+    background-color: var(--color-bg-alt);
     border-radius: 0.5em;
-    border: 1px solid #b3d9e6;
+    border: 1px solid var(--gray-light);
 }
 
 .selected-event-info p {
@@ -61,15 +61,15 @@
 .no-showtimes {
     margin-top: 1em;
     padding: 0.5em;
-    background-color: #fff3cd;
+    background-color: var(--warning-bg);
     border-radius: 0.5em;
-    border: 1px solid #ffc107;
+    border: 1px solid var(--warning-border);
     text-align: center;
 }
 
 .no-showtimes p {
     margin: 0;
-    color: #856404;
+    color: var(--color-primary);
 }
 
 .showtimes-list {
@@ -88,8 +88,8 @@
 }
 
 .showtime-item {
-    background-color: white;
-    border: 2px solid #ddd;
+    background-color: var(--white);
+    border: 2px solid var(--gray-light);
     border-radius: 0.5em;
     padding: 1em;
     text-align: center;
@@ -101,34 +101,34 @@
 }
 
 .showtime-item:hover {
-    border-color: rgba(255, 192, 76, 0.9);
+    border-color: var(--color-contrast);
 }
 
 .showtime-time {
     font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 0.5em;
-    color: #333;
+    color: var(--gray-dark);
 }
 
 .showtime-details {
     margin-bottom: 0.75em;
-    color: #666;
+    color: var(--gray-medium);
 }
 
 .select-showtime-btn {
     width: 100%;
     padding: 0.5em 1em;
-    border: solid 1px black;
+    border: solid 1px var(--black);
     border-radius: 0.5em;
-    background-color: rgba(255, 192, 76, 0.678);
+    background-color: var(--color-primary);
     cursor: pointer;
     font-weight: bold;
     margin: 0 auto;
 }
 
 .select-showtime-btn:hover {
-    background-color: rgba(255, 192, 76, 0.9);
+    background-color: var(--color-contrast);
 }
 
 @media (min-width: 768px) {
