@@ -9,7 +9,7 @@ export default function AccountEmailById(property) {
         //setId(property.accountid)
         if (!id.property) return // bugfix
         
-        const address = import.meta.env.VITE_API_URL + `/users/${id.property}`
+        const address = import.meta.env.VITE_API_URL + `/users/getemail/${id.property}` // get email only instead of all details
         //console.log(address)
         fetch(address)
             .then(response => response.json())
@@ -26,10 +26,10 @@ export default function AccountEmailById(property) {
 
     }, [])
 
-    if (account[0]) {
+    if (account.email) {
         //console.log(account)
         return (
-            <div>{account[0].email}</div>
+            <div>{account.email}</div>
         )
     } else {
         return (<div>no email</div>)

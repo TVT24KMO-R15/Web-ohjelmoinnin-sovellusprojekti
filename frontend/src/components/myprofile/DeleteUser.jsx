@@ -1,10 +1,13 @@
 import { React, useState } from 'react'
 import axios from 'axios';
+import { useUser } from '../../context/UseUser';
 
 export default function DeleteUser({ onClose, email, username }) {
     const [user, setUser] = useState({ email: email, password: '', username: username });
     const [errorMessage, setErrorMessage] = useState('');
-
+    const account = useUser();
+    console.log("account: ", account)
+    const headers = { 'Authorization': `Bearer ${account.user.token}` }
 
     const handleChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -23,7 +26,7 @@ export default function DeleteUser({ onClose, email, username }) {
         try {
             const payload = { account: user }
             console.log(payload)
-            axios.post(import.meta.env.VITE_API_URL + `/users/delete`, payload)
+            axios.post(import.meta.env.VITE_API_URL + `/users/delete`, payload, { headers })
                 .then(response => {
                     console.log(response)
                     if (response.status == 200) {
@@ -33,10 +36,12 @@ export default function DeleteUser({ onClose, email, username }) {
                     }
 
                 }).catch(error => {
+                    console.error(error)
                     setErrorMessage('Something went wrong');
                 })
 
         } catch (error) {
+            console.error(error)
             setErrorMessage('Something went wrong');
         }
     }

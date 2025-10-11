@@ -3,6 +3,7 @@ import axios from "axios"
 import './PopularMovies.css'
 import { Link } from 'react-router-dom'
 import Pagination from '../search/Pagination'
+import noPoster from '../../assets/noPoster.png';
 
 
 export default function PopularMovies({reqUrl, sectionTitle}) {
@@ -81,7 +82,7 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
             
             <article key={item.id} className='popularMoviesArticle'>
               <Link to={`/movies/${item.id}`} className='popularmovielink'>
-                {(item["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + item["poster_path"]}></img> : <img src={"../src/assets/noPoster.png"}></img>} 
+                {(item["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + item["poster_path"]}></img> : <img src={noPoster}></img>} 
                 <h3>{item.title}</h3>
               </Link>
             </article>

@@ -8,9 +8,9 @@ describe("Cleaning up", () => {
     
 
     it("should not delete account when group owner", async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/users/delete`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/users/delete`, {
             method: "post",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
             body: JSON.stringify({ account: user1 })
         })
         const data = await response.json()
@@ -21,7 +21,7 @@ describe("Cleaning up", () => {
 
 
     it("should delete owned group", async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/groups/delete/${global.group1Id}`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/delete/${global.group1Id}`, {
             method: "delete",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` }
         })
@@ -32,9 +32,9 @@ describe("Cleaning up", () => {
     })
 
     it("should delete account", async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/users/delete`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/users/delete`, {
             method: "post",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
             body: JSON.stringify({ account: user1 })
         })
         const data = await response.json()
@@ -44,7 +44,7 @@ describe("Cleaning up", () => {
     })
 
     it('should not log in after account deletion', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/users/signin`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/users/signin`, {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ account: user1 })

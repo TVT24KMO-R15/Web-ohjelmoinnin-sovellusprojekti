@@ -7,7 +7,7 @@ describe("Testing favorites", () => {
     const favorite1 = { email: "test01@test.com", movieId: 12345 }
 
     it('should add a favorite movie', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/favorites/add`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/favorites/add`, {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(favorite1)
@@ -18,7 +18,7 @@ describe("Testing favorites", () => {
     })
 
     it('should not add a duplicate favorite movie', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/favorites/add`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/favorites/add`, {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(favorite1)
@@ -29,7 +29,7 @@ describe("Testing favorites", () => {
     })
 
     it('should get all favorite movies for a user', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/favorites/?email=${favorite1.email}`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/favorites/?email=${favorite1.email}`, {
             method: "get",
             headers: { "Content-Type": "application/json" }
         })
@@ -41,7 +41,7 @@ describe("Testing favorites", () => {
     })
 
     it('should delete a favorite movie', async () => {
-        const response = await fetch(`http://localhost:${process.env.PORT}/favorites/delete`, {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/favorites/delete`, {
             method: "post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(favorite1)

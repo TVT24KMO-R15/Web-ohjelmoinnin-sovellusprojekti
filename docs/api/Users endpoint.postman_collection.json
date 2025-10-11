@@ -8,18 +8,85 @@
 	},
 	"item": [
 		{
-			"name": "/users/",
+			"name": "Get username by ID",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/users/",
+					"raw": "{{base_url}}/users/getid/:accountid",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"users",
-						""
+						"getid",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get info by account id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/:accountid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "27",
+							"description": "match id to auth user id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/getemail/:accountid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"getemail",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "1"
+						}
 					]
 				}
 			},
@@ -57,6 +124,80 @@
 					"path": [
 						"users",
 						"updatepassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUsername",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newemail@mail.com\",\r\n        \"username\": \"usernamename\",\r\n        \"newUsername\": \"ewe\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/updateusername",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"updateusername"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateEmail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newemail@mail.com\",\r\n        \"username\": \"usernamename\",\r\n        \"newEmail\": \"new@mail.com\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/updateemail",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"updateemail"
 					]
 				}
 			},
@@ -163,31 +304,6 @@
 					"path": [
 						"users",
 						"delete"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Getusernamebyid",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/users/getid/:accountid",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"users",
-						"getid",
-						":accountid"
-					],
-					"variable": [
-						{
-							"key": "accountid",
-							"value": "1"
-						}
 					]
 				}
 			},

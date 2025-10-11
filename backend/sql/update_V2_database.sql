@@ -29,4 +29,10 @@ ON DELETE CASCADE;
 ALTER TABLE IF EXISTS public.groupposts
     ALTER COLUMN fk_accountid SET NOT NULL;
 
+ALTER TABLE IF EXISTS public.groupposts
+    ALTER COLUMN posttext SET NOT NULL;
+
+ALTER TABLE public.groupposts
+    ADD COLUMN IF NOT EXISTS finnkino_theatre_name character varying(255);
+
 END;

@@ -1,7 +1,8 @@
 // for all account table http endpoints
-import { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail, queryGetUsername } from "../models/account.js"
+import { selectAllAccounts, selectAccountById, selectAccountEmailById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail, queryGetUsername } from "../models/account.js"
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
+import { auth } from "../helpers/authHelper.js"
 
 const { sign } = jwt
 
@@ -16,9 +17,17 @@ const getAllAccounts = async (req, res, next) => {
 }
 
 const getAccountById = async (req, res, next) => {
+    const authAccountId = req.user.id
+    console.log("auth account id from token: " + authAccountId)
+    
     if (!req.params.accountid || req.params.accountid === 'undefined') {
         const error = new Error('Account id is required')
         error.status = 400
+        return next(error)
+    }
+    if (parseInt(req.params.accountid) !== parseInt(authAccountId)) {
+        const error = new Error('Account id from auth token and account id from request params do not match, unauthorized')
+        error.status = 401
         return next(error)
     }
     try {
@@ -131,6 +140,13 @@ POST http://localhost:3000/users/delete
 */
 
 const postDelete = async (req, res, next) => {
+    const authAccountId = req.user.id // get auth account id to match to db id from email and username
+    console.log("account id from auth token: " + authAccountId)
+    if (!authAccountId) {
+        const error = new Error('No account id found from auth token, cant delete account')
+        error.status = 401
+        return next(error)
+    }
     try {
         const { account } = req.body
 
@@ -145,6 +161,12 @@ const postDelete = async (req, res, next) => {
             return next(error)
         }
         const accountID = resultAccountID.rows[0].accountid
+        console.log("account id from email and username: " + accountID)
+        if (parseInt(accountID) !== parseInt(authAccountId)) {
+            const error = new Error('Account id from auth token and account id from email and username do not match, cant delete account')
+            error.status = 401
+            return next(error)
+        }
 
         const resultDBPassword = await getPasswordByID(accountID)
         // console.log("reult from db query get passwd by id: ")
@@ -387,4 +409,21 @@ const getUsernameById = async (req, res, next) => {
     }
 }
 
-export { getAllAccounts, getAccountById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById }
+const getAccountEmailById = async (req, res, next) => {
+    if (!req.params.accountid || req.params.accountid === 'undefined') {
+        const error = new Error('Account id is required')
+        error.status = 400
+        return next(error)
+    }
+    try {
+        const result = await selectAccountEmailById(req.params.accountid)
+        console.log('get details for account: ' + req.params.accountid)
+        return res.status(200).json(result.rows[0] || [])
+    }
+    catch (error) {
+        return next(error)
+    }
+}
+
+
+export { getAllAccounts, getAccountById, getAccountEmailById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById }

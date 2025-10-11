@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './MovieCollection.css';
+import noPoster from '../assets/noPoster.png';
 
 export default function MovieCollection() {
   const { collectionId } = useParams();
@@ -53,7 +54,7 @@ export default function MovieCollection() {
                 <img
                 src={movie.poster_path
                   ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                  : '../src/assets/noPoster.png'} // placeholder jos poster puuttuu
+                  : noPoster} // placeholder jos poster puuttuu
                 alt={movie.title}
                 className="collection-poster"
                 />

@@ -13,6 +13,8 @@ ALTER TABLE IF EXISTS public.review DROP CONSTRAINT IF EXISTS "accountID_movieRe
 
 ALTER TABLE IF EXISTS public.groupposts DROP CONSTRAINT IF EXISTS groupid;
 
+ALTER TABLE IF EXISTS public.groupposts DROP CONSTRAINT IF EXISTS fk_accountid;
+
 ALTER TABLE IF EXISTS public.favoritemovies DROP CONSTRAINT IF EXISTS fk_accountid;
 
 ALTER TABLE IF EXISTS public.grouppost_comment DROP CONSTRAINT IF EXISTS grp_comment_grp_post;
@@ -81,13 +83,15 @@ CREATE TABLE IF NOT EXISTS public.groupposts
 (
     postid serial,
     fk_groupid integer NOT NULL,
-    posttext character varying(1000),
+    posttext character varying(1000) NOT NULL,
     movieid integer,
     postdate timestamp with time zone DEFAULT CURRENT_TIMESTAMP(0),
+    fk_accountid integer NOT NULL,
     finnkino_original_title character varying(255),
     finnkino_showtime timestamp without time zone,
     finnkino_theatre_id integer,
     finnkino_poster_url character varying(255),
+    finnkino_theatre_name character varying(255),
     PRIMARY KEY (postid)
 );
 
@@ -164,6 +168,13 @@ ALTER TABLE IF EXISTS public.review
 ALTER TABLE IF EXISTS public.groupposts
     ADD CONSTRAINT groupid FOREIGN KEY (fk_groupid)
     REFERENCES public.groups (groupid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public.groupposts
+    ADD CONSTRAINT fk_accountid FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE CASCADE;
 

@@ -6,7 +6,11 @@ const selectAllAccounts = async () => {
 }
 
 const selectAccountById = async ( accountid ) => {
-    return await pool.query(`SELECT * FROM account WHERE accountid = $1`, [accountid])
+    return await pool.query(`SELECT username, email, "registrationDate" FROM account WHERE accountid = $1`, [accountid])
+}
+
+const selectAccountEmailById = async ( accountid ) => {
+    return await pool.query(`SELECT email FROM account WHERE accountid = $1`, [accountid])
 }
 
 const accountLogin = async ( email ) => {
@@ -56,4 +60,4 @@ const queryGetUsername = async (accountid) => {
     return await pool.query(`SELECT username FROM account WHERE accountid = $1`, [accountid])
 }
 
-export { selectAllAccounts, selectAccountById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail , queryGetUsername }
+export { selectAllAccounts, selectAccountById, selectAccountEmailById, sendSignUp, accountLogin, getPasswordByID, getAccountIDByUsernameEmail, deleteAccount, updatePassword, updateUsername, updateEmail , queryGetUsername }

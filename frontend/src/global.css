@@ -13,6 +13,13 @@
   --goldenrod: goldenrod; /* tummakulta */
   --red-500: #b30000; /* punainen */
   
+  --warning-bg: #fff3cd;
+  --warning-border: #ffc107;
+  --warning-text: #856404;
+
+  --success-bg: #e8edd4;
+  --success-border: #939c18;
+
   /* Käyttöön perustuvat värit */
   --color-text: var(--black);
   --color-text-muted: var(--gray-medium);
