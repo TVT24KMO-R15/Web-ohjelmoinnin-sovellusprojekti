@@ -18,13 +18,17 @@
   padding: 10px 12px;
   border-radius: 8px;
   text-decoration: none;
-  background-color: var(--color-bg-invert);
-  color: var(--color-text-invert);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-size: var(--font-size-medium);
   border: 1.5px solid var(--color-border);
   flex-wrap: wrap;
 }
+#dropDown:focus {
+  border: 1.5px solid var(--color-primary);
+}
 
 #dropDown:hover {
   cursor: pointer;
+  border: 1.5px solid var(--color-primary);
 }

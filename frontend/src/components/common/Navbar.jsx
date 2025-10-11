@@ -13,6 +13,7 @@ export default function Navbar() {
   const [signinOpen, setSigninOpen] = useState(false); // Kirjautumisikkuna
   const { user, setUser } = useUser();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [searchOpenOnMobile, setSearchOpenOnMobile] = useState(false); // Track if search is open on mobile
   const dropdownRef = useRef(null);
   const sidebarRef = useRef(null);
   const navigate = useNavigate();
@@ -71,24 +72,27 @@ export default function Navbar() {
         </ul>
         <ul>
           {/* Normaali valikko */}
-          <li><Link to="/">Home</Link></li>
+          <li className={searchOpenOnMobile ? 'hideOnMobileSearch' : ''}><Link to="/">Home</Link></li>
           <li className="btn hideOnMobile"><Link to="/movies">Movies</Link></li>
           <li className="btn hideOnMobile"><Link to="/groups">Groups</Link></li>
           <li className="btn hideOnMobile"><Link to="/reviews">Reviews</Link></li>
-          <li className="menu-btn" onClick={() => setSidebarOpen(true)}>
+          <li className={`menu-btn ${searchOpenOnMobile ? 'hideOnMobileSearch' : ''}`} onClick={() => setSidebarOpen(true)}>
             {menuIcon}
           </li>
           {/* Venyvä hakupainike */}
-              <SearchBar searchDestination={'/search'}/>
+              <SearchBar 
+                searchDestination={'/search'}
+                onVisibilityChange={setSearchOpenOnMobile}
+              />
 
         {/* Sisäänkirjautumisnappi */}
         { !user || !user.token ? (
-          <button className="signin-btn" onClick={() => setSigninOpen(true)}>
+          <button className={`signin-btn ${searchOpenOnMobile ? 'hideOnMobileSearch' : ''}`} onClick={() => setSigninOpen(true)}>
             Sign in
           </button>
         ) : (
           /* Käyttäjämenu */
-          <div className="account-dropdown-wrapper" ref={dropdownRef}>
+          <div className={`account-dropdown-wrapper ${searchOpenOnMobile ? 'hideOnMobileSearch' : ''}`} ref={dropdownRef}>
             <button className="signin-btn" onClick={() => setUserMenuOpen((open) => !open)}>
               Account
             </button>
