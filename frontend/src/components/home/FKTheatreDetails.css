@@ -10,14 +10,14 @@
     align-items: center;
     justify-content: flex-start;
     padding: 0.5em;
-    background-color: #c4c4c4;
-    border: 1px solid #bbbbbb;
+    background-color: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
     border-radius: 1em;
     min-height: 220px;
   }
 
   .grid-item:hover {
-    background-color: #b0b0b0;
+    background-color: var(--color-bg-alt-hover);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
     transition: all 0.3s ease;
@@ -46,8 +46,8 @@
 
   .pagination-btn {
     border: none;
-    background: #b0b0b0;
-    color: #fff;
+    background: var(--color-bg-alt-hover);
+    color: var(--color-text-invert);
     padding: 0.5em 1.2em;
     margin: 0 0.5em;
     border-radius: 2em;
@@ -58,11 +58,11 @@
   }
   
   .pagination-btn:disabled {
-    background: #bbbbbb;
+    background: var(--color-bg-alt-hover);
     cursor: not-allowed;
-    color: #eee;
+    color: var(--color-text-invert);
   }
   
   .pagination-btn:not(:disabled):hover {
-    background: #c4c4c4;
+    background: var(--color-primary);
   }

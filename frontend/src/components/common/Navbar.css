@@ -10,11 +10,11 @@
   color: var(--color-text);
   min-width: 160px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.18);
-  border-radius: 8px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   padding: 8px 0;
+  border-radius: 8px;
 }
 .dropdown-item {
   padding: 10px 20px;
@@ -22,28 +22,30 @@
   background: none;
   border: none;
   color: var(--black);
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   cursor: pointer;
   text-decoration: none;
+  border-radius: 0px;
 }
 .dropdown-greetings {
   padding: 10px 20px;
   text-align: left;
   background: none;
   border: none;
-  color: var(--color-text-muted);
+  color: var(--color-primary);
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   text-decoration: none;
 }
 .dropdown-item:hover {
-  background: var(--color-bg-alt);
+  background: var(--color-primary);
   color: var(--red);
 }
 body {
   min-height: 100vh;
 }
 .signin-btn {
+  all: unset;
   margin-left: 10px;
   margin-right: 10px;
   background: var(--color-bg);
@@ -51,16 +53,17 @@ body {
   padding: 10px 12px;
   border-radius: 8px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   font-weight: 600;
   border: 0;
 }
 .signin-btn:hover {
-  color: var(--nav-hover-alt);
+  color: var(--color-primary);
   cursor: pointer;
 }
 nav{
-  background-color: var(--nav-bg);
+  background-color: var(--color-bg-invert);
+  min-height: 64px;
 }
 nav ul{
   width: 100%;
@@ -68,6 +71,7 @@ nav ul{
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  min-height: 64px;
 }
 nav li{
   height: 64px;
@@ -82,15 +86,14 @@ nav a{
   text-decoration: none;
   display: flex;
   align-items: center;
-  color: var(--nav-text);
-  background: var(--nav-bg);
+  color: var(--color-text-invert);
   border-radius: 8px;
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   border: 0;
 }
 nav a:hover{
   background: var(--nav-hover);
-  color: var(--nav-text);
+  color: var(--color-text-invert);
 }
 nav li:first-child{
   margin-right: auto;
@@ -132,6 +135,9 @@ nav li:first-child{
 @media(max-width: 800px){
   .hideOnMobile{
     display: none;
+  }
+  .hideOnMobileSearch {
+    display: none !important;
   }
   .menu-btn, .show-search {
     display: flex;

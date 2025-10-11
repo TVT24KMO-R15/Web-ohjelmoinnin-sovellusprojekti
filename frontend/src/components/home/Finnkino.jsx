@@ -42,7 +42,7 @@ function Finnkinohaku({ onTheatreSelect }) {
 export default function Finnkino({ setSelectedTheatreId }) {
   return (
     <div>
-      <p>Finnkino theatre selection</p>
+      <h3>Finnkino theatre selection</h3>
       <Finnkinohaku onTheatreSelect={setSelectedTheatreId} />
     </div>
   )
