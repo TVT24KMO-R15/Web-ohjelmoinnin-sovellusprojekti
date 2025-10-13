@@ -28,17 +28,21 @@ export default function PostCommentSection({ GroupPost, isOwner }) {
 
     const handleDelete = (commentid) => {
         // console.log('delete comment' + commentid)
+        if (confirm("Are you sure you want to remove this comment?") == true) {
 
-        const address = import.meta.env.VITE_API_URL + `/postcomment/${commentid}`
-        const headers = { Authorization: `Bearer ${account.user.token}` }
-        axios.delete(address, { headers })
-            .then(response => {
-                //console.log(response)
 
-                setComments(comments.filter(item => item.comment_id !== commentid))
-            }).catch(error => {
-                alert(error)
-            })
+
+            const address = import.meta.env.VITE_API_URL + `/postcomment/${commentid}`
+            const headers = { Authorization: `Bearer ${account.user.token}` }
+            axios.delete(address, { headers })
+                .then(response => {
+                    //console.log(response)
+
+                    setComments(comments.filter(item => item.comment_id !== commentid))
+                }).catch(error => {
+                    alert(error)
+                })
+        }
     }
 
     if (loading) return (<div>Thinking...</div>)
