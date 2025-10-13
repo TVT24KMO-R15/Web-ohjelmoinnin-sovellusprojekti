@@ -328,6 +328,51 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Change owner",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newOwnerId\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/groups/transfer/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groups",
+						"transfer",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "44",
+							"description": "id of group, auth user must be owner"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
