@@ -4,13 +4,15 @@ import FinnkinoShowtimeSelector from './FinnkinoShowtimeSelector.jsx'
 import './GroupPostsSection.css'
 import { useUser } from '../../context/UseUser.js'
 import axios from 'axios'
-
+import FavouriteMovieSelector from './FavouriteMovieSelector.jsx'
 export default function GroupPostsSection({ groupId, isOwner }) {
   const [addNewPostHidden, setAddNewPostHidden] = useState(true)
   const account = useUser()
   const [updateListing, setUpdateListing] = useState(false)
 
   const [postText, setPostText] = useState('')
+
+  // movie state
   const [movieId, setMovieId] = useState(null)
   const [showMovieSection, setShowMovieSection] = useState(false)
 
@@ -57,6 +59,10 @@ export default function GroupPostsSection({ groupId, isOwner }) {
     setTheatreName(showtimeDetails.theatre)
     setPosterUrl(showtimeDetails.posterUrl)
     setShowFinnkinoSection(false)
+  }
+  const handleMovieSelect = (movieId) => {
+    setMovieId(movieId) 
+    setShowMovieSection(false)
   }
 
   const handleChange = (e) => {
@@ -167,6 +173,26 @@ export default function GroupPostsSection({ groupId, isOwner }) {
             </button>
           </div>
         )}
+
+        {movieId && !addNewPostHidden && (
+          // card that shows after fav movie selected
+          <div className="finnkino-selected-details">
+            <h4>Selected Movie: </h4>
+            
+            <div>
+              <p><strong>Movie Id: </strong> {movieId}</p>
+            </div>
+            <button 
+              type="button" 
+              onClick={() => {
+                setMovieId(null)
+              }}
+              className="groupPageButton"
+            >
+              Clear Selection
+            </button>
+          </div>
+        )}
         
         {!addNewPostHidden && (
           <div>{errorMessage && (
@@ -198,6 +224,11 @@ export default function GroupPostsSection({ groupId, isOwner }) {
               isVisible={showFinnkinoSection}
               onShowtimeSelect={handleShowtimeSelect}
               onClose={() => setShowFinnkinoSection(false)}
+            />
+            <FavouriteMovieSelector
+              isVisible={showMovieSection}
+              onMovieSelect={handleMovieSelect}
+              onClose={() => setShowMovieSection(false)}
             />
           </div>
         )}
