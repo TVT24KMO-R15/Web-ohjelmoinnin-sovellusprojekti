@@ -1,19 +1,19 @@
-# Oulun ammattikorkeakoulun ohjelmistokehityksen sovellusprojekti
+# Movie Website Application – Oulu University of Applied Sciences
 
-Tämä projekti on Oulun ammattikorkeakoulun tietotekniikan koulutusohjelman web-ohjelmoinnin sovellusprojektikurssille IN00ED15 toteutettu **elokuvasivustosovellus**. Kurssi oli 15 opintopisteen laajuinen.
-
-
-## Projektin tavoitteet
-
-- Luoda web-ohjelmisto JavaScript-ohjelmointikielellä ja hyödyntää siinä JavaScript pohjaista käyttöliittymäkirjastoa tai -ohjelmointikehystä
-- Suunnitella ja toteuttaa ohjelmistotestausta ja käyttää testausta osana ohjelmistokehitystä
-- Toimia erilaisissa rooleissa osana ketterää ohjelmistokehitystiimiä
-- Esitellä projekti englanniksi
+This project is a movie website application developed as part of the Web Programming Application Project course (IN00ED15) in the Degree Programme in Information Technology at Oulu University of Applied Sciences.
 
 
-## Projektiryhmä
+## Goals
 
-Projektiryhmä koostuu seuraavista henkilöistä:
+- To create a web application using JavaScript and a JavaScript-based UI library or framework
+- To design and implement software testing and integrate testing as part of the development process
+- To work in various roles within an agile software development team
+- To present the project in English
+
+
+## Team
+
+The project team consists of the following members:
 
 <table>
   <tbody>
@@ -28,47 +28,47 @@ Projektiryhmä koostuu seuraavista henkilöistä:
 </table>
 
 
-## Ominaisuudet
-- **Elokuvasivusto:** Käyttäjät voivat selata, hakea ja tarkastella elokuvia sekä Finnkinon näytösaikoja
-- **Käyttäjätilit:** Rekisteröityminen, kirjautuminen sekä profiilin ja suosikkilistan hallinta
-- **Ryhmät:** Käyttäjät voivat liittyä ryhmiin, tehdä postauksia ja erota ryhmistä
-- **Arvostelut ja kommentit:** Käyttäjät voivat arvostella elokuvia
-- **Responsiivinen käyttöliittymä:** Sivusto toimii sujuvasti eri kokoisilla näytöillä
-- **REST API:** Node.js-pohjainen backend mahdollistaa tiedon hakemisen ja tallentamisen PostgreSQL-tietokantaan
-- **Tietoturva:** Käyttäjien autentikointi ja salasanojen turvallinen hashays
-- **Testaus:** Backend sisältää automatisoituja testejä
+## Features
+- **Website:** Users can browse, search, and view movies as well as Finnkino showtimes
+- **User accounts:** Registration, login, and management of user profiles and favorite lists
+- **Groups:** Users can create and join groups, make posts and comment on them, and leave groups
+- **Reviews:** Users can rate and review movies
+- **Responsive interface:** The site works smoothly on screens of various sizes
+- **REST API:** Node.js-based backend enables data retrieval and storage in a PostgreSQL database
+- **Security:** User authentication and secure password hashing
+- **Testing:** Backend includes automated tests
 
-## Teknologiastäkki
+## Tech stack
 - **React** – frontend
 - **Node.js** – backend
-- **PostgreSQL** – tietokanta
-- **Axios** – HTTP-pyynnöt
-- **JWT** – autentikointi
-- **bcrypt** – salasanojen hashays
-- **dotenv** – ympäristömuuttujat
-- **Mocha & Chai** – backend-testit
+- **PostgreSQL** – database
+- **Axios** – HTTP requests
+- **JWT** – authentication
+- **bcrypt** – password hashing
+- **dotenv** – environment variables
+- **Mocha & Chai** – backend testing
 
 
-## Sovelluksen pyörittäminen paikallisesti
+## Running the Application Locally
 
-### Esivaatimukset
+### Prerequisites
 * PostgreSQL
-* Node.js ja npm asennettu
+* Node.js and npm installed
 
-### Ohjeet
-- **1. Kloonaa repositorio**
-- **2. Asenna riippuvuudet backend- ja frontend-kansioihin (npm install)**
-- **3. Luo .env-tiedosto backend-kansioon ja lisää ENV_TEMPLATEn mukaiset muuttujat**
-- **4. Luo .env-tiedosto frontend-kansioon (VITE_API_URL=http://localhost:{PORT})**
-- **5. Luo PostgreSQL-tietokanta ja suorita createDatabase.sql mukaiset skeemat**
-- **6. Käynnistä sovelluksen backend ja frontend (npm run dev)**
-- **7. Avaa selain ja siirry osoitteeseen: http://localhost:5173**
-
-
-## Dokumentaatio
-
-Lisätietoja projektin rakenteesta ja toiminnallisuuksista löytyy [docs]-kansiosta.
+### Setup instructions
+- **1. Clone the repository**
+- **2. Install dependencies in both the backend and frontend directories (npm install)**
+- **3. Create a .env file in the backend directory and add variables according to the ENV_TEMPLATE**
+- **4. Create a .env file in the frontend directory (VITE_API_URL=http://localhost:{PORT})**
+- **5. Create a PostgreSQL database and run the schema from createDatabase.sql**
+- **6. Start both the backend and frontend (npm run dev)**
+- **7. Open your browser and go to http://localhost:5173**
 
 
-## Lisenssi
-Tämä projekti on lisensoitu MIT-lisenssillä. Lisätiedot [LICENSE](LICENSE)-tiedostosta.
+## Documentation
+
+Further details about the project’s structure and functionality can be found in the [docs] directory.
+
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
