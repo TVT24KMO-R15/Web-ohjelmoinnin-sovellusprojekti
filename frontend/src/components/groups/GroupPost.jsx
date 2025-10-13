@@ -1,5 +1,7 @@
 import React from "react";
 import AccountEmailById from "../common/AccountEmailById";
+import PostCommentSection from "./PostCommentSection";
+
 import "./GroupPost.css";
 
 export default function GroupPost({ GroupPost }) {
@@ -67,12 +69,9 @@ export default function GroupPost({ GroupPost }) {
       <div>
         <p>{GroupPost.postdate.substring(0, 10)}</p>
       </div>
-      <div>
-        <button className="groupPageButton">button for commenting</button>
-      </div>
-      <div className="grouppostcommentborder">
-        <h4>Get comments here!</h4>
-      </div>
+
+      <PostCommentSection GroupPost={GroupPost}/>
+      
     </div>
   );
 }

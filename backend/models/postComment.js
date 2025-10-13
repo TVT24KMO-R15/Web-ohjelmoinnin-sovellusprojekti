@@ -1,7 +1,7 @@
 import { pool } from '../helpers/dbHelper.js'
 
 const queryPostCommentsByPostId = async ( postid ) => {
-  const res = await pool.query('SELECT * FROM grouppost_comment WHERE fk_grouppost = $1', [postid])
+  const res = await pool.query('SELECT * FROM grouppost_comment WHERE fk_grouppost = $1 ORDER BY comment_date ASC', [postid])
   return res.rows
 }
 
