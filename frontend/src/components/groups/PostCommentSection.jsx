@@ -30,8 +30,6 @@ export default function PostCommentSection({ GroupPost, isOwner }) {
         // console.log('delete comment' + commentid)
         if (confirm("Are you sure you want to remove this comment?") == true) {
 
-
-
             const address = import.meta.env.VITE_API_URL + `/postcomment/${commentid}`
             const headers = { Authorization: `Bearer ${account.user.token}` }
             axios.delete(address, { headers })
