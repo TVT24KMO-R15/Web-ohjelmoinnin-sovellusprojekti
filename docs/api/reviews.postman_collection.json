@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "e986b661-a6c4-4d7b-bbc3-6c583679975e",
+		"name": "Reviews",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40851870",
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/Movie-APP~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-e986b661-a6c4-4d7b-bbc3-6c583679975e?action=share&source=collection_link&creator=40851870"
+	},
+	"item": [
+		{
+			"name": "Get all reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/all/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"all",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all reviews with limit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/all/:limit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"all",
+						":limit"
+					],
+					"variable": [
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get page amount of reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/pageamount",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"pageamount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get page count with filters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/filtered/pageamount?stars=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"filtered",
+						"pageamount"
+					],
+					"query": [
+						{
+							"key": "stars",
+							"value": "1",
+							"description": "1-5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get reviews from page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/frompage/:page",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"frompage",
+						":page"
+					],
+					"variable": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get filtered reviews from page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/filtered/frompage/:page?stars=1&orderby=date",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"filtered",
+						"frompage",
+						":page"
+					],
+					"query": [
+						{
+							"key": "stars",
+							"value": "1",
+							"description": "1-5"
+						},
+						{
+							"key": "orderby",
+							"value": "date",
+							"description": "date | stars"
+						}
+					],
+					"variable": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "use getPageCountWithFilters to see max"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all reviews from user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/:accountid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "16"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all reviews from user with limit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/:accountid/:limit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						":accountid",
+						":limit"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "16"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get reviews by movie ID with offset",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/movie/:movieid/:limit/:offset",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"movie",
+						":movieid",
+						":limit",
+						":offset"
+					],
+					"variable": [
+						{
+							"key": "movieid",
+							"value": "617126"
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "offset",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get review from user by movieid",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/movieuser/:movieid/:accountid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"movieuser",
+						":movieid",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "movieid",
+							"value": "1447287"
+						},
+						{
+							"key": "accountid",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post a review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"review\": {\r\n    \"movieid\": 124,\r\n    \"accountid\": 27, // match this to user id from login auth\r\n    \"stars\": 4,\r\n    \"reviewtext\": \"This is an optional review text describing the movie\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/reviews/post",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "putReview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"review\": \r\n    {\r\n        \"movieid\" : 4,\r\n        \"accountid\" : 27, // match this to user id from login auth\r\n        \"stars\" : 4,\r\n        \"reviewtext\" : \"this is a new reviewtext sent via postman\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/reviews/put",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"put"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/reviews/delete/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"reviews",
+						"delete",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "68",
+							"description": "only works with reviewid's owned by logged in user id"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

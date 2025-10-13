@@ -77,7 +77,12 @@ export default function MovieFilters({
     return (
       <div className='movieFilters'>
         <div id='customSearchBar'>
-          <SearchBar searchDestination={searchDestination} defaultValue={movieNameState} onChangeMovieName={onChangeMovieName} /> 
+          <SearchBar 
+            searchDestination={searchDestination} 
+            defaultValue={movieNameState} 
+            onChangeMovieName={onChangeMovieName}
+            alwaysVisible={true}
+          /> 
         </div>
         <div id='dropDownHolder'>
           <button onClick={toggleFilters} id='filterToggle'>

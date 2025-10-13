@@ -1,0 +1,50 @@
+
+### Install Rest Client In Vscode To Send Requests 
+
+@token=putyourtokenhere
+### Get Token
+POST http://localhost:3000/users/signin
+Content-Type: application/json
+
+{
+    "account": {
+        "email": "test@test",
+        "password": "test"
+    }
+}
+
+### GROUP CRUD OPERATIONS ###
+
+### Get All Groups
+GET http://localhost:3000/groups/
+
+### Get Group by ID
+GET http://localhost:3000/groups/1
+
+### Create a New Group as a User
+POST http://localhost:3000/groups/post
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "groups": {
+        "groupname": "Leffakerho",
+        "groupdescription": "Tämä on Leffakerho"
+    }
+}
+
+### Update a Group as a Group Owner
+PUT http://localhost:3000/groups/update/1
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "groups": {
+        "groupname": "Päivitetty ryhmä 1",
+        "groupdescription": "Tämä on päivitetty kuvaus ryhmälle 1"
+    }
+}
+
+### Delete a group as a Group Owner
+DELETE http://localhost:3000/groups/delete/1
+Authorization: {{token}}

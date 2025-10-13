@@ -1,0 +1,39 @@
+#groupadmincontainer {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+}
+
+.adminbuttons {
+  margin: 0;
+}
+
+#admin-panel {
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+#admin-panel > .adminbuttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.applicationrow {
+  border-bottom: solid 1px grey;
+  margin: 0.5em 0em;
+  
+  font-size: var(--font-size-sm);
+}
+
+.applicationrow:last-of-type {
+  border: none;
+}
+
+.applicationrow p {
+  margin: 0.5em 0em;
+  font-size: var(--font-size-sm);
+}

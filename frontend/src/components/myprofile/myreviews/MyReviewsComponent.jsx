@@ -1,6 +1,7 @@
 import React from 'react'
 import './MyReviewsComponent.css'
 import axios from "axios"
+import noPoster from '../../../assets/noPoster.png';
 
 import { useUser } from '../../../context/UseUser'
 import { useState } from 'react'
@@ -50,7 +51,7 @@ export default function MyReviewsComponent(property) {
   useEffect(getDetails, [])
   
   if (loading) {
-    console.log('loading: '+ loading)
+    // console.log('loading: '+ loading)
     return (
     <div>
       Loading...
@@ -65,12 +66,12 @@ export default function MyReviewsComponent(property) {
           
           <article className='myReviewsArticle'>
             <div className='reviewImageDiv'>
-              {(reviewAndDetails.details["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + reviewAndDetails.details["poster_path"]}></img> : <img src={"../src/assets/noPoster.png"}></img>}
+              {(reviewAndDetails.details["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + reviewAndDetails.details["poster_path"]}></img> : <img src={noPoster}></img>}
             </div>
             <div className='reviewDetailsDiv'>
               
               <Link to={`/movies/${reviewAndDetails.details.id}`} className='popularmovielink'><h3>{reviewAndDetails.details.title}</h3></Link>
-              <p>"{reviewAndDetails.review.reviewtext}"</p>
+              {(reviewAndDetails.review.reviewtext) ? <p key={reviewAndDetails.review.reviewid}>{reviewAndDetails.review.reviewtext}</p> : <p className='nowrittenreview'>No written review</p>}
               <h3>Stars: {reviewAndDetails.review.stars}</h3>
               
             </div>

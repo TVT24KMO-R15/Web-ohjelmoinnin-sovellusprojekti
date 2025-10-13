@@ -1,10 +1,11 @@
 import {React, useState, useEffect} from 'react'
 import "./ReviewsPreview.css"
 import ReviewsPreviewRow from './ReviewsPreviewRow.jsx'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 import { useUser } from '../../context/UseUser'
 
-import { Link } from 'react-router-dom'
 
 export default function ReviewsPreview() {
   const account = useUser()
@@ -13,12 +14,12 @@ export default function ReviewsPreview() {
   useEffect(() => {
     //setReviews([])
     const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}/5` //preview limited to 5 reviews
+    const headers = { Authorization: `Bearer ${account.user.token}` }
     //console.log(address)
-    fetch(address)
-      .then(response => response.json())
-      .then(json => {
-        //console.log(json.rows)
-        setReviews(json.rows)
+    axios(address, {headers})
+      .then(response => {
+        //console.log(response.data.rows)
+        setReviews(response.data.rows)
         //console.log(reviews)
       }
       )
@@ -30,7 +31,7 @@ export default function ReviewsPreview() {
 
   return (
     <div>
-      <h2>My Reviews</h2>
+      <Link className='popularmovielink' to={'/myaccount/myreviews'}><h2>My Reviews</h2></Link>
 
       {reviews.map(item =>
         (<ReviewsPreviewRow key={item.movieid} property={item} />)

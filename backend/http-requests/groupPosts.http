@@ -1,0 +1,47 @@
+### GROUP POSTS CRUD OPERATIONS ###
+@token=putyourtokenhere
+### Get All Group Posts
+GET http://localhost:3000/groupposts/
+
+### Get Group Posts by Group ID
+GET http://localhost:3000/groupposts/groupid/1
+
+### Get Group Posts by Post ID
+GET http://localhost:3000/groupposts/postid/1
+
+### Create Group Post
+POST http://localhost:3000/groupposts/post
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "groupposts": {
+        "groupid": 1,
+        "posttext": "Suosittelen tätä leffaa kaikille",
+        "movieid": 157336,
+        "finnkino_original_title": null,
+        "finnkino_showtime": null,
+        "finnkino_theatre_id": null,
+        "finnkino_poster_url": null
+    }
+}
+
+### Update Group Post
+PUT http://localhost:3000/groupposts/update/1
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "groupposts": {
+        "posttext": "Päivitetty teksti",
+        "movieid": 157336
+    }
+}
+
+### Delete Group Post
+DELETE http://localhost:3000/groupposts/delete/1
+Authorization: {{token}}
+
+### Delete Group Post as Group Owner
+DELETE http://localhost:3000/groupposts/delete/owner/1
+Authorization: {{token}}

@@ -1,0 +1,14 @@
+select {
+margin-top: 0.5em;
+margin-bottom: 0.5em;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--font-size-medium);
+  border: 1.5px solid var(--color-border);
+}
+select:focus, select:hover {
+  border: 1.5px solid var(--color-contrast);
+}

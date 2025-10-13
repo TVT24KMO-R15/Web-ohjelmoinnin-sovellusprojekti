@@ -1,0 +1,402 @@
+{
+	"info": {
+		"_postman_id": "68598dae-b4e6-4c28-8c68-b7da6c933394",
+		"name": "groupjoin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40851870",
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/Movie-APP~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-68598dae-b4e6-4c28-8c68-b7da6c933394?action=share&source=collection_link&creator=40851870"
+	},
+	"item": [
+		{
+			"name": "Get requests into group by groupID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/requests/:groupid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"requests",
+						":groupid"
+					],
+					"variable": [
+						{
+							"key": "groupid",
+							"value": "34",
+							"description": "make sure auth user is owner of group id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPendingRequestsAsOwner",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/pendingrequests/received/:ownerid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"received",
+						":ownerid"
+					],
+					"variable": [
+						{
+							"key": "ownerid",
+							"value": "27",
+							"description": "match auth to logged in user"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPendingRequestsAsUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/pendingrequests/sent/:accountid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"sent",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "27",
+							"description": "match auth to logged in user"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRequestsByUserAndGroup",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/requeststatus/:groupid/:accountid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"requeststatus",
+						":groupid",
+						":accountid"
+					],
+					"variable": [
+						{
+							"key": "groupid",
+							"value": "1"
+						},
+						{
+							"key": "accountid",
+							"value": "27",
+							"description": "match auth to logged in user"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sendGroupJoinRequest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/join/:accountid/:groupid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"join",
+						":accountid",
+						":groupid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "27"
+						},
+						{
+							"key": "groupid",
+							"value": "3",
+							"description": "match auth to logged in user"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove rejected join request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/pendingrequests/removerejected/:accountid/:groupid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"removerejected",
+						":accountid",
+						":groupid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "27",
+							"description": "match auth to logged in user"
+						},
+						{
+							"key": "groupid",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove joined user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/pendingrequests/removeaccepted/:accountid/:groupid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"removeaccepted",
+						":accountid",
+						":groupid"
+					],
+					"variable": [
+						{
+							"key": "accountid",
+							"value": "18",
+							"description": "user whos request is accepted"
+						},
+						{
+							"key": "groupid",
+							"value": "33",
+							"description": "group id that is owned by token account id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeSentJoinRequest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/pendingrequests/remove/:userid/:groupid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"remove",
+						":userid",
+						":groupid"
+					],
+					"variable": [
+						{
+							"key": "userid",
+							"value": "27",
+							"description": "match auth to logged in user"
+						},
+						{
+							"key": "groupid",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rejectPendingRequest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/pendingrequests/reject/:requestid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"reject",
+						":requestid"
+					],
+					"variable": [
+						{
+							"key": "requestid",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acceptPendingRequest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/groupjoin/pendingrequests/accept/:requestid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"groupjoin",
+						"pendingrequests",
+						"accept",
+						":requestid"
+					],
+					"variable": [
+						{
+							"key": "requestid",
+							"value": "91"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

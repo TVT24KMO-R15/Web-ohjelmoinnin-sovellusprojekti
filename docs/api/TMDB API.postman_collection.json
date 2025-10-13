@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "b01dcd3b-76ea-4827-8bb6-c0256d02fafd",
+		"name": "TMDB API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40851870",
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-b01dcd3b-76ea-4827-8bb6-c0256d02fafd?action=share&source=collection_link&creator=40851870"
+	},
+	"item": [
+		{
+			"name": "popular",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/popular/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"popular",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Collections",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/collection/:collectionid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"collection",
+						":collectionid"
+					],
+					"variable": [
+						{
+							"key": "collectionid",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "popular pages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/popular?page=2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"popular"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/search/oppenheimer",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"search",
+						"oppenheimer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search pages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/search/oppenheimer?page=2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"search",
+						"oppenheimer"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search with parameter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/search/oppenheimer/?primary_release_year=2022",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"search",
+						"oppenheimer",
+						""
+					],
+					"query": [
+						{
+							"key": "primary_release_year",
+							"value": "2022"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search with parameter and page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/search/:name/?primary_release_year=2022&page=2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"search",
+						":name",
+						""
+					],
+					"query": [
+						{
+							"key": "primary_release_year",
+							"value": "2022"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "movie",
+							"description": "searching for \"movie\" so it has enough pages in any given year"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "moviedetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/details/1007734",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"details",
+						"1007734"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DiscoveryPageAPI",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/tmdb/discovery/?primary_release_year=2022&sort_by=revenue.desc&page=2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"tmdb",
+						"discovery",
+						""
+					],
+					"query": [
+						{
+							"key": "primary_release_year",
+							"value": "2022"
+						},
+						{
+							"key": "sort_by",
+							"value": "revenue.desc"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

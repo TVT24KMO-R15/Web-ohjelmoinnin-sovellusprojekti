@@ -1,0 +1,154 @@
+.finnkino-section {
+    margin-top: 1em;
+    padding: 1em;
+    border: 1px solid var(--gray-light);
+    border-radius: 0.5em;
+    background-color: var(--color-bg-alt);
+}
+
+.finnkino-section h3 {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.finnkino-dropdowns {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.dropdown-container label {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.dropdown-container select {
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 1px solid var(--gray-light);
+    background-color: var(--white);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+}
+
+.dropdown-container select:hover {
+    border-color: var(--gray-medium);
+}
+
+.dropdown-container select:focus {
+    outline: none;
+    border-color: var(--color-contrast);
+}
+
+.selected-event-info {
+    margin-top: 1em;
+    padding: 0.5em;
+    background-color: var(--color-bg-alt);
+    border-radius: 0.5em;
+    border: 1px solid var(--gray-light);
+}
+
+.selected-event-info p {
+    margin: 0.25em 0;
+}
+
+.no-showtimes {
+    margin-top: 1em;
+    padding: 0.5em;
+    background-color: var(--warning-bg);
+    border-radius: 0.5em;
+    border: 1px solid var(--warning-border);
+    text-align: center;
+}
+
+.no-showtimes p {
+    margin: 0;
+    color: var(--color-primary);
+}
+
+.showtimes-list {
+    margin-top: 1.5em;
+}
+
+.showtimes-list h4 {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.showtimes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1em;
+}
+
+.showtime-item {
+    background-color: var(--white);
+    border: 2px solid var(--gray-light);
+    border-radius: 0.5em;
+    padding: 1em;
+    text-align: center;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.showtime-item:hover {
+    border-color: var(--color-contrast);
+}
+
+.showtime-time {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: var(--gray-dark);
+}
+
+.showtime-details {
+    margin-bottom: 0.75em;
+    color: var(--gray-medium);
+}
+
+.select-showtime-btn {
+    width: 100%;
+    padding: 0.5em 1em;
+    border: solid 1px var(--black);
+    border-radius: 0.5em;
+    background-color: var(--color-primary);
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0 auto;
+}
+
+.select-showtime-btn:hover {
+    background-color: var(--color-contrast);
+}
+
+@media (min-width: 768px) {
+    .finnkino-dropdowns {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .dropdown-container {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .showtimes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .showtime-time {
+        font-size: 1.2em;
+    }
+}

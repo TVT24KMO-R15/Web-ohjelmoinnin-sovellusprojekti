@@ -1,0 +1,51 @@
+.reviewpage label, .reviewpage select {
+    margin-top: 1em;
+}
+#stars, #orderby {
+  margin: 0.5em;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--font-size-medium);
+  border: 1.5px solid var(--color-border);
+}
+#stars:focus, #orderby:focus, #stars:hover, #orderby:hover {
+  border: 1.5px solid var(--color-primary);
+}
+.reviewborder2 {
+    border: solid 4px var(--color-contrast);
+    border-radius: 1em;
+    margin: 1em;
+    padding: 1em;
+    display: flex;
+}
+.reviewImageDiv {
+    display: inline;
+    flex: 15%;
+    align-content: top;
+}
+.reviewImageDiv img {
+    max-height: 150px;
+    border-radius: 1em;
+}
+.reviewDetailsDiv {
+    display: inline;
+    flex: 85%;
+    padding: 1em;
+}
+
+.reviewDetailsDiv h3 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.reviewDetailsDiv p {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.reviewer {
+    margin-bottom: 1em;
+}

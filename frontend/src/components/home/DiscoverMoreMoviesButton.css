@@ -1,15 +1,20 @@
 .discovermoremovies {
     box-sizing: border-box;
     text-decoration: none;
-    background-color: #000;
-    color: gold;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     padding: 1em !important;
     margin-top: 1em;
     margin-bottom: 2em;
-    border: 2px solid gold;
+    border: 2px solid var(--color-contrast);
     border-radius: 1em;
+    font-weight: 600;
 }
-
+.discovermoremovies:hover {
+    background-color: var(--color-primary);
+}
 .discovermoremoviesdiv {
     margin-bottom: 4em;
+    display: flex;
+    justify-content: center;
 }

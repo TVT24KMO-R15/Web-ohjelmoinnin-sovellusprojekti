@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "82497d0c-cfb2-4eea-9e36-5000c0d5534a",
+		"name": "Group Post Comments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40851870",
+		"_collection_link": "https://todo-app-7250.postman.co/workspace/Todo-app~93a63759-c1ee-4f60-9a21-30606ee11aaa/collection/40851870-82497d0c-cfb2-4eea-9e36-5000c0d5534a?action=share&source=collection_link&creator=40851870"
+	},
+	"item": [
+		{
+			"name": "Get comments to a post by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/postcomment/:postid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"postcomment",
+						":postid"
+					],
+					"variable": [
+						{
+							"key": "postid",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get comments by user id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/postcomment/user/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"postcomment",
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post a comment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"postid\" : \"6\",\r\n    \"text\": \"should not insert\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/postcomment/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"postcomment",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/postcomment/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"postcomment",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "30"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

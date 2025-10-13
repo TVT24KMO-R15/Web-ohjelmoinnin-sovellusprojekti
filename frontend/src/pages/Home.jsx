@@ -13,39 +13,45 @@ import DiscoverMoreMoviesButton from '../components/home/DiscoverMoreMoviesButto
 
 
 export default function Home() {
-        const [startDate, setStartDate] = useState(dayjs())
-        const [endDate, setEndDate] =  useState(dayjs().add(1, "week"));
-        const [selectedTheatreId, setSelectedTheatreId] = useState(null);
+  const [startDate, setStartDate] = useState(dayjs())
+  const [endDate, setEndDate] = useState(dayjs().add(1, "week"));
+  const [selectedTheatreId, setSelectedTheatreId] = useState(null);
 
-        const { details } = useFinnkinoEvents({
-          theatreId: selectedTheatreId,
-          startDate,
-          endDate
-        })
-        
+  const { details } = useFinnkinoEvents({
+    theatreId: selectedTheatreId,
+    startDate,
+    endDate
+  })
+
   return (
     <>
+
+      <PopularMovies reqUrl={`${import.meta.env.VITE_API_URL}/api/tmdb/popular`} sectionTitle={"Popular Movies"} />
       <DiscoverMoreMoviesButton />
-      
-      <Finnkino setSelectedTheatreId={setSelectedTheatreId}/> 
-      <PopularMovies reqUrl={`${import.meta.env.VITE_API_URL}/api/tmdb/popular`} sectionTitle={"Popular Movies"}/>
-      <FKDataRangePicker
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-      />
+
+      <div className="finnkino-flex-row">
+        <Finnkino setSelectedTheatreId={setSelectedTheatreId} />
+        <div className="daterange-box">
+          <FKDataRangePicker
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
+        </div>
+      </div>
+
       {selectedTheatreId ? (
         <>
 
           <FKTheatreDetails details={details} />
         </>
       ) : (
-        <div>Please select a theatre to view showtimes.</div>
+        null
       )}
-      
+
       <ExtraLinks />
-      <LatestReviews /> 
+      <LatestReviews />
     </>
   );
 }

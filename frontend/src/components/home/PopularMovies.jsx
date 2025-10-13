@@ -3,6 +3,7 @@ import axios from "axios"
 import './PopularMovies.css'
 import { Link } from 'react-router-dom'
 import Pagination from '../search/Pagination'
+import noPoster from '../../assets/noPoster.png';
 
 
 export default function PopularMovies({reqUrl, sectionTitle}) {
@@ -17,7 +18,7 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
     if (!(reqUrl)) return // loading /search/ directly passes null as url, break here to avoid breaking
     const separator = reqUrl.includes('?') ? '&' : '?' // some frontend components send url without "/?" so add page with & or ? depending on if ? is already in the url
     const address = `${reqUrl}${separator}page=${currentPage}`
-    console.log("PopularMovies: using url: ", address)
+    // console.log("PopularMovies: using url: ", address)
     setLoading(true)
     axios.get(address)
       .then(response => {
@@ -64,19 +65,30 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
       <div className='popularMoviesDiv'>
 
         {
-
+          // removed annoying scrollbar resetting by adding placeholder cards while loading
+          loading ? (
+            Array.from({ length: 20 }).map((_, index) => (
+              <article key={`placeholder-${index}`} className='popularMoviesArticle placeholder'>
+                <div className='popularmovielink'>
+                  <div className='placeholder-image'>Loading...</div>
+                  <div className='placeholder-title'>Loading...</div>
+                </div>
+              </article>
+            ))
+          ) : ( // regular movie cards when loaded
           movies.map(item => (
             // console.log("current item being iterated: "),
             // console.log(item),
             
             <article key={item.id} className='popularMoviesArticle'>
               <Link to={`/movies/${item.id}`} className='popularmovielink'>
-                {(item["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + item["poster_path"]}></img> : <img src={"../src/assets/noPoster.png"}></img>} 
+                {(item["poster_path"]) ? <img src={"https://image.tmdb.org/t/p/w500" + item["poster_path"]}></img> : <img src={noPoster}></img>} 
                 <h3>{item.title}</h3>
               </Link>
             </article>
 
           ))
+          )
         }
         
       </div>

@@ -6,8 +6,14 @@ import { hash } from 'bcrypt'
 
 const __dirname = import.meta.dirname
 
+if (process.env.NODE_ENV !== 'test') {  
+    console.warn("WARNING: running tests outside of npm run testStart, exiting")
+    process.exit(1)
+}
+
 const initializeTestDb = () => {
-    const sql = fs.readFileSync(path.resolve(__dirname, '../sql/createDatabase.sql'), 'utf8')
+    const sql = fs.readFileSync(path.resolve(__dirname, '../sql/createDatabase_V2.sql'), 'utf8')
+    // console.log(sql)
     pool.query(sql, (err) => {
         if (err) {
             console.error('Error initializing test database:', err)

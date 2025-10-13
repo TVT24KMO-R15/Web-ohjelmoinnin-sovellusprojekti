@@ -1,5 +1,5 @@
 // for all review table http endpoints
-import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryPostReview, queryDeleteReview } from "../models/reviews.js";
+import { queryAllReviews, queryAllReviewsWithLimit, queryReviewsByUserId, queryReviewsByUserWithLimit, queryReviewsByMovieIdWithLimitOffset, queryReviewsByMovieUser, queryPostReview, queryUpdateReview, queryGetReviewById, queryDeleteReview, queryReviewsPageAmount, queryAllReviewsPages, queryFilteredReviewsPages, queryFilteredReviewsPageAmount } from "../models/reviews.js";
 
 const getAllReviews = async (req, res, next) => {
     try {
@@ -46,12 +46,40 @@ const getReviewsByUserWithLimit = async (req, res, next) => {
 
 }
 
+const getReviewsByMovieIdWithLimitOffset = async (req, res, next) => {
+    try {
+    const result = await queryReviewsByMovieIdWithLimitOffset(req.params.movieid, req.params.limit, req.params.offset)
+    console.log("get reviews for movie: "+ req.params.movieid + ", with limit: " + req.params.limit + ", page: " + req.params.offset)
+    return res.status(200).json(result.rows)
+    } catch (error) {
+        return next (error)
+    }
+}
+
+const getReviewsByMovieUser = async (req, res, next) => {
+    try {
+        const result = await queryReviewsByMovieUser(req.params.movieid, req.params.accountid)
+        console.log("get reviews for movie: "+ req.params.movieid + " by user: " + req.params.accountid)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next (error)
+    }
+}
+
 const postReview = async (req, res, next) => {
     const { review } = req.body
+    const user = req.user
+    
     try {
         if (!review.movieid || !review.accountid || !review.stars) {
             const error = new Error('Missing review data')
             error.status = 400
+            return next(error)
+        }
+
+        if (parseInt(review.accountid) !== user.id) {
+            const error = new Error('Unauthorized: You can only post reviews for yourself')
+            error.status = 403
             return next(error)
         }
 
@@ -62,21 +90,108 @@ const postReview = async (req, res, next) => {
     }
 }
 
-const deleteReview = async (req, res, next) => {
-    const { id } = req.params
+const putReview = async (req, res, next) => {
+    const { review } = req.body
+    const user = req.user
 
     try {
-        console.log(`Deleting review with id: ${id}`)
-        const result = await queryDeleteReview(id)
-        if (result.rowCount === 0) {
-            const error = new Error('Review not found')
+        if (!review.movieid || !review.accountid || !review.stars) {
+            const error = new Error('Missing review data')
             error.status = 400
             return next(error)
         }
-        return res.status(200).json({ id: id })
+
+        if (parseInt(review.accountid) !== user.id) {
+            const error = new Error('Unauthorized: You can only update your own reviews')
+            error.status = 403
+            return next(error)
+        }
+
+        const result = await queryUpdateReview(review.movieid, review.stars, review.accountid, review.reviewtext)
+        if (result.rowCount === 0) {
+            console.log("no review found for update")
+            const error = new Error('Review not found for update')
+            error.status = 404
+            return next(error)
+        }
+        return res.status(201).json(result)
     } catch (error) {
         return next(error)
     }
 }
 
-export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, postReview, deleteReview }
+const deleteReview = async (req, res, next) => {
+    const id = req.params.id
+    const user = req.user
+    console.log("User requesting delete: ", user)
+    try {
+        console.log(`Deleting review with id: ${id}`)
+        
+        const reviewResult = await queryGetReviewById(id)
+        
+        if (reviewResult.rowCount === 0) {
+            const error = new Error('Review not found')
+            error.status = 404
+            return next(error)
+        }
+
+        const review = reviewResult.rows[0]
+        
+        if (review.fk_accountid !== user.id) {
+            const error = new Error('Unauthorized: You can only delete your own reviews')
+            error.status = 403
+            return next(error)
+        }
+
+        const result = await queryDeleteReview(id)
+        return res.status(200).json({ id: id, message: 'Review deleted successfully' })
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const getPageAmount = async (req, res, next) => {
+    // console.log("getting page amount")
+    try {
+        const result = await queryReviewsPageAmount()
+        return res.status(200).json(result.rows[0])
+    } catch (error) {
+        return next (error)
+    }
+}
+
+const getAllReviewsPages = async (req, res, next) => {
+    console.log("getting all reviews page: " + req.params.page)
+    try {
+        const result = await queryAllReviewsPages(req.params.page)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next (error)
+    }
+}
+
+const getFilteredReviewsPages = async (req, res, next) => {
+    const { page } = req.params
+    const { stars, orderby } = req.query
+    console.log(`CONTROLLER: getting filtered reviews - page: ${page}, stars: ${stars || 'all'}, orderby: ${orderby || 'date'}`)
+    try {
+        const result = await queryFilteredReviewsPages(page, stars, orderby)
+        return res.status(200).json(result.rows)
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const getFilteredPageAmount = async (req, res, next) => {
+    const { stars } = req.query
+    console.log(`CONTROLLER: getting filtered page amount - stars: ${stars || 'all'}`)
+    try {
+        const result = await queryFilteredReviewsPageAmount(stars)
+        return res.status(200).json(result.rows[0])
+    } catch (error) {
+        return next(error)
+    }
+}
+
+
+export { getAllReviews, getAllReviewsWithLimit, getReviewsByUser, getReviewsByUserWithLimit, getReviewsByMovieIdWithLimitOffset, getReviewsByMovieUser, postReview, putReview, deleteReview, getAllReviewsPages, getPageAmount, getFilteredReviewsPages, getFilteredPageAmount }

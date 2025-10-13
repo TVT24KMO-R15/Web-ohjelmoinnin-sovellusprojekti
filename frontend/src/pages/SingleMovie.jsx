@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './SingleMovie.css';
-import PostReview from '../components/singlemovie/PostReview';
-import {useUser} from '../context/UseUser';
+import noPoster from '../assets/noPoster.png';
+
+import ReviewsForMovie from '../components/singlemovie/ReviewsForMovie';
+
+import { useUser } from '../context/UseUser'
 
 export default function SingleMovie({ addToFavourites }) {
   const { movieId } = useParams();
@@ -12,7 +15,6 @@ export default function SingleMovie({ addToFavourites }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [favorites, setFavorites] = useState([]);
-  const [postReviewOpen, setPostReviewOpen] = useState(false)
 
   const account = useUser()
 
@@ -100,7 +102,7 @@ export default function SingleMovie({ addToFavourites }) {
           <img
             src={movie.poster_path
               ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : '../src/assets/noPoster.png'} // placeholder jos poster puuttuu
+              : noPoster} // placeholder jos poster puuttuu
             alt={movie.title}
             className="poster"
           />
@@ -144,8 +146,8 @@ export default function SingleMovie({ addToFavourites }) {
       </div>
       
     </div>
-    { account.user.id ? (<button className='review-button' onClick={() => {setPostReviewOpen(true)}}>Post Your Own Review</button>) : <></>}
-    {postReviewOpen && <PostReview onClose={() => setPostReviewOpen(false)} />}
+    
+      <ReviewsForMovie />
     </>
   );
 }

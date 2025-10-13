@@ -1,6 +1,12 @@
+.field-label {
+  font-weight: 600;
+}
+.field-description {
+  color: var(--color-text-muted);
+}
 .auth-modal {
-  background: #fff;
-  color: #111;
+  background: var(--color-bg);
+  color: var(--color-text);
   border-radius: 8px;
   box-shadow: 0 4px 32px rgba(0,0,0,0.18);
   min-width: 320px;
@@ -11,7 +17,9 @@
   flex-direction: column;
   align-items: stretch;
 }
-
+.auth-error {
+  color: var(--color-text-error);
+}
 .auth-header {
   display: flex;
   justify-content: center;
@@ -21,7 +29,7 @@
 .auth-tab {
   background: none;
   border: none;
-  color: #111;
+  color: var(--color-text);
   font-size: 1.1rem;
   font-weight: 600;
   padding: 0.5rem 1.2rem;
@@ -30,8 +38,8 @@
   transition: border 0.2s, color 0.2s;
 }
 .auth-tab.active {
-  color: #b30000;
-  border-bottom: 2.5px solid #b30000;
+  color: var(--color-primary);
+  border-bottom: 2.5px solid var(--color-primary);
 }
 .auth-fields {
   display: flex;
@@ -40,29 +48,44 @@
   margin-bottom: 1.7rem;
 }
 .field{
+  font-size: 14px;
   display: flex;
   flex-direction: column;
 }
-.field p{
-  font-size: 14px;
-  font-weight: 600;
-}
-.auth-fields input {
+.auth-fields input{
   padding: 0.7rem 1rem;
   border-radius: 8px;
-  border: 1.5px solid #333;
+  border: 1.5px solid var(--color-border);
   font-size: 1rem;
   background: #fff;
-  color: #111;
+  color: #000;
   outline: none;
   transition: border 0.2s;
 }
+.review-input {
+  resize: none;
+  height: 150px;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--color-border);
+  font-size: 1rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  outline: none;
+  transition: border 0.2s;
+}
+.review-input:focus{
+  border: 1.5px solid var(--color-primary);
+}
+.charactercount {
+  align-self: end;
+}
 .auth-fields input:focus {
-  border: 1.5px solid #b30000;
+  border: 1.5px solid var(--color-primary);
 }
 .auth-submit {
-  background: #111;
-  color: #fff;
+  background: var(--color-bg-invert);
+  color: var(--color-text-invert);
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
@@ -72,7 +95,7 @@
   transition: background 0.2s, color 0.2s;
 }
 .auth-submit:hover {
-  background: #b30000;
+  background: var(--color-primary);
   color: #fff;
 }
 .close-signin-btn {

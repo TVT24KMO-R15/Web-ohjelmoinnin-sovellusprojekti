@@ -5,19 +5,42 @@
     
 }
 
+.myReviewsPreviewArticle {
+    padding-top: 0.5em;
+}
+
 .reviewborder {
-    border: solid 4px gold;
+    border: solid 4px var(--color-contrast);
     border-radius: 1em;
     margin: 1em;
     padding: 1em;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
 .deletebutton {
     display: inline;
     padding: 0em 1em;
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-primary);
+    border-radius: 1em;
+    margin: 0.5em 1em;
+    cursor: pointer;
+    min-width: 150px;
+    font-size: var(--font-size-sm);
+}
 
-    margin-left: 2em;
+.deletebutton:hover{
+    background-color: var(--color-bg-alt);
+    border-color: var(--color-primary-hover);
+}
+
+.deletebutton:disabled {
+    background-color: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    text-decoration: line-through;
 }
 
 .reviewImageDiv {
@@ -47,3 +70,29 @@
     margin-bottom: auto;
 }
 
+.reviewPreviewStars {
+    white-space: nowrap;
+    min-width: 150px;
+    width: 20%;
+}
+
+.reviewPreviewTitle {
+    min-width: 250px;
+    width: 75%;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.reviewPreviewText{
+    width: 100%;
+}
+
+@media only screen and (max-width: 800px){
+    .reviewPreviewStars {
+        width: 100%;
+    }
+    .reviewPreviewTitle{
+        width: 100%;
+    }
+}

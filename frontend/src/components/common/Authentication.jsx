@@ -9,12 +9,19 @@ export default function Authentication({ onClose }) {
   const isSignup = mode === 'signup';
   const { user, setUser, signUp, signIn } = useUser();
   const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessageEmail, setErrorMessageEmail] = useState('');
+  const [errorMessagePassword, setErrorMessagePassword] = useState('');
+  const [errorMessageUsername, setErrorMessageUsername] = useState('');
+  const [countName, setCountName] = useState(0);
 
   /* Reset form state when switching modes */
   const handleModeChange = (newMode) => {
     setMode(newMode);
     setErrorMessage('');
-
+    setErrorMessageEmail('');
+    setErrorMessagePassword('');
+    setErrorMessageUsername('');
+    setCountName(0);
     if (newMode === 'signin') {
       setUser({ email: '', password: '' }); 
     } else {
@@ -24,38 +31,85 @@ export default function Authentication({ onClose }) {
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    /* Frontend validation */
-    if (isSignup) {
-      if (!user.username || !user.email || !user.password) {
-        setErrorMessage('All fields are required for registration.');
-        return;
-      }
-    } else {
-      if (!user.email || !user.password) {
-        setErrorMessage('Email and password are required for login.');
-        return;
-      }
-    }
-
-    try {
-      const payload = isSignup
-        ? user
-        : { email: user.email, password: user.password };
-
-      const action = isSignup ? signUp : signIn;
-      await action(payload);
-
-      setErrorMessage('');
-      navigate('/');
-    } catch (error) {
-      setErrorMessage(error?.message || String(error));
+    if (e.target.name === 'username') {
+      setCountName(e.target.value.length);
     }
   };
+
+const containsUppercase = (str) => {
+  return /[A-Z]/.test(str);
+}
+const containsNumber = (str) => {
+  return /\d/.test(str);
+}
+const containsOnlyLettersAndNumbers = (str) => {
+  return /^[A-Za-z0-9]+$/.test(str);
+}
+const registerValidate = (user) => {
+  let valid = true;
+  if (!user.password || !containsUppercase(user.password) || user.password.length < 8 || !containsNumber(user.password)) {
+    setErrorMessagePassword('Must be at least 8 characters with 1 capital letter and number');
+    valid = false;
+  } else {
+    setErrorMessagePassword('');
+  }
+
+  if (!user.username || user.username.length > 32 || !containsOnlyLettersAndNumbers(user.username)) {
+    setErrorMessageUsername(`${countName} / 32 characters max, letters and numbers only`);
+    valid = false;
+  } else {
+    setErrorMessageUsername('');
+  }
+
+  if (!user.email) {
+    setErrorMessageEmail('Please enter an email');
+    valid = false;
+  } else {
+    setErrorMessageEmail('');
+  }
+  return valid;
+};
+
+const loginValidate = (user) => {
+  let valid = true;
+  if (!user.email) {
+    setErrorMessageEmail('Please enter an email');
+    valid = false;
+  } else {
+    setErrorMessageEmail('');
+  }
+  if (!user.password) {
+    setErrorMessagePassword('Please enter a password');
+    valid = false;
+  } else {
+    setErrorMessagePassword('');
+  }
+  return valid;
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  /* Frontend validation */
+  const isValid = isSignup ? registerValidate(user) : loginValidate(user);
+  if (!isValid) {
+    return;
+  }
+
+  try {
+    const payload = isSignup
+      ? user
+      : { email: user.email, password: user.password };
+
+    const action = isSignup ? signUp : signIn;
+    await action(payload);
+
+    setErrorMessage('Successfully ' + (isSignup ? 'signed up' : 'signed in') + '!');
+    navigate('/');
+  } catch (error) {
+    setErrorMessage(error?.message || String(error));
+  }
+};
 
   return (
     <div className="signin open">
@@ -79,49 +133,61 @@ export default function Authentication({ onClose }) {
 
         <div className="auth-fields">
           {errorMessage && (
-            <div className="auth-error" style={{ color: 'red', marginBottom: '10px' }}>
+            <div className="auth-error">
               {errorMessage}
             </div>
           )}
 
           {isSignup && (
             <div className="field">
-              <p>Username</p>
+              <p className="field-label">Username</p>
               <input
+                maxLength={32}
                 type="text"
                 name="username"
                 value={user.username || ''}
                 onChange={handleChange}
                 placeholder="Username"
               />
+              {!errorMessageUsername && (
+                <p className="field-description">{countName} / 32 characters max, letters and numbers only</p>
+              )}
+              {errorMessageUsername && (<p className="auth-error">{errorMessageUsername}</p>)}
             </div>
           )}
 
           <div className="field">
-            <p>Email</p>
+            <p className="field-label">Email</p>
             <input
+              maxLength={255}
               type="email"
               name="email"
               value={user.email || ''}
               onChange={handleChange}
               placeholder="Email"
             />
+             {errorMessageEmail && (<p className="auth-error">{errorMessageEmail}</p>)}
           </div>
 
           <div className="field">
-            <p>Password</p>
+            <p className="field-label">Password</p>
             <input
+              maxLength={255}
               type="password"
               name="password"
               value={user.password || ''}
               onChange={handleChange}
               placeholder="Password"
             />
+            {!errorMessagePassword && isSignup && (
+              <p className="field-description">Must be at least 8 characters with 1 capital letter and number</p>
+            )}
+            {errorMessagePassword && (<p className="auth-error">{errorMessagePassword}</p>)}
           </div>
         </div>
 
         <button className="auth-submit" type="submit">
-          {isSignup ? 'Sign up' : 'Login'}
+          {isSignup ? 'Sign up' : 'Sign in'}
         </button>
 
         <button type="button" onClick={onClose} className="close-signin-btn" aria-label="Close">
