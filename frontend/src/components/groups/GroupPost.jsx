@@ -4,7 +4,7 @@ import PostCommentSection from "./PostCommentSection";
 
 import "./GroupPost.css";
 
-export default function GroupPost({ GroupPost, isOwner }) {
+export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete }) {
   // format finnkino date and time
   const formatFinnkinoDateTime = (showtime) => {
     if (!showtime) return null;
@@ -22,8 +22,17 @@ export default function GroupPost({ GroupPost, isOwner }) {
     ? formatFinnkinoDateTime(GroupPost.finnkino_showtime)
     : null;
 
+    const canDelete = isOwner || GroupPost.fk_accountid === currentUserId;
+
   return (
     <div className="grouppostborder">
+      {canDelete && (
+        <button 
+          className="grouppost-delete-button" 
+          onClick={() => onDelete(GroupPost.postid)}>
+          Delete post
+        </button>
+      )}
       <h4>
         <AccountEmailById property={GroupPost.fk_accountid} key={GroupPost.fk_accountid}/>
       </h4>

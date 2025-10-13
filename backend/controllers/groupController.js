@@ -8,7 +8,8 @@ import {
     queryDeleteGroup, 
     queryUpdateGroup,
     queryAllMembersByGroupId,
-    queryMembershipStatus
+    queryMembershipStatus,
+    queryTransferOwnership
 } from "../models/group.js";
 import { 
     queryPostUserGroupLinker, // to automatically add owner to group
@@ -291,8 +292,50 @@ const leaveGroup = async (req, res, next) => {
     }
 }
 
+const transferOwnership = async (req, res, next) => {
+    try {
+        const currentOwnerId = req.user.id
+        const groupId = req.params.id
+
+        if (!req.body.newOwnerId) {
+            return res.status(400).json({ error: "Missing newOwnerId in request body" })
+        }
+
+        const { newOwnerId } = req.body;
+
+        // if group exists
+        const existingGroup = await queryGroupById(groupId)
+        if (existingGroup.rowCount === 0) {
+            return res.status(404).json({ error: "Group not found" })
+        }
+
+        // if current user is the owner
+        if (existingGroup.rows[0].fk_ownerid !== currentOwnerId) {
+            return res.status(403).json({ error: "Only the group owner can transfer ownership" })
+        }
+
+        // if new owner is a member of the group
+        const membershipResult = await queryMembershipStatus(groupId, newOwnerId)
+        if (membershipResult.rowCount === 0) {
+            return res.status(400).json({ error: "New owner must be a member of the group" })
+        }
+
+        // point of no return
+        const result = await queryTransferOwnership(groupId, newOwnerId)
+        
+        console.log(`Ownership of group ${groupId} transferred from ${currentOwnerId} to ${newOwnerId}`)
+        res.status(200).json({ 
+            message: "Ownership transferred successfully",
+            group: result.rows[0]
+        })
+    } catch (err) {
+        console.error("Error transferring ownership:", err)
+        res.status(500).json({ error: err.message })
+    }
+}
+
 export {
-    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup, getMembershipStatus, getMembersList, leaveGroup
+    postGroup, getAllGroups, getGroupById, getGroupByOwnerId, getGroupBySearchWord, updateGroup, deleteGroup, getMembershipStatus, getMembersList, leaveGroup, transferOwnership
 }
 
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import DeleteGroup from './DeleteGroup'
 import EditGroupDetails from './EditGroupDetails.jsx'
 import ManageGroupMembers from './ManageMembers'
-import ManageGroupPosts from './ManagePosts'
+import TransferOwnership from './TransferOwnership'
 import ManageGroupApplications from './ManageApplications.jsx'
 import './AdminPanel.css'
 
@@ -11,7 +11,7 @@ export default function AdminPanel({ groupId, groupData }) {
   const [editGroupDetailsOpen, setEditGroupDetailsOpen] = useState(false)
   const [manageMembersOpen, setManageMembersOpen] = useState(false)
   const [deleteGroupOpen, setDeleteGroupOpen] = useState(false)
-  const [managePostsOpen, setManagePostsOpen] = useState(false)
+  const [transferOwnershipOpen, setTransferOwnershipOpen] = useState(false)
   const [manageApplicationsOpen, setManageApplicationsOpen] = useState(false)
 
   return (
@@ -27,8 +27,8 @@ export default function AdminPanel({ groupId, groupData }) {
         <button className='adminControlButton' onClick={() => setManageMembersOpen(true)}>
           Manage Members
         </button>
-        <button className='adminControlButton' onClick={() => setManagePostsOpen(true)}>
-          Manage Posts
+        <button className='adminControlButton' onClick={() => setTransferOwnershipOpen(true)}>
+          Transfer Ownership
         </button>
         <button className='adminControlButton' onClick={() => setDeleteGroupOpen(true)}>
           Delete Group
@@ -57,9 +57,9 @@ export default function AdminPanel({ groupId, groupData }) {
         />
       )}
 
-      {managePostsOpen && (
-        <ManageGroupPosts
-          onClose={() => setManagePostsOpen(false)}
+      {transferOwnershipOpen && (
+        <TransferOwnership
+          onClose={() => setTransferOwnershipOpen(false)}
           groupId={groupId}
         />
       )}

@@ -23,6 +23,29 @@ export default function GroupPostsListing({ groupId, update, isOwner }) {
       )
   }, [update])
 
+  const handleDeletePost = (postId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this post?')
+    if (!confirmDelete) return
+
+    // pick backend endpoint
+    const endpoint = isOwner 
+      ? `/groupposts/delete/owner/${postId}`
+      : `/groupposts/delete/${postId}`
+    
+    const address = import.meta.env.VITE_API_URL + endpoint
+    const headers = { Authorization: `Bearer ${account.user.token}` }
+
+    axios.delete(address, { headers })
+      .then(() => {
+        // remove deleted post from state to update UI
+        setGroupPosts(prevPosts => prevPosts.filter(post => post.postid !== postId))
+      })
+      .catch(error => {
+        console.error('Failed to delete post:', error)
+        alert('Failed to delete post. Please try again.')
+      })
+  }
+
   if (loading) return <div>Thinking...</div>
 
   if (groupPosts.length == 0) return <div>No Posts... yet!</div>
@@ -31,7 +54,13 @@ export default function GroupPostsListing({ groupId, update, isOwner }) {
     <>
       {groupPosts.map(item => (
         <>
-          <GroupPost GroupPost={item} key={item.postid} isOwner={isOwner} />
+          <GroupPost 
+            key={item.postid}
+            GroupPost={item} 
+            isOwner={isOwner}
+            currentUserId={account.user.id}
+            onDelete={handleDeletePost}
+          />
         </>
       ))}
     </>
