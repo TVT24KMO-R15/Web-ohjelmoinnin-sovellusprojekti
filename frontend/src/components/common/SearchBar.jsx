@@ -53,13 +53,6 @@ export default function SearchBar({searchDestination, defaultValue, onChangeMovi
     }
   }, [visible, onVisibilityChange]);
 
-  // if search becomes visible on mobile, focus the input field after a delay
-  useEffect(() => {
-    if (visible) {
-      const t = setTimeout(() => {inputRef.current?.focus?.();}, 60);
-      return () => clearTimeout(t);
-    }
-  }, [visible]);
 
   return (
     <div className ="search-bar-container">
