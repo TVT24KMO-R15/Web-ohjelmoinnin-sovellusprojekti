@@ -136,18 +136,8 @@ export default function SingleMovie({ addToFavourites }) {
               </Link>
             </p>
           )}
-          {user ? ( // väliaikaisesti näyttää userin tiedot tässä
-            <p>Logged in as: {user.name} ({user.email})</p>
-            ) : (
-            <p>No user logged in</p>
-          )}
+              <ReviewsForMovie />
+            </div>
+          </div>
         </div>
-        
-      </div>
-      
-    </div>
-    
-      <ReviewsForMovie />
-    </>
-  );
-}
+        </>);}
