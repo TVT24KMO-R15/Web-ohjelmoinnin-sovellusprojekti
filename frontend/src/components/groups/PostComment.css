@@ -40,3 +40,16 @@
 .comment:last-of-type {
     border-bottom: none;
 }
+
+.deletecommentbutton {
+    float: right;
+    padding: 0.5em 1em;
+    border: solid 1px var(--black);
+    border-radius: 1em;
+    background-color: var(--color-primary);
+    cursor: pointer;
+}
+
+.deletecommentbutton:hover{
+    background-color: var(--color-contrast);
+}

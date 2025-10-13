@@ -4,7 +4,7 @@ import PostCommentSection from "./PostCommentSection";
 
 import "./GroupPost.css";
 
-export default function GroupPost({ GroupPost }) {
+export default function GroupPost({ GroupPost, isOwner }) {
   // format finnkino date and time
   const formatFinnkinoDateTime = (showtime) => {
     if (!showtime) return null;
@@ -70,7 +70,7 @@ export default function GroupPost({ GroupPost }) {
         <p>{GroupPost.postdate.substring(0, 10)}</p>
       </div>
 
-      <PostCommentSection GroupPost={GroupPost} key={GroupPost.postid}/>
+      <PostCommentSection GroupPost={GroupPost} key={GroupPost.postid} isOwner={isOwner}/>
       
     </div>
   );

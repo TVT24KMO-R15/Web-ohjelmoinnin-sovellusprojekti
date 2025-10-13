@@ -3,7 +3,7 @@ import axios from "axios";
 import { useUser } from "../../context/UseUser";
 import GroupPost from "./GroupPost";
 
-export default function GroupPostsListing({ groupId, update }) {
+export default function GroupPostsListing({ groupId, update, isOwner }) {
   const [groupPosts, setGroupPosts] = useState([])
   const account = useUser()
   const [loading, setLoading] = useState(true)
@@ -31,7 +31,7 @@ export default function GroupPostsListing({ groupId, update }) {
     <>
       {groupPosts.map(item => (
         <>
-          <GroupPost GroupPost={item} key={item.postid}/>
+          <GroupPost GroupPost={item} key={item.postid} isOwner={isOwner} />
         </>
       ))}
     </>
