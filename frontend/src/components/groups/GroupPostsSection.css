@@ -95,3 +95,7 @@
     color: var(--gray-dark);
 }
 
+.grouppostborder{
+    padding-bottom: 2em;
+}
+

@@ -58,7 +58,7 @@ export default function PostCommentSection({ GroupPost }) {
                     {((comments.length > 1 ) && !showAllComments) && <><button className='commentbutton' onClick={() => {setShowAllComments(true)}}>See Full Discussion</button></>}
 
             <div>
-                <PostCommentButton postid={GroupPost.postid} reload={() => {setReload(!reload)}} />
+                <PostCommentButton postid={GroupPost.postid} reload={() => {setReload(!reload); setShowAllComments(true)}} />
             </div>
         </>
     )

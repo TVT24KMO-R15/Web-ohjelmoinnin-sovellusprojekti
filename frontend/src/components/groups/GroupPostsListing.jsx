@@ -31,7 +31,7 @@ export default function GroupPostsListing({ groupId, update }) {
     <>
       {groupPosts.map(item => (
         <>
-          <GroupPost GroupPost={item} />
+          <GroupPost GroupPost={item} key={item.postid}/>
         </>
       ))}
     </>

@@ -8,12 +8,19 @@ export default function PostCommentButton({ postid, reload }) {
     const [commentingOpen, setCommentingOpen] = useState(false)
 
     const [commentText, setCommentText] = useState('')
+    const [postCommentButtonState, setPostCommentButtonState] = useState(true)
 
     const account = useUser()
 
     const handleChange = (e) => {
         setCommentText(e.target.value)
         //console.log(commentText)
+        if (e.target.value.length > 0) {
+            setPostCommentButtonState(false)
+        }
+        if (e.target.value.length == 0) {
+            setPostCommentButtonState(true)
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -41,6 +48,7 @@ export default function PostCommentButton({ postid, reload }) {
 
     const handleCancel = () => {
         setCommentText('')
+        setPostCommentButtonState(true)
         setCommentingOpen(false)
     }
 
@@ -67,8 +75,8 @@ export default function PostCommentButton({ postid, reload }) {
                         onChange={handleChange}
                     />
 
-                    <button type="submit" className="commentbutton">Comment</button>
-                    <button className="commentbutton" onClick={() => handleCancel()}>Cancel</button>
+                    <button type="submit" className="commentbutton" disabled={postCommentButtonState}>Post Comment</button>
+                    <button className="commentbutton" onClick={() => handleCancel() } >Cancel</button>
                 </form>
             </>
         )

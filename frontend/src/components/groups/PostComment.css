@@ -27,6 +27,10 @@
     background-color: var(--color-contrast);
 }
 
+.commentbutton:disabled {
+    background-color: var(--color-bg-alt);
+}
+
 .comment {
     margin: 0.5em 0;
     padding: 0.5em 0;

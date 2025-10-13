@@ -25,7 +25,7 @@ export default function GroupPost({ GroupPost }) {
   return (
     <div className="grouppostborder">
       <h4>
-        <AccountEmailById property={GroupPost.fk_accountid} />
+        <AccountEmailById property={GroupPost.fk_accountid} key={GroupPost.fk_accountid}/>
       </h4>
       <p>{GroupPost.posttext}</p>
       <div>
@@ -70,7 +70,7 @@ export default function GroupPost({ GroupPost }) {
         <p>{GroupPost.postdate.substring(0, 10)}</p>
       </div>
 
-      <PostCommentSection GroupPost={GroupPost}/>
+      <PostCommentSection GroupPost={GroupPost} key={GroupPost.postid}/>
       
     </div>
   );
