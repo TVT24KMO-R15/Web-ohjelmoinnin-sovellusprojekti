@@ -62,7 +62,7 @@
     position: relative;
     margin: 0.5em;
     padding: 0.5em;
-    border-bottom: 1px solid var(--gray-medium);
+    border-bottom: 2px solid var(--gray-medium);
 }
 
 .grouppostborder:last-of-type {
@@ -74,7 +74,7 @@
 }
 
 .grouppostcommentborder{
-    padding: 1em;
+    padding-left: 1em;
 }
 
 .finnkino-selected-details {
@@ -94,5 +94,9 @@
 .finnkino-selected-details p {
     margin: 0.25em 0;
     color: var(--gray-dark);
+}
+
+.grouppostborder{
+    padding-bottom: 2em;
 }
 

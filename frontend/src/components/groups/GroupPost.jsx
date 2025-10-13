@@ -1,5 +1,7 @@
 import React from "react";
 import AccountEmailById from "../common/AccountEmailById";
+import PostCommentSection from "./PostCommentSection";
+
 import "./GroupPost.css";
 
 export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete }) {
@@ -32,7 +34,7 @@ export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete 
         </button>
       )}
       <h4>
-        <AccountEmailById property={GroupPost.fk_accountid} />
+        <AccountEmailById property={GroupPost.fk_accountid} key={GroupPost.fk_accountid}/>
       </h4>
       <p>{GroupPost.posttext}</p>
       <div>
@@ -76,12 +78,9 @@ export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete 
       <div>
         <p>{GroupPost.postdate.substring(0, 10)}</p>
       </div>
-      <div>
-        <button className="groupPageButton">button for commenting</button>
-      </div>
-      <div className="grouppostcommentborder">
-        <h4>Get comments here!</h4>
-      </div>
+
+      <PostCommentSection GroupPost={GroupPost} key={GroupPost.postid} isOwner={isOwner}/>
+      
     </div>
   );
 }
