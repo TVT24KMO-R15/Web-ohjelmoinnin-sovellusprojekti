@@ -94,7 +94,7 @@ export default function MyFavouritesComponent() {
 
 
   if (loading) return <div className="fav-status">Loading your favourites...</div>;
-  if (!user) return <div className="fav-status">Log in to add favourites</div>;
+  if (!user.email) return <div className="fav-status">Log in to browse favourites!</div>;
   if (error) return <div className="fav-status">{error}</div>;
   if (favorites && favorites.length === 0) return <div className="fav-status">You have no favourites yet.</div>;
 
