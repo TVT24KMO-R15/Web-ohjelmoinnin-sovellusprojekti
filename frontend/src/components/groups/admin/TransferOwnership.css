@@ -1,0 +1,34 @@
+.transfer-ownership-success {
+    color: var(--success-border);
+    margin-bottom: 1em;
+}
+
+.transfer-ownership-warning {
+    margin-bottom: 1em;
+    color: var(--warning-text);
+}
+
+.transfer-ownership-label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+.transfer-ownership-select {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border-radius: 0.5em;
+    border: 1px solid var(--gray-light);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+}
+
+.transfer-ownership-button {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.transfer-ownership-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

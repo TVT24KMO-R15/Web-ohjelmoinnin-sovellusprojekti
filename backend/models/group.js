@@ -54,4 +54,11 @@ const queryMembershipStatus = async (groupid, accountid) => {
     )
 }
 
-export { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup, queryIsOwnerOfGroup, queryAllMembersByGroupId, queryMembershipStatus }
+const queryTransferOwnership = async (groupid, newownerid) => {
+    return await pool.query(
+        `UPDATE "groups" SET fk_ownerid = $2 WHERE groupid = $1 RETURNING *`,
+        [groupid, newownerid]
+    )
+}
+
+export { queryAllGroups, queryGroupById, queryGroupBySearchWord, queryGroupByOwnerId, queryPostGroup, queryDeleteGroup, queryUpdateGroup, queryIsOwnerOfGroup, queryAllMembersByGroupId, queryMembershipStatus, queryTransferOwnership }

@@ -5,7 +5,7 @@ import './GroupPostsSection.css'
 import { useUser } from '../../context/UseUser.js'
 import axios from 'axios'
 
-export default function GroupPostsSection({ groupId }) {
+export default function GroupPostsSection({ groupId, isOwner }) {
   const [addNewPostHidden, setAddNewPostHidden] = useState(true)
   const account = useUser()
   const [updateListing, setUpdateListing] = useState(false)
@@ -202,7 +202,7 @@ export default function GroupPostsSection({ groupId }) {
           </div>
         )}
       </div>
-      <GroupPostsListing groupId={groupId} update={updateListing} />
+      <GroupPostsListing groupId={groupId} update={updateListing} isOwner={isOwner} />
 
     </div>
   )

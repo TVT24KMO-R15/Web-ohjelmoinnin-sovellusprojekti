@@ -120,7 +120,7 @@ export default function Group() {
           )}
           
           <div className='groupcontent'>
-            <GroupPostsSection groupId={groupId} />
+            <GroupPostsSection groupId={groupId} isOwner={isOwner} />
           </div>
 
           
