@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import './SearchBar.css'
 import { useNavigate } from 'react-router-dom';
 
@@ -22,6 +22,7 @@ export default function SearchBar({searchDestination, defaultValue, onChangeMovi
   const [search, setSearch] = useState(defaultValue ? defaultValue : ""); // Haku, set value if going from homepage
   const [visible, setVisible] = useState(false); // Hakupainikkeen näkyvyys
   const navigate = useNavigate();
+  const inputRef = useRef(null); // changeable variable that doesnt trigger rerender
 
   const handleSubmit = (e) => {
     if(!e.trim()) return; // if text empty
@@ -32,20 +33,17 @@ export default function SearchBar({searchDestination, defaultValue, onChangeMovi
   }; 
 
   useEffect(() => {
-    const handleResize = () => {
-      if (alwaysVisible) {
-        setVisible(true); // always show if alwaysVisible prop is true
-      } else if (window.innerWidth > 801) {
-        setVisible(true); // leveällä näytöllä näkyviin
-      } else {
-        setVisible(false); // pienemmällä näytöllä piiloon
-      }
-    };
-
-    handleResize(); // tarkista heti komponentin mountissa
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (alwaysVisible) { // dont run if always visible
+      setVisible(true);
+      return;
+    }
+    const mediaQueryList = window.matchMedia('(min-width: 801px)'); // create mediaquery listener for width
+    const onChange = (e) => setVisible(e.matches); // set visibility based on if media query matches the screen size
+    mediaQueryList.addEventListener('change', onChange); // add listener to the media query
+    // set initial value to match current screen size
+    setVisible(mediaQueryList.matches);
+    // cleanup listener on unmount
+    return () => { mediaQueryList.removeEventListener('change', onChange); };
   }, [alwaysVisible]);
 
   // Notify parent when visibility changes on mobile
@@ -55,6 +53,13 @@ export default function SearchBar({searchDestination, defaultValue, onChangeMovi
     }
   }, [visible, onVisibilityChange]);
 
+  // if search becomes visible on mobile, focus the input field after a delay
+  useEffect(() => {
+    if (visible) {
+      const t = setTimeout(() => {inputRef.current?.focus?.();}, 60);
+      return () => clearTimeout(t);
+    }
+  }, [visible]);
 
   return (
     <div className ="search-bar-container">
@@ -71,6 +76,7 @@ export default function SearchBar({searchDestination, defaultValue, onChangeMovi
       {visible && (
         <div className="search-bar">
           <input
+            ref={inputRef}
             type="search"
             value={search}
             placeholder="Search"
