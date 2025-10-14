@@ -68,6 +68,11 @@
     display: inline;
 }
 
+.gotogroupslink{
+    color: black;
+    text-decoration: underline;
+}
+
 @media only screen and (max-width: 767px){
     .myaccountpage{
         flex-direction: column-reverse;

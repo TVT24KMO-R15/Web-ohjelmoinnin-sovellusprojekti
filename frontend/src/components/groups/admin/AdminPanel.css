@@ -10,8 +10,7 @@
 }
 
 #admin-panel {
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
+  margin-top: 0.5em;
 }
 
 #admin-panel > .adminbuttons {

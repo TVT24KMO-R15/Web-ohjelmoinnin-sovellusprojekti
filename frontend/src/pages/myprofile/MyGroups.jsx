@@ -77,7 +77,7 @@ export default function MyGroups() {
                 </div> :
                 <>
                     <h2>Join Requests</h2>
-                    <h3>Go to <Link to={'/groups'}>Groups</Link> to send requests!</h3>
+                    <h3>Go to <Link to={'/groups'} className='gotogroupslink'>Groups</Link> to send requests!</h3>
                 </>
             }
 
