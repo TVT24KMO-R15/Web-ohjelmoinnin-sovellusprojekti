@@ -18,7 +18,7 @@ export default function FavouritesPreview() {
 
         const favIds = res.data.favorites || [];
 
-        const lastThreeFavs = favIds.slice(-3).reverse();
+        const lastThreeFavs = favIds.slice(-4).reverse();
 
         const moviePromises = lastThreeFavs.map(id =>
           axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${id}`)

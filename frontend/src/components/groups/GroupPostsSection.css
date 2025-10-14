@@ -58,6 +58,23 @@
     float: right;
 }
 
+@media (max-width: 767px) {
+    #addpostform {
+        margin-bottom: 1em;
+    }
+
+    #addpostform button {
+        width: 100%;
+        margin: 0.25em 0;
+        float: none;
+    }
+
+    .grouppostsubmitbutton {
+        float: none;
+        margin-top: 0.5em;
+    }
+}
+
 .grouppostborder{
     position: relative;
     margin: 0.5em;

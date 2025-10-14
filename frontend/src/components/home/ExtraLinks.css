@@ -48,3 +48,19 @@
         max-width: 32%;
     }
 }
+
+@media only screen and (max-width: 767px) {
+    .extraLinksDiv {
+        left: -0.5em;
+    }
+
+    .extraLinkH3 {
+        padding: 0.5em;
+        margin: auto;
+    }
+
+    .extraLinkP {
+        padding: 0.5em;
+        margin: auto;
+    }
+}

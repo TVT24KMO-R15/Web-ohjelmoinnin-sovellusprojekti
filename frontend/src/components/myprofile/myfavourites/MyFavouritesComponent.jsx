@@ -20,24 +20,25 @@ export default function MyFavouritesComponent() {
 
   // hae suosikit
   useEffect(() => {
-    const fetchFavorites = async () => {
-      if (!user || !user.email) {
-        setLoading(false);
-        return;
-      }
-      try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/favorites`, {
-          params: { email: user.email },
-        });
-        // käänteinen järjestys, jotta viimeisimmät näkyy ensin
-        setFavorites(res.data.favorites?.slice().reverse() || []);
-      } catch (err) {
-        console.error('Failed to fetch favorites', err);
-        setError('Could not load favorites.');
-      }
-    };
-    fetchFavorites();
-  }, [user]);
+  const fetchFavorites = async () => {
+    if (!user || !user.email) {
+      setLoading(false);
+      return;
+    }
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/favorites`, {
+        params: { email: user.email },
+      });
+      setFavorites(res.data.favorites?.slice().reverse() || []);
+    } catch (err) {
+      console.error('Failed to fetch favorites', err);
+      setError('Could not load favorites.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchFavorites();
+}, [user]);
 
   // hae kaikkien suosikkien tiedot
   useEffect(() => {
@@ -93,9 +94,10 @@ export default function MyFavouritesComponent() {
 
 
   if (loading) return <div className="fav-status">Loading your favourites...</div>;
+  if (!user.email) return <div className="fav-status">Log in to browse favourites!</div>;
   if (error) return <div className="fav-status">{error}</div>;
-  if (!user) return <div className="fav-status">Please sign in to view your favourites.</div>;
-  if (favorites.length === 0) return <div className="fav-status">You have no favourites yet.</div>;
+  if (favorites && favorites.length === 0) return <div className="fav-status">You have no favourites yet.</div>;
+
 
   return (
     <div className="myfavourites-container">

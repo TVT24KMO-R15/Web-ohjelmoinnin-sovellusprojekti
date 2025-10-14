@@ -58,6 +58,7 @@ export default function MovieCollection() {
                 alt={movie.title}
                 className="collection-poster"
                 />
+                <p className="collection-movie-title">{movie.title}</p>
               </Link>
             </div>
           ))}

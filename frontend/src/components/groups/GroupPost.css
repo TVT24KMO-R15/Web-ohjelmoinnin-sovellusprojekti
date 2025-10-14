@@ -15,6 +15,25 @@
     background-color: var(--color-contrast);
 }
 
+.grouppostborder h4 {
+    padding-right: 120px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 767px) {
+    .grouppost-delete-button {
+        position: static;
+        display: block;
+        width: fit-content;
+        margin-bottom: 0.5em;
+    }
+
+    .grouppostborder h4 {
+        padding-right: 0;
+    }
+}
+
 .grouppost-finnkino-details {
     margin: 1em 0;
     padding: 1em;

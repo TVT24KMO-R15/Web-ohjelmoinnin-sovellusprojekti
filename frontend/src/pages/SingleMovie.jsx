@@ -91,7 +91,7 @@ export default function SingleMovie({ addToFavourites }) {
       {movie.backdrop_path ? (
         <div
           className="backdrop"
-          style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` }}
+          style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0),rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 1)), url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` }}
         />
       ) : (
         <div className="backdrop fallback" />
@@ -136,18 +136,8 @@ export default function SingleMovie({ addToFavourites }) {
               </Link>
             </p>
           )}
-          {user ? ( // väliaikaisesti näyttää userin tiedot tässä
-            <p>Logged in as: {user.name} ({user.email})</p>
-            ) : (
-            <p>No user logged in</p>
-          )}
+              <ReviewsForMovie />
+            </div>
+          </div>
         </div>
-        
-      </div>
-      
-    </div>
-    
-      <ReviewsForMovie />
-    </>
-  );
-}
+        </>);}

@@ -55,10 +55,10 @@ export default function PostCommentSection({ GroupPost, isOwner }) {
                         <>
                             {comments.slice(-1).map(item => (
                                 <div className='comment' key={item.comment_id}>
-                                    <h4><AccountEmailById property={item.fk_accountid} key={item.fk_accountid} /></h4>
                                     {(account.user.id == item.fk_accountid || isOwner) &&
                                         <button className='deletecommentbutton' onClick={() => { handleDelete(item.comment_id); }}>
                                             Delete Comment</button>}
+                                    <h4><AccountEmailById property={item.fk_accountid} key={item.fk_accountid} /></h4>
                                     <p>{item.comment_text}</p>
                                     <h5>{item.comment_date.replaceAll(/[a-z]/gi, ' ').substring(0, 16)}</h5>
 
@@ -70,10 +70,10 @@ export default function PostCommentSection({ GroupPost, isOwner }) {
                         <>
                             {comments.map(item => (
                                 <div className='comment' key={item.comment_id}>
-                                    <h4><AccountEmailById property={item.fk_accountid} key={item.fk_accountid} /></h4>
                                     {(account.user.id == item.fk_accountid || isOwner) &&
                                         <button className='deletecommentbutton' onClick={() => { handleDelete(item.comment_id); }}>
                                             Delete Comment</button>}
+                                    <h4><AccountEmailById property={item.fk_accountid} key={item.fk_accountid} /></h4>
                                     <p>{item.comment_text}</p>
                                     <h5>{item.comment_date.replaceAll(/[a-z]/gi, ' ').substring(0, 16)}</h5>
 

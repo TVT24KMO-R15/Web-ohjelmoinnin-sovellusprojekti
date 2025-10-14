@@ -2,7 +2,7 @@
     margin: 1em;
     padding: 1em;
     display: flex;
-    
+    flex-direction: row;
 }
 
 .myReviewsPreviewArticle {
@@ -89,10 +89,28 @@
 }
 
 @media only screen and (max-width: 800px){
+    .myReviewsArticle {
+        flex-direction: column;
+        padding: 0.5em;
+        margin: auto;
+    }
+    .reviewImageDiv{
+        margin: auto;
+        flex: 100%;
+    }
+    .reviewDetailsDiv {
+        padding: 0.5em;
+        flex: 100%;
+        width: 100%;
+        margin: auto;
+    }
     .reviewPreviewStars {
         width: 100%;
     }
     .reviewPreviewTitle{
         width: 100%;
+    }
+    .deletebuttondiv {
+        margin: auto;
     }
 }

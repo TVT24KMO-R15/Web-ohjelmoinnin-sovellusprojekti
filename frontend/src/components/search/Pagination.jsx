@@ -26,13 +26,13 @@ export default function Pagination({ currentPage, totalPages, onPageChange, page
     <ReactPaginate
       // ui parameters
       breakLabel="..." // shown on pagination gap (1...4 for example)
-      nextLabel="Next ->"
+      nextLabel="Next"
       onPageChange={handlePageClick}
       pageRangeDisplayed={pageRangeDisplayed} // display 2 pages
       // show 2 pages forward, 1 page backward
       marginPagesDisplayed={1} // display 1 page before and after the current page
       pageCount={totalPages} // total pages of results from TMDB
-      previousLabel="<- Previous"
+      previousLabel="Previous"
       renderOnZeroPageCount={null} // when no pages to show, dont render
       forcePage={currentPage - 1} // indexs start from 0 so remove 1 to get correct page
 
