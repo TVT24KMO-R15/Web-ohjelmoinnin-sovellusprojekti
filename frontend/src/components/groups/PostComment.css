@@ -55,3 +55,13 @@
 .deletecommentbutton:hover{
     background-color: var(--color-contrast);
 }
+
+@media (max-width: 767px) {
+    .deletecommentbutton {
+        float: none;
+        display: block;
+        width: fit-content;
+        margin-left: 0;
+        margin-bottom: 0.5em;
+    }
+}
