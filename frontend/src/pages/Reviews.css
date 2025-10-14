@@ -20,6 +20,7 @@
     margin: 1em;
     padding: 1em;
     display: flex;
+    flex-direction: row;
 }
 .reviewImageDiv {
     display: inline;
@@ -48,4 +49,12 @@
 
 .reviewer {
     margin-bottom: 1em;
+}
+
+@media only screen and (max-width: 800px){
+    .reviewborder2{
+        flex-direction: column;
+        padding: 0.5em;
+        margin: 0.5em;
+    }
 }
