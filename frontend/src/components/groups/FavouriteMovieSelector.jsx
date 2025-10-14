@@ -42,7 +42,7 @@ export default function FavouriteMovieSelector({ onMovieSelect, isVisible }) {
           <div className="favourites-header">
             <h3>Favourites</h3>
           </div>
-          <div className="favourites-grid">
+          <div className="select-movie-grid">
             {favourites.length > 0 ? (
               favourites.map((movie) => (
                 <div className="movie-info">

@@ -1,25 +1,12 @@
-import React, { useState, useEffect } from 'react';
 import AccountEmailById from "../common/AccountEmailById";
 import PostCommentSection from "./PostCommentSection";
-import axios from 'axios';
 import "./GroupPost.css";
+import { useFetchMovieDetails } from './FetchMovieDetails';
 export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete }) {
+
+  // Fetch movie data
   const movieId = GroupPost.movieid;
-  const [movie, setMovie] = useState(null);
-  
-  // Hae elokuva data
-    useEffect(() => {
-    const fetchMovie = async () => {
-      try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${movieId}`);
-        setMovie(res.data);
-      } catch (err) {
-        console.error(err);
-        // setError is not defined, so just log the error
-      }
-    };
-    fetchMovie();
-  }, [movieId]);
+  const { movie } = useFetchMovieDetails(movieId);
 
   // format finnkino date and time
   const formatFinnkinoDateTime = (showtime) => {
@@ -61,7 +48,7 @@ export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete 
             <div className="finnkino-content">
               <div className="finnkino-info">
                 <p>
-                <strong>Movie: </strong> {movie.title}
+                <strong>Movie: </strong> {movie.title} ({movie.release_date.split("-")[0]})
                 </p>
                 <p>
                 <strong>Runtime: </strong> {movie.runtime} minutes

@@ -16,7 +16,7 @@
     margin-top: 0.5em;
     color: var(--gray-dark);
 }
-.favourites-grid {
+.select-movie-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 1em;
@@ -52,7 +52,7 @@
 }
 
 @media (max-width: 767px) {
-    .favourites-grid {
+    .select-movie-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
 }

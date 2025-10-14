@@ -5,6 +5,7 @@ import './GroupPostsSection.css'
 import { useUser } from '../../context/UseUser.js'
 import axios from 'axios'
 import FavouriteMovieSelector from './FavouriteMovieSelector.jsx'
+import { useFetchMovieDetails } from './FetchMovieDetails';
 export default function GroupPostsSection({ groupId, isOwner }) {
   const [addNewPostHidden, setAddNewPostHidden] = useState(true)
   const account = useUser()
@@ -64,6 +65,9 @@ export default function GroupPostsSection({ groupId, isOwner }) {
     setMovieId(movieId) 
     setShowMovieSection(false)
   }
+
+  // Fetch movie data using movieId
+  const { movie } = useFetchMovieDetails(movieId);
 
   const handleChange = (e) => {
     setPostText(e.target.value)
@@ -180,7 +184,9 @@ export default function GroupPostsSection({ groupId, isOwner }) {
             <h4>Selected Movie: </h4>
             
             <div>
-              <p><strong>Movie Id: </strong> {movieId}</p>
+              <p>
+                <strong>Movie: </strong> {movie && `${movie.title} (${movie.release_date.split("-")[0]})`}
+                </p>
             </div>
             <button 
               type="button" 
