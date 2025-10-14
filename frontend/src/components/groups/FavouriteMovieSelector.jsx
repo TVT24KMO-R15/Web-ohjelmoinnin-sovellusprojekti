@@ -3,24 +3,20 @@ import axios from 'axios';
 import { useUser } from '../../context/UseUser';
 import './FavouriteMovieSelector.css'
 
-export default function FinnkinoShowtimeSelector({ onMovieSelect, isVisible }) {
+export default function FavouriteMovieSelector({ onMovieSelect, isVisible }) {
     const { user } = useUser();
     const [favourites, setFavourites] = useState([]);
     
-
   useEffect(() => {
     const fetchFavourites = async () => {
       if (!user || !user.email) return;
-      try {
+       try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/favorites`, {
           params: { email: user.email },
         });
-
         const favIds = res.data.favorites || [];
 
-        const lastThreeFavs = favIds.slice(-3).reverse();
-
-        const moviePromises = lastThreeFavs.map(id =>
+        const moviePromises = favIds.map(id =>
           axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${id}`)
         );
         const movieResults = await Promise.all(moviePromises);

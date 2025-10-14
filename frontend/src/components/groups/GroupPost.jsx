@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import AccountEmailById from "../common/AccountEmailById";
 import PostCommentSection from "./PostCommentSection";
-
+import axios from 'axios';
 import "./GroupPost.css";
-
 export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete }) {
+  const movieId = GroupPost.movieid;
+  const [movie, setMovie] = useState(null);
+  
+  // Hae elokuva data
+    useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${movieId}`);
+        setMovie(res.data);
+      } catch (err) {
+        console.error(err);
+        // setError is not defined, so just log the error
+      }
+    };
+    fetchMovie();
+  }, [movieId]);
+
   // format finnkino date and time
   const formatFinnkinoDateTime = (showtime) => {
     if (!showtime) return null;
@@ -38,7 +54,42 @@ export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete 
       </h4>
       <p>{GroupPost.posttext}</p>
       <div>
-        {GroupPost.movieid && <>Add details for movie {GroupPost.movieid}</>}
+        {GroupPost.movieid && movie && (
+          <>
+          <div className="grouppost-finnkino-details">
+            <h3>Movie Post</h3>
+            <div className="finnkino-content">
+              <div className="finnkino-info">
+                <p>
+                <strong>Movie: </strong> {movie.original_title}
+                </p>
+                <p>
+                <strong>Runtime: </strong> {movie.runtime} minutes
+                </p>
+                <p>
+                <strong>Genre: </strong> {movie.genres.map(g => g.name).join(', ')}
+                </p>
+                <p>
+                <strong>TMDB user score: </strong> {movie.vote_average}/10 ({movie.vote_count} votes)
+                </p>
+                <p>
+                <strong>Overview: </strong> {movie.overview}
+                </p>
+          
+              </div>
+          <div className="grouppost-poster img">
+                    <img
+                      src={movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                        : noPoster} // placeholder jos poster puuttuu
+                      alt={movie.title}
+                      className="poster"
+                    />
+                  </div>
+         </div>   
+         </div>
+          </>
+        )}
 
         {GroupPost.finnkino_original_title && (
           <div className="grouppost-finnkino-details">
