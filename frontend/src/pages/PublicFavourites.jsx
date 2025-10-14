@@ -73,7 +73,7 @@ export default function PublicFavourites() {
 
   return (
     <div className="public-favourites-container">
-      <h1>Public Favourites for user {username}</h1>
+      <h1>{username}'s favourites</h1>
       <div className="pf-list">
         {movies.map(movie => (
           <div key={movie.id} className="pf-card">
