@@ -42,7 +42,7 @@ export default function GroupPostsSection({ groupId, isOwner }) {
 
   // toggle button on off when details are set
   const handleToggleMovieSection = () => {
-    if (finnkinoDetails) return
+    if (movieId) return
     setShowMovieSection((prev) => {
       const next = !prev
       if (next) setShowFinnkinoSection(false)
@@ -217,10 +217,10 @@ export default function GroupPostsSection({ groupId, isOwner }) {
               />
 
               <br />
-              <button type="button" onClick={handleToggleMovieSection} disabled={showFinnkinoSection || !!finnkinoDetails}>
+              <button type="button" onClick={handleToggleMovieSection} disabled={showFinnkinoSection || !!finnkinoDetails || !!movieId}>
                 {showMovieSection ? 'Hide Movie' : 'Add a Movie'}
               </button>
-              <button type="button" onClick={handleToggleFinnkinoSection} disabled={showMovieSection || !!finnkinoDetails}>
+              <button type="button" onClick={handleToggleFinnkinoSection} disabled={showMovieSection || !!finnkinoDetails || !!movieId}>
                 {showFinnkinoSection ? 'Hide Finnkino Showtime' : 'Add a Finnkino Showtime'}
               </button>
               <button className='grouppostsubmitbutton' type="submit" disabled={!postText || !postText.trim()}>Submit Post</button>
