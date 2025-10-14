@@ -8,6 +8,8 @@
     border-radius: 1em;
     padding: 1em;
     background-color: lightgoldenrodyellow;
+    color: black;
+    text-shadow: none;
 }
 
 .moviereview p {
@@ -22,4 +24,16 @@
 
 .nowrittenreview {
     font-style: italic;
+}
+
+@media only screen and (max-width: 767px) {
+    .moviereviewsborder {
+        padding: 0.5em;
+    }
+    .moviereview {
+        margin: 0.5em;
+    }
+    .moviereview p {
+        margin: 0.5em;
+    }
 }
