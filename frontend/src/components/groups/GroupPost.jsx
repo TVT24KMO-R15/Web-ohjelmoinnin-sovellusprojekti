@@ -61,7 +61,7 @@ export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete 
             <div className="finnkino-content">
               <div className="finnkino-info">
                 <p>
-                <strong>Movie: </strong> {movie.original_title}
+                <strong>Movie: </strong> {movie.title}
                 </p>
                 <p>
                 <strong>Runtime: </strong> {movie.runtime} minutes
