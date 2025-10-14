@@ -77,13 +77,13 @@ export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete 
                 </p>
           
               </div>
-          <div className="grouppost-poster img">
+          <div className="grouppost-poster">
                     <img
                       src={movie.poster_path
                         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                         : noPoster} // placeholder jos poster puuttuu
                       alt={movie.title}
-                      className="poster"
+                      className="grouppost-poster img"
                     />
                   </div>
          </div>   
