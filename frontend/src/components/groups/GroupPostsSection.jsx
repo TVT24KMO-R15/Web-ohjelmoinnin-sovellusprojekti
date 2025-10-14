@@ -4,13 +4,16 @@ import FinnkinoShowtimeSelector from './FinnkinoShowtimeSelector.jsx'
 import './GroupPostsSection.css'
 import { useUser } from '../../context/UseUser.js'
 import axios from 'axios'
-
+import FavouriteMovieSelector from './FavouriteMovieSelector.jsx'
+import { useFetchMovieDetails } from './FetchMovieDetails';
 export default function GroupPostsSection({ groupId, isOwner }) {
   const [addNewPostHidden, setAddNewPostHidden] = useState(true)
   const account = useUser()
   const [updateListing, setUpdateListing] = useState(false)
 
   const [postText, setPostText] = useState('')
+
+  // movie state
   const [movieId, setMovieId] = useState(null)
   const [showMovieSection, setShowMovieSection] = useState(false)
 
@@ -58,6 +61,13 @@ export default function GroupPostsSection({ groupId, isOwner }) {
     setPosterUrl(showtimeDetails.posterUrl)
     setShowFinnkinoSection(false)
   }
+  const handleMovieSelect = (movieId) => {
+    setMovieId(movieId) 
+    setShowMovieSection(false)
+  }
+
+  // Fetch movie data using movieId
+  const { movie } = useFetchMovieDetails(movieId);
 
   const handleChange = (e) => {
     setPostText(e.target.value)
@@ -167,6 +177,28 @@ export default function GroupPostsSection({ groupId, isOwner }) {
             </button>
           </div>
         )}
+
+        {movieId && !addNewPostHidden && (
+          // card that shows after fav movie selected
+          <div className="finnkino-selected-details">
+            <h4>Selected Movie: </h4>
+            
+            <div>
+              <p>
+                <strong>Movie: </strong> {movie && `${movie.title} (${movie.release_date.split("-")[0]})`}
+                </p>
+            </div>
+            <button 
+              type="button" 
+              onClick={() => {
+                setMovieId(null)
+              }}
+              className="groupPageButton"
+            >
+              Clear Selection
+            </button>
+          </div>
+        )}
         
         {!addNewPostHidden && (
           <div>{errorMessage && (
@@ -198,6 +230,11 @@ export default function GroupPostsSection({ groupId, isOwner }) {
               isVisible={showFinnkinoSection}
               onShowtimeSelect={handleShowtimeSelect}
               onClose={() => setShowFinnkinoSection(false)}
+            />
+            <FavouriteMovieSelector
+              isVisible={showMovieSection}
+              onMovieSelect={handleMovieSelect}
+              onClose={() => setShowMovieSection(false)}
             />
           </div>
         )}
