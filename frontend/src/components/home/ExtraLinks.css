@@ -57,6 +57,7 @@
     .extraLinkH3 {
         padding: 0.5em;
         margin: auto;
+        font-size: var(--font-size-base);
     }
 
     .extraLinkP {
