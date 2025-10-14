@@ -8,7 +8,15 @@ margin-bottom: 0.5em;
   color: var(--color-text);
   font-size: var(--font-size-medium);
   border: 1.5px solid var(--color-border);
+  box-sizing: border-box;
 }
 select:focus, select:hover {
   border: 1.5px solid var(--color-contrast);
+}
+
+@media only screen and (max-width: 767px) {
+  select {
+    max-width: 95vw;
+    margin: auto;
+  }
 }

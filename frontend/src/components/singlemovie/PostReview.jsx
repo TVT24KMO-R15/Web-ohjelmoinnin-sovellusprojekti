@@ -87,6 +87,7 @@ export default function PostReview({ onClose, property, onUpdate, reload, movie 
                         value={review.reviewtext}
                         onChange={handleChange}
                         placeholder='Write Your Review'
+                        autoComplete='off'
                     /><p className='charactercount'>{count} / 1000</p>
                     <label htmlFor="stars">Stars:</label>
                     <select id="stars" name="stars" onChange={handleChange} value={review.stars}>

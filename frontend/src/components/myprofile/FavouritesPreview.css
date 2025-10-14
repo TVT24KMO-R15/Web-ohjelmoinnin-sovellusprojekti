@@ -1,9 +1,33 @@
 .favourites-grid {
   display: flex;
-  gap: 1rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: auto;
+}
+
+.poster-link {
+  display: flex;
+  box-sizing: border-box;
+  flex: 20%;
+  margin: 0.5em;
 }
 
 .poster-thumb {
-  width: 150px;
-  height: auto;
+  max-height: 300px;
+  border-radius: 1em;
+  margin: auto;
+}
+
+@media only screen and (max-width: 767px) {
+  .favourites-grid {
+    align-items: center;
+    justify-content: center;
+  }
+  .poster-link {
+    flex: 45%;
+    margin: 0.5em auto;
+  }
+  .poster-thumb{
+    max-height: 200px;
+  }
 }

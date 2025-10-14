@@ -43,8 +43,11 @@
     box-sizing: border-box;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 767px) {
     .singlegrouppage {
         flex-direction: column-reverse;
+    }
+    .groupinfodiv,.groupcontentdiv, .groupcontent{
+        padding: 0.5em;
     }
 }

@@ -19,7 +19,7 @@
 }
 
 .backdrop.fallback {
-  background-color: black;
+  background: linear-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
   opacity: 0.4;
 }
 
@@ -34,9 +34,10 @@
 }
 
 .poster {
-  width: 100%;
+  margin: auto;
   height: auto;
   max-height: 90vh;
+  max-width: 30vw;
   object-fit: contain;
   display: block;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
@@ -75,4 +76,22 @@
 
 .review-button {
   padding: 1em;
+}
+
+@media only screen and (max-width: 767px) {
+  .single-movie-container {
+    padding: 0.5em;
+  }
+  .movie-row {
+    flex-direction: column;
+  }
+  .poster-container {
+    margin-bottom: 1em;
+  }
+  .poster {
+    max-width: 90vw;
+  }
+  .movie-content {
+    margin: auto;
+  }
 }
