@@ -51,7 +51,7 @@ export default function FavouriteMovieSelector({ onMovieSelect, isVisible }) {
                     alt={movie.title}
                     className="fav-poster"
                   />
-                    <p>{movie.title}</p>
+                    <p><strong>{movie.title}</strong></p>
                     <div>
                      <button
                   type="button"

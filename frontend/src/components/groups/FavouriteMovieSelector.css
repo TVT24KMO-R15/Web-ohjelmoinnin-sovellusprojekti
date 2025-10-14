@@ -9,6 +9,12 @@
 .favourites-section h3 {
     margin-top: 0;
     margin-bottom: 1em;
+    color: var(--gray-dark);
+}
+.favourites-section p {
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+    color: var(--gray-dark);
 }
 .favourites-grid {
     display: grid;
@@ -45,24 +51,8 @@
     background-color: var(--color-contrast);
 }
 
-@media (min-width: 768px) {
-    .finnkino-dropdowns {
-        flex-direction: row;
-        align-items: flex-start;
-    }
-    
-    .dropdown-container {
-        flex: 1;
-        min-width: 0;
-    }
-}
-
 @media (max-width: 767px) {
-    .showtimes-grid {
+    .favourites-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
-    
-    .showtime-time {
-        font-size: 1.2em;
     }
 }
