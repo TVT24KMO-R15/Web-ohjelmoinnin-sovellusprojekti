@@ -16,12 +16,12 @@ export default function MyReviews() {
 
   useEffect(() => {
     //setReviews([])
-    console.log('reload: '+ reloadState)
+    console.log('reload: ' + reloadState)
     const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}`
-    const headers = {Authorization: `Bearer ${account.user.token}` }
-                
+    const headers = { Authorization: `Bearer ${account.user.token}` }
 
-    axios.get(address, {headers})
+
+    axios.get(address, { headers })
       .then(response => {
         console.log(response.data.rows)
         setReviews(response.data.rows)
@@ -31,23 +31,24 @@ export default function MyReviews() {
       .catch(err => {
         console.error('Failed to fetch reviews', err)
         //setReviews([])
-      }) 
+      })
 
   }
 
     , [reloadState])
 
   const removeReview = (deleted) => {
-    const headers = { Authorization: `Bearer ${account.user.token}` }
-    axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`, {headers})
-      .then(response => {
-        setReviews(reviews.filter(item => item.reviewid !== deleted))
+    if (confirm("Are you sure you want to remove this review?") == true) {
+      const headers = { Authorization: `Bearer ${account.user.token}` }
+      axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`, { headers })
+        .then(response => {
+          setReviews(reviews.filter(item => item.reviewid !== deleted))
 
-      })
-      .catch(error => {
-        alert(error.response ? error.response.data.error.message : error)
-      })
-
+        })
+        .catch(error => {
+          alert(error.response ? error.response.data.error.message : error)
+        })
+    }
   }
 
   return (
@@ -58,8 +59,8 @@ export default function MyReviews() {
         <MyReviewsComponent key={item.movieid} property={item} />
         <div className='deletebuttondiv'>
           <button className='deletebutton' onClick={() => removeReview(item.reviewid)}>Remove Review</button>
-        
-          <button className='deletebutton' onClick={() => {setMovieToEdit(item.movieid); setPostReviewOpen(true); } }>Edit Review</button>
+
+          <button className='deletebutton' onClick={() => { setMovieToEdit(item.movieid); setPostReviewOpen(true); }}>Edit Review</button>
           {postReviewOpen && <PostReview key={movieToEdit} onClose={() => { setPostReviewOpen(false); }} property={'put'} onUpdate={() => setReloadState(!reloadState)} movie={movieToEdit} />}
         </div>
       </div>
