@@ -28,6 +28,7 @@ export default function MyFavouritesComponent() {
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/favorites`, {
         params: { email: user.email },
+        withCredentials: true
       });
       setFavorites(res.data.favorites?.slice().reverse() || []);
     } catch (err) {
@@ -50,7 +51,9 @@ export default function MyFavouritesComponent() {
       try {
         const results = await Promise.all(
           favorites.map(id =>
-            axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${id}`)
+            axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${id}`, {
+              withCredentials: true
+            })
           )
         );
         setMovies(results.map(r => r.data));
@@ -76,14 +79,16 @@ export default function MyFavouritesComponent() {
         // poista suosikeista
         await axios.post(
           `${import.meta.env.VITE_API_URL}/favorites/delete`,
-          { email: user.email, movieId }
+          { email: user.email, movieId },
+          { withCredentials: true }
         );
         setFavorites(prev => prev.filter(id => id !== movieId));
       } else {
         // lisää suosikkeihin
         await axios.post(
           `${import.meta.env.VITE_API_URL}/favorites/add`,
-          { email: user.email, movieId }
+          { email: user.email, movieId },
+          { withCredentials: true }
         );
         setFavorites(prev => [...prev, movieId]);
       }

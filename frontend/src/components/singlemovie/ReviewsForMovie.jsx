@@ -24,7 +24,9 @@ export default function ReviewsForMovie() {
         setReviews(null)
         const offset = limit * page
         const address = import.meta.env.VITE_API_URL + `/reviews/movie/${movieId}/${limit}/${offset}`
-        axios.get(address)
+        axios.get(address, {
+            withCredentials: true
+        })
             .then(response => {
                 console.log(response.data)
                 if (response.data.length > 0) {

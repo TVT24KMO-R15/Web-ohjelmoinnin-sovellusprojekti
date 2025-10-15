@@ -16,7 +16,7 @@ export default function ReviewsPreview() {
     const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}/5` //preview limited to 5 reviews
     const headers = { Authorization: `Bearer ${account.user.token}` }
     //console.log(address)
-    axios(address, {headers})
+    axios(address, {headers, withCredentials: true})
       .then(response => {
         //console.log(response.data.rows)
         setReviews(response.data.rows)

@@ -13,7 +13,7 @@ export default function ManageApplications({ onClose, groupId }) {
 
   useEffect(() => {
     const address = import.meta.env.VITE_API_URL + `/groupjoin/requests/${groupId}`
-    axios.get(address, { headers })
+    axios.get(address, { headers, withCredentials: true })
       .then(response => {
         setRequests(response.data.filter(item => (item.status.includes('pending'))))
       }).catch(error => {

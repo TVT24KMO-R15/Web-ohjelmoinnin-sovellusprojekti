@@ -11,7 +11,9 @@ export default function MyOwnGroupsPreview() {
     useEffect(() => {
         console.log('getting own groups')
         const address = import.meta.env.VITE_API_URL + `/groups/owner/${account.user.id}`
-        axios.get(address)
+        axios.get(address, {
+            withCredentials: true
+        })
             .then(result => {
                 console.log(result.data)
 

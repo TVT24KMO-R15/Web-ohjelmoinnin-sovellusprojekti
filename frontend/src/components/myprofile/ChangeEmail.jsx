@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function ChangeEmail({ onClose, currentEmail }) {
   const account = useUser();
+  const { signOut } = useUser();
   const [user, setUser] = useState({
     email: currentEmail,
     username: account.user.username,
@@ -37,12 +38,13 @@ export default function ChangeEmail({ onClose, currentEmail }) {
           headers: {
             Authorization: `Bearer ${account.user.token}`,
           },
+          withCredentials: true
         })
-        .then((response) => {
+        .then(async (response) => {
           console.log(response);
           if (response.status == 200) {
             alert("Email changed successfully. Logging out...");
-            sessionStorage.removeItem("user");
+            await signOut();
             window.location = "/";
           }
         })

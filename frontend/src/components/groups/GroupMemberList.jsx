@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import { useUser } from '../../context/UseUser'
 
 export default function GroupMemberList({ groupId }) {
@@ -6,22 +7,22 @@ export default function GroupMemberList({ groupId }) {
   const [members, setMembers] = useState([])
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/groups/getmembers/${groupId}`, {
-      method: 'GET',
+    // changed to use axios for interceptor when token expires
+    axios.get(`${import.meta.env.VITE_API_URL}/groups/getmembers/${groupId}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`
-      }
+      },
+      withCredentials: true
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Group members:", data);
-        setMembers(data);
+      .then(response => {
+        console.log("Group members:", response.data);
+        setMembers(response.data);
       })
       .catch(error => {
         console.error("Error fetching group members:", error);
       });
-  }, [groupId])
+  }, [groupId, user.token])
 
     return (
     <div>

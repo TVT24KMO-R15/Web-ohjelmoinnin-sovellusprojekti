@@ -21,7 +21,9 @@ export default function SingleMovie({ addToFavourites }) {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${movieId}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${movieId}`, {
+          withCredentials: true
+        });
         setMovie(res.data);
       } catch (err) {
         console.error(err);
@@ -40,7 +42,9 @@ export default function SingleMovie({ addToFavourites }) {
       try {
        const res = await axios.get(
           `${import.meta.env.VITE_API_URL}/favorites`,
-         { params: { email: user.email } } // lähetetään email query
+         { params: { email: user.email },
+           withCredentials: true
+         } // lähetetään email query
         );
         setFavorites(res.data.favorites);
       } catch (err) {
@@ -61,14 +65,16 @@ export default function SingleMovie({ addToFavourites }) {
         // poista suosikeista
         await axios.post(
           `${import.meta.env.VITE_API_URL}/favorites/delete`,
-          { email: user.email, movieId: movie.id } // pelkkä email ja movieId
+          { email: user.email, movieId: movie.id }, // pelkkä email ja movieId
+          { withCredentials: true }
         );
         setFavorites((prev) => prev.filter((id) => id !== movie.id));
       } else {
         // lisää suosikkeihin
         await axios.post(
           `${import.meta.env.VITE_API_URL}/favorites/add`,
-          { email: user.email, movieId: movie.id } // pelkkä email ja movieId
+          { email: user.email, movieId: movie.id }, // pelkkä email ja movieId
+          { withCredentials: true }
         );
         setFavorites((prev) => [...prev, movie.id]);
       }

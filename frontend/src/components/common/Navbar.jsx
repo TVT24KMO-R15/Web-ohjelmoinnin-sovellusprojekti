@@ -11,7 +11,7 @@ export default function Navbar() {
         
   const [sidebarOpen, setSidebarOpen] = useState(false); // Sivuvalikko, joka on käytössä vain kapeille näytöille
   const [signinOpen, setSigninOpen] = useState(false); // Kirjautumisikkuna
-  const { user, setUser } = useUser();
+  const { user, setUser, signOut } = useUser();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [searchOpenOnMobile, setSearchOpenOnMobile] = useState(false); // Track if search is open on mobile
   const dropdownRef = useRef(null);
@@ -51,9 +51,13 @@ export default function Navbar() {
   /* Sulje kirjautuminen kun on vastaanotettu user token */
   useEffect(() => {
     if (user && user.token) {
-      setSigninOpen(false);
+      // small delay for closing signin
+      const timer = setTimeout(() => {
+        setSigninOpen(false);
+      }, 50);
+      return () => clearTimeout(timer);
     }
-  }, [user]);
+  }, [user, user?.token]);
   return (
     <>
     {/* Sivuvalikko */}
@@ -106,9 +110,8 @@ export default function Navbar() {
                 <Link to="/myaccount/mygroups" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>My groups</Link>
                 <button
                   className="dropdown-item"
-                  onClick={() => {
-                    setUser({ username: '', email: '', password: '', token: '' });
-                    sessionStorage.removeItem('user');
+                  onClick={async () => {
+                    await signOut();
                     setUserMenuOpen(false);
                     navigate('/');
                   }}

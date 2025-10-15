@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function ChangeUsername({ onClose, currentUsername }) {
   const account = useUser();
+  const { signOut } = useUser();
   const [user, setUser] = useState({
     email: account.user.email,
     username: currentUsername,
@@ -37,12 +38,13 @@ export default function ChangeUsername({ onClose, currentUsername }) {
           headers: {
             Authorization: `Bearer ${account.user.token}`,
           },
+          withCredentials: true
         })
-        .then((response) => {
+        .then(async (response) => {
           console.log(response);
           if (response.status == 200) {
             alert("Username changed successfully. Logging out...");
-            sessionStorage.removeItem("user");
+            await signOut();
             window.location = "/";
           }
         })

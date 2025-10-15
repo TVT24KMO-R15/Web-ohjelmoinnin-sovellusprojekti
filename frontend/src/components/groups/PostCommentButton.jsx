@@ -31,7 +31,7 @@ export default function PostCommentButton({ postid, reload }) {
             const payload = { postid: postid, text: commentText }
             const headers = { Authorization: `Bearer ${account.user.token}` }
 
-            axios.post(address, payload, { headers })
+            axios.post(address, payload, { headers, withCredentials: true })
                 .then(response => {
                     console.log(response)
                 }).catch(error => {

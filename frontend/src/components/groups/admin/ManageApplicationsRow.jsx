@@ -13,7 +13,7 @@ export default function ManageApplicationsRow(request) {
 
     const handleAccept = (requestId) => {
         const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/accept/${requestId}`
-        axios.post(address, {}, { headers })
+        axios.post(address, {}, { headers, withCredentials: true })
             .then(response => {
                 console.log(response.data)
                 if (response.status === 200) {
@@ -28,7 +28,7 @@ export default function ManageApplicationsRow(request) {
     const handleDenial = (requestId) => {
         if (confirm("Confirm Denial:") == true) {
             const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/reject/${requestId}`
-            axios.post(address, {}, { headers })
+            axios.post(address, {}, { headers, withCredentials: true })
                 .then(response => {
                     console.log(response.data)
                     if (response.status === 200) {

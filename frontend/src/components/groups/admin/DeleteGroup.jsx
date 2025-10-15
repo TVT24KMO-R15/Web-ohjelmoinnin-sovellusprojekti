@@ -22,7 +22,8 @@ export default function DeleteGroup({ onClose, groupId }) {
         {
           headers: {
             Authorization: `Bearer ${user.token}`
-          }
+          },
+          withCredentials: true
         }
       )
 

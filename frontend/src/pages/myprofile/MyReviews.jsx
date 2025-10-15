@@ -19,9 +19,10 @@ export default function MyReviews() {
     console.log('reload: ' + reloadState)
     const address = import.meta.env.VITE_API_URL + `/reviews/${account.user.id}`
     const headers = { Authorization: `Bearer ${account.user.token}` }
+    const options = { headers, withCredentials: true }
 
 
-    axios.get(address, { headers })
+    axios.get(address, options)
       .then(response => {
         console.log(response.data.rows)
         setReviews(response.data.rows)
@@ -40,7 +41,7 @@ export default function MyReviews() {
   const removeReview = (deleted) => {
     if (confirm("Are you sure you want to remove this review?") == true) {
       const headers = { Authorization: `Bearer ${account.user.token}` }
-      axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`, { headers })
+      axios.delete(import.meta.env.VITE_API_URL + `/reviews/delete/${deleted}`, { headers, withCredentials: true })
         .then(response => {
           setReviews(reviews.filter(item => item.reviewid !== deleted))
 

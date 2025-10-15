@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
+import axios from 'axios'
 import ProtectedRoute from '../components/common/ProtectedRoute'
 import { useUser } from '../context/UseUser'
 import GroupInfoHeader from '../components/groups/GroupInfoHeader.jsx'
@@ -19,16 +20,15 @@ export default function Group() {
 
 // get membership status, returns 403 forbidden if not member
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/groups/getmembers/${groupId}`, {
-      method: 'GET',
+    axios.get(`${import.meta.env.VITE_API_URL}/groups/getmembers/${groupId}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`
-      }
+      },
+      withCredentials: true
     })
-      .then(response => response.json())
-      .then(data => {
-        if(data?.error) {
+      .then(response => {
+        if(response.data?.error) {
           setNotFound(true);
           return;
         }
@@ -37,15 +37,15 @@ export default function Group() {
         console.error("Error getting membership status:", error);
         setNotFound(true);
       });
-  }, [groupId])
+  }, [groupId, user.token])
 
   // get group info
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/groups/${groupId}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/groups/${groupId}`, {
+      withCredentials: true
+    })
       .then(response => {
-        return response.json()
-      })
-      .then(data =>  {
+        const data = response.data;
         console.log("group data:", data)
         if (data?.error?.status === 404) {
           console.log("Group not found")
@@ -62,22 +62,22 @@ export default function Group() {
   useEffect(() => {
     if(notFound) return
     if (user && user.id && user.token) {
-      fetch(`${import.meta.env.VITE_API_URL}/groups/${groupId}/accountid/${user.id}`, {
-        method: 'GET',
+      axios.get(`${import.meta.env.VITE_API_URL}/groups/${groupId}/accountid/${user.id}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token}`
-        }
+        },
+        withCredentials: true
       })
-        .then(response => response.json())
-        .then(data => {
+        .then(response => {
+          const data = response.data;
           console.log("is owner data:", data)
           setIsOwner(data.isOwner)
         })
         .catch(error => console.error('Error fetching owner status:', error))
     }
     setLoading(false)
-  }, [user, groupId])
+  }, [user, groupId, notFound])
 
   // leave group as user
   const handleLeaveGroup = () => {
@@ -86,15 +86,15 @@ export default function Group() {
       return
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/groups/leave/${groupId}`, {
-      method: 'POST',
+    axios.post(`${import.meta.env.VITE_API_URL}/groups/leave/${groupId}`, {}, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`
-      }
+      },
+      withCredentials: true
     })
     .then(response => {
-      if (response.ok) {
+      if (response.status === 200) {
         setNotFound(true)
       } else {
         console.error('Failed to leave group')

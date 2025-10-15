@@ -14,6 +14,7 @@ export default function FavouritesPreview() {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/favorites`, {
           params: { email: user.email },
+          withCredentials: true
         });
 
         const favIds = res.data.favorites || [];
@@ -21,7 +22,9 @@ export default function FavouritesPreview() {
         const lastThreeFavs = favIds.slice(-4).reverse();
 
         const moviePromises = lastThreeFavs.map(id =>
-          axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${id}`)
+          axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${id}`, {
+            withCredentials: true
+          })
         );
         const movieResults = await Promise.all(moviePromises);
         setFavourites(movieResults.map(r => r.data));

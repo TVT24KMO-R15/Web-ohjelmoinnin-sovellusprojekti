@@ -6,6 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha ./tests/*.test.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "prod": "cross-env NODE_ENV=production node index.js",
     "testStart": "cross-env NODE_ENV=test nodemon index.js"
   },
   "keywords": [],
@@ -15,6 +16,7 @@
   "dependencies": {
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "cross-env": "^10.0.0",
     "dotenv": "^17.2.2",

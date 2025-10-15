@@ -40,7 +40,7 @@ export default function CreateGroup({ onClose }) {
             const url = import.meta.env.VITE_API_URL + `/groups/post`
             //console.log(url)
             //console.log(payload)
-            axios.post(url, payload, {headers})
+            axios.post(url, payload, {headers, withCredentials: true})
                 .then(response => {
                     console.log(response.data)
 

@@ -20,7 +20,9 @@ export default function PopularMovies({reqUrl, sectionTitle}) {
     const address = `${reqUrl}${separator}page=${currentPage}`
     // console.log("PopularMovies: using url: ", address)
     setLoading(true)
-    axios.get(address)
+    axios.get(address, {
+      withCredentials: true
+    })
       .then(response => {
         // console.log("Axios request response data from" + address +" : ")
         // console.log(response.data)

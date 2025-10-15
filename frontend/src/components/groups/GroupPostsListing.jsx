@@ -12,7 +12,7 @@ export default function GroupPostsListing({ groupId, update, isOwner }) {
     const address = import.meta.env.VITE_API_URL + `/groupposts/groupid/${groupId}`
     const headers = { Authorization: `Bearer ${account.user.token}` }
 
-    axios.get(address, { headers })
+    axios.get(address, { headers, withCredentials: true })
       .then(response => {
         console.log(response.data)
         setGroupPosts(response.data)
@@ -35,7 +35,7 @@ export default function GroupPostsListing({ groupId, update, isOwner }) {
     const address = import.meta.env.VITE_API_URL + endpoint
     const headers = { Authorization: `Bearer ${account.user.token}` }
 
-    axios.delete(address, { headers })
+    axios.delete(address, { headers, withCredentials: true })
       .then(() => {
         // remove deleted post from state to update UI
         setGroupPosts(prevPosts => prevPosts.filter(post => post.postid !== postId))
