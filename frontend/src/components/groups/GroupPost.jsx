@@ -1,10 +1,13 @@
-import React from "react";
 import AccountEmailById from "../common/AccountEmailById";
 import PostCommentSection from "./PostCommentSection";
-
 import "./GroupPost.css";
-
+import { useFetchMovieDetails } from './FetchMovieDetails';
 export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete }) {
+
+  // Fetch movie data
+  const movieId = GroupPost.movieid;
+  const { movie } = useFetchMovieDetails(movieId);
+
   // format finnkino date and time
   const formatFinnkinoDateTime = (showtime) => {
     if (!showtime) return null;
@@ -38,7 +41,42 @@ export default function GroupPost({ GroupPost, isOwner, currentUserId, onDelete 
       </h4>
       <p>{GroupPost.posttext}</p>
       <div>
-        {GroupPost.movieid && <>Add details for movie {GroupPost.movieid}</>}
+        {GroupPost.movieid && movie && (
+          <>
+          <div className="grouppost-finnkino-details">
+            <h3>Movie Post</h3>
+            <div className="finnkino-content">
+              <div className="finnkino-info">
+                <p>
+                <strong>Movie: </strong> {movie.title} ({movie.release_date.split("-")[0]})
+                </p>
+                <p>
+                <strong>Runtime: </strong> {movie.runtime} minutes
+                </p>
+                <p>
+                <strong>Genre: </strong> {movie.genres.map(g => g.name).join(', ')}
+                </p>
+                <p>
+                <strong>TMDB user score: </strong> {movie.vote_average}/10 ({movie.vote_count} votes)
+                </p>
+                <p>
+                <strong>Overview: </strong> {movie.overview}
+                </p>
+          
+              </div>
+          <div className="grouppost-poster">
+                    <img
+                      src={movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                        : noPoster} // placeholder jos poster puuttuu
+                      alt={movie.title}
+                      className="grouppost-poster img"
+                    />
+                  </div>
+         </div>   
+         </div>
+          </>
+        )}
 
         {GroupPost.finnkino_original_title && (
           <div className="grouppost-finnkino-details">
