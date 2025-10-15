@@ -4,13 +4,16 @@ import FinnkinoShowtimeSelector from './FinnkinoShowtimeSelector.jsx'
 import './GroupPostsSection.css'
 import { useUser } from '../../context/UseUser.js'
 import axios from 'axios'
-
+import FavouriteMovieSelector from './FavouriteMovieSelector.jsx'
+import { useFetchMovieDetails } from './FetchMovieDetails';
 export default function GroupPostsSection({ groupId, isOwner }) {
   const [addNewPostHidden, setAddNewPostHidden] = useState(true)
   const account = useUser()
   const [updateListing, setUpdateListing] = useState(false)
 
   const [postText, setPostText] = useState('')
+
+  // movie state
   const [movieId, setMovieId] = useState(null)
   const [showMovieSection, setShowMovieSection] = useState(false)
 
@@ -39,7 +42,7 @@ export default function GroupPostsSection({ groupId, isOwner }) {
 
   // toggle button on off when details are set
   const handleToggleMovieSection = () => {
-    if (finnkinoDetails) return
+    if (movieId) return
     setShowMovieSection((prev) => {
       const next = !prev
       if (next) setShowFinnkinoSection(false)
@@ -58,6 +61,13 @@ export default function GroupPostsSection({ groupId, isOwner }) {
     setPosterUrl(showtimeDetails.posterUrl)
     setShowFinnkinoSection(false)
   }
+  const handleMovieSelect = (movieId) => {
+    setMovieId(movieId) 
+    setShowMovieSection(false)
+  }
+
+  // Fetch movie data using movieId
+  const { movie } = useFetchMovieDetails(movieId);
 
   const handleChange = (e) => {
     setPostText(e.target.value)
@@ -167,6 +177,28 @@ export default function GroupPostsSection({ groupId, isOwner }) {
             </button>
           </div>
         )}
+
+        {movieId && !addNewPostHidden && (
+          // card that shows after fav movie selected
+          <div className="finnkino-selected-details">
+            <h4>Selected Movie: </h4>
+            
+            <div>
+              <p>
+                <strong>Movie: </strong> {movie && `${movie.title} (${movie.release_date.split("-")[0]})`}
+                </p>
+            </div>
+            <button 
+              type="button" 
+              onClick={() => {
+                setMovieId(null)
+              }}
+              className="groupPageButton"
+            >
+              Clear Selection
+            </button>
+          </div>
+        )}
         
         {!addNewPostHidden && (
           <div>{errorMessage && (
@@ -185,10 +217,10 @@ export default function GroupPostsSection({ groupId, isOwner }) {
               />
 
               <br />
-              <button type="button" onClick={handleToggleMovieSection} disabled={showFinnkinoSection || !!finnkinoDetails}>
+              <button type="button" onClick={handleToggleMovieSection} disabled={showFinnkinoSection || !!finnkinoDetails || !!movieId}>
                 {showMovieSection ? 'Hide Movie' : 'Add a Movie'}
               </button>
-              <button type="button" onClick={handleToggleFinnkinoSection} disabled={showMovieSection || !!finnkinoDetails}>
+              <button type="button" onClick={handleToggleFinnkinoSection} disabled={showMovieSection || !!finnkinoDetails || !!movieId}>
                 {showFinnkinoSection ? 'Hide Finnkino Showtime' : 'Add a Finnkino Showtime'}
               </button>
               <button className='grouppostsubmitbutton' type="submit" disabled={!postText || !postText.trim()}>Submit Post</button>
@@ -198,6 +230,11 @@ export default function GroupPostsSection({ groupId, isOwner }) {
               isVisible={showFinnkinoSection}
               onShowtimeSelect={handleShowtimeSelect}
               onClose={() => setShowFinnkinoSection(false)}
+            />
+            <FavouriteMovieSelector
+              isVisible={showMovieSection}
+              onMovieSelect={handleMovieSelect}
+              onClose={() => setShowMovieSection(false)}
             />
           </div>
         )}

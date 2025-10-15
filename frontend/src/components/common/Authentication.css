@@ -17,6 +17,7 @@
   flex-direction: column;
   align-items: stretch;
   text-shadow: none;
+  box-sizing: border-box;
 }
 .auth-error {
   color: var(--color-text-error);
