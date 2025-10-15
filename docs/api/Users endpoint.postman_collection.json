@@ -109,7 +109,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newtester@mail.com\",\r\n        \"username\": \"newtester\",\r\n        \"password\": \"pass\",\r\n        \"newPassword\": \"passpass\"\r\n    }\r\n}\r\n\r\n",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newtester@mail.com\",\r\n        \"username\": \"newtester\",\r\n        \"password\": \"passpass\",\r\n        \"newPassword\": \"pass\"\r\n    }\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -146,7 +146,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newemail@mail.com\",\r\n        \"username\": \"usernamename\",\r\n        \"newUsername\": \"ewe\"\r\n    }\r\n}",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newtester@mail.com\",\r\n        \"username\": \"newtester\",\r\n        \"newUsername\": \"newtester2\"\r\n    }\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -259,7 +259,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newemail@mail.com\",\r\n        \"password\": \"pass\" // after change passpass\r\n    }\r\n}\r\n",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newtester@mail.com\",\r\n        \"password\": \"pass\"\r\n    }\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -283,13 +283,20 @@
 			"name": "deleteUser",
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
 				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"test@email.com\",\r\n        \"password\": \"pass\",\r\n        \"username\": \"testuser123\"\r\n    }\r\n}\r\n",
+					"raw": "{ \"account\": \r\n    {\r\n        \"email\": \"newtester@mail.com\",\r\n        \"password\": \"pass\",\r\n        \"username\": \"newtester\"\r\n    }\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
