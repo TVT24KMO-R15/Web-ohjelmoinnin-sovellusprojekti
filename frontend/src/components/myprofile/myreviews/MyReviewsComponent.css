@@ -81,7 +81,7 @@
     width: 75%;
     overflow: hidden; 
     text-overflow: ellipsis;
-    white-space: wrap;
+    white-space: nowrap;
 }
 
 .reviewPreviewText{
@@ -108,7 +108,9 @@
         width: 100%;
     }
     .reviewPreviewTitle{
+        min-width: none;
         width: 100%;
+        white-space: wrap;
     }
     .deletebuttondiv {
         margin: auto;
