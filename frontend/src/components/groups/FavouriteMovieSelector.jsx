@@ -45,7 +45,7 @@ export default function FavouriteMovieSelector({ onMovieSelect, isVisible }) {
           <div className="select-movie-grid">
             {favourites.length > 0 ? (
               favourites.map((movie) => (
-                <div className="movie-info">
+                <div className="movie-info2">
                    <div>
                      <button
                   type="button"
