@@ -23,6 +23,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s ease;
+  margin: 0.5em;
 }
 
 .share-button:hover {
@@ -61,6 +62,7 @@
 .fav-poster {
   width: 100%;
   display: block;
+  margin: auto;
 }
 
 .fav-info {
