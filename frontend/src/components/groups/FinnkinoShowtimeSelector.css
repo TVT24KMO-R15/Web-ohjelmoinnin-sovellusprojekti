@@ -35,6 +35,8 @@
     background-color: var(--white);
     cursor: pointer;
     font-size: var(--font-size-base);
+    box-sizing: border-box;
+    
 }
 
 .dropdown-container select:hover {
@@ -141,6 +143,8 @@
         flex: 1;
         min-width: 0;
     }
+
+    
 }
 
 @media (max-width: 767px) {
@@ -150,5 +154,8 @@
     
     .showtime-time {
         font-size: 1.2em;
+    }
+    .dropdown-container select {
+        width: 100%;
     }
 }
