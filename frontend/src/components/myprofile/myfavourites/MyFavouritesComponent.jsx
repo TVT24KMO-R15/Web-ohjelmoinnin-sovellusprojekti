@@ -3,6 +3,7 @@ import { useUser } from '../../../context/UseUser';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './MyFavourites.css';
+import noPoster from '../../../assets/noPoster.png'
 
 export default function MyFavouritesComponent() {
   const { user } = useUser();
@@ -121,7 +122,9 @@ export default function MyFavouritesComponent() {
             </div>
             <Link to={`/movies/${movie.id}`} className="fav-link">
               <img
-                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                src={ movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                  : noPoster}
                 alt={movie.title}
                 className="fav-poster"
               />

@@ -45,7 +45,7 @@ export default function FavouriteMovieSelector({ onMovieSelect, isVisible }) {
           <div className="select-movie-grid">
             {favourites.length > 0 ? (
               favourites.map((movie) => (
-                <div className="movie-info">
+                <div className="movie-info2">
                    <div>
                      <button
                   type="button"
@@ -59,10 +59,10 @@ export default function FavouriteMovieSelector({ onMovieSelect, isVisible }) {
                     <img
                       src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
                       alt={movie.title}
-                      className="fav-poster"
+                      className="fav-poster2"
                     />
                   ) : (
-                    <img src={noPoster} alt="No Poster" className="fav-poster" />
+                    <img src={noPoster} alt="No Poster" className="fav-poster2" />
                   )}
                   
                     <p><strong>{movie.title}</strong></p>
