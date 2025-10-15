@@ -3,6 +3,8 @@ import { selectAllAccounts, selectAccountById, selectAccountEmailById, sendSignU
 import { hash, compare } from "bcrypt"
 import jwt from 'jsonwebtoken'
 import { auth } from "../helpers/authHelper.js"
+import { generateAccessToken, generateRefreshToken, setRefreshTokenCookie, clearRefreshTokenCookie } from "../helpers/tokenHelper.js"
+import { hashToken, insertRefreshToken, updateRevokeRefreshToken } from "../models/refreshToken.js"
 
 const { sign } = jwt
 
@@ -68,16 +70,36 @@ const accountSignIn = async (req, res, next) => {
                 return next(error)
             }
 
-            const token = sign({ 
+            const payload = { 
                 id: dbUser.accountid,
                 account: dbUser.email,
                 username: dbUser.username 
-            }, process.env.JWT_SECRET_KEY)
+            }
+
+            // create an access token (short lived) from payload.
+            const accessToken = generateAccessToken(payload)
+            // create a refresh token (longer lived) from payload, only id is needed in refresh token
+            const refreshToken = generateRefreshToken({ id: dbUser.accountid })
+
+            // hash the refresh token and calculate expiration date
+            const tokenHash = hashToken(refreshToken)
+            const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
+
+            // add refresh token hash to database
+            insertRefreshToken(dbUser.accountid, tokenHash, expiresAt).catch(err => {
+                console.error('Failed to store refresh token:', err)
+            })
+
+            // set cookie to http response
+            setRefreshTokenCookie(res, refreshToken)
+
+            // set token to header instead of response body
+            res.setHeader('Authorization', `Bearer ${accessToken}`)
+            
             res.status(200).json({
                 id: dbUser.accountid,
                 email: dbUser.email,
-                username: dbUser.username,
-                token
+                username: dbUser.username
             })
         })
 
@@ -425,5 +447,32 @@ const getAccountEmailById = async (req, res, next) => {
     }
 }
 
+// logout user by clearing refresh token cookie and removing token from database
+const accountLogout = async (req, res, next) => {
+    try {
+        // get token from request cookies
+        const refreshToken = req.cookies.refreshToken
+        
+        // if the cookie exists remove it from database
+        if (refreshToken) {
+            try {
+                const jwt_module = await import('jsonwebtoken')
+                const decoded = jwt_module.default.decode(refreshToken)
+                if (decoded && decoded.id) {
+                    // hash token before revoking
+                    const tokenHash = hashToken(refreshToken)
+                    await updateRevokeRefreshToken(decoded.id, tokenHash)
+                }
+            } catch (err) {
+                console.error('Error revoking refresh token:', err)
+            }
+        }
+        
+        clearRefreshTokenCookie(res)
+        res.status(200).json({ message: 'Logged out successfully' })
+    } catch (error) {
+        return next(error)
+    }
+}
 
-export { getAllAccounts, getAccountById, getAccountEmailById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById }
+export { getAllAccounts, getAccountById, getAccountEmailById, postRegister, accountSignIn, accountLogout, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById }

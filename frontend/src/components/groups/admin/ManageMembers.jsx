@@ -12,7 +12,9 @@ export default function ManageMembers({ onClose, groupId }) {
   useEffect(() => {
     const fetchMembers = async () => {
       try { 
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usergrouplinker/groupid/${groupId}`)
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usergrouplinker/groupid/${groupId}`, {
+          withCredentials: true
+        })
 
         // yeet out the group owner from the members list
         const filteredMembers = response.data.filter(member => member.fk_accountid !== user.id)
@@ -39,7 +41,8 @@ export default function ManageMembers({ onClose, groupId }) {
         {
           headers: {
             'Authorization': `Bearer ${user.token}`
-          }
+          },
+          withCredentials: true
         }
       )
 
@@ -50,7 +53,8 @@ export default function ManageMembers({ onClose, groupId }) {
         {
           headers: {
             'Authorization': `Bearer ${user.token}`
-          }
+          },
+          withCredentials: true
         }
       )
 

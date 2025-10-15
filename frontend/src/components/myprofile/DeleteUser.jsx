@@ -6,6 +6,7 @@ export default function DeleteUser({ onClose, email, username }) {
     const [user, setUser] = useState({ email: email, password: '', username: username });
     const [errorMessage, setErrorMessage] = useState('');
     const account = useUser();
+    const { signOut } = useUser(); // using actual signout
     console.log("account: ", account)
     const headers = { 'Authorization': `Bearer ${account.user.token}` }
 
@@ -26,12 +27,12 @@ export default function DeleteUser({ onClose, email, username }) {
         try {
             const payload = { account: user }
             console.log(payload)
-            axios.post(import.meta.env.VITE_API_URL + `/users/delete`, payload, { headers })
-                .then(response => {
+            axios.post(import.meta.env.VITE_API_URL + `/users/delete`, payload, { headers, withCredentials: true })
+                .then(async response => {
                     console.log(response)
                     if (response.status == 200) {
                         alert('Account removed successfully. Farewell!');
-                        sessionStorage.removeItem('user');
+                        await signOut();
                         window.location = '/';
                     }
 

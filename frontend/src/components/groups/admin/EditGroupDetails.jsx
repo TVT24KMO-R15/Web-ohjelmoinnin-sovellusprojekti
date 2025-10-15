@@ -28,7 +28,9 @@ export default function EditGroupDetails({ onClose, groupId, currentDetails }) {
 
     const config = { headers: {
       Authorization: `Bearer ${user.token}`
-    }}
+    },
+    withCredentials: true
+  }
 
     axios.put(`${import.meta.env.VITE_API_URL}/groups/update/${groupId}`, payload, config)
     .then((response) => {

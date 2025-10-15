@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export default function ChangePassword({ onClose, username }) {
     const account = useUser()
+    const { signOut } = useUser()
     const [newUser, setNewUser] = useState({ password: '', newPassword1: '', newPassword2: '' })
     const [errorMessage, setErrorMessage] = useState('');
     const [errorMessagePassword1, setErrorMessagePassword1] = useState('');
@@ -48,13 +49,14 @@ export default function ChangePassword({ onClose, username }) {
             axios.put(import.meta.env.VITE_API_URL + `/users/updatepassword`, payload, {
                 headers: {
                     Authorization: `Bearer ${account.user.token}`
-                }
+                },
+                withCredentials: true
             })
-                .then(response => {
+                .then(async response => {
                     console.log(response)
                     if (response.status == 200) {
                         alert('Password changed successfully. Logging out...');
-                        sessionStorage.removeItem('user');
+                        await signOut();
                         window.location = '/';
                     }
 

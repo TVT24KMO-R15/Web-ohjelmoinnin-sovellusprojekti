@@ -15,7 +15,9 @@ export default function PublicFavourites() {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/favorites/public/${accountId}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/favorites/public/${accountId}`, {
+          withCredentials: true
+        });
         setFavorites(res.data.favorites);
       } catch (err) {
         console.error("Failed to fetch public favourites", err);
@@ -30,7 +32,9 @@ export default function PublicFavourites() {
   useEffect(() => {
     const fetchUsername = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/getid/${accountId}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/getid/${accountId}`, {
+          withCredentials: true
+        });
         console.log(res)
         setUsername(res.data[0].username);
       } catch (err) {
@@ -52,7 +56,9 @@ export default function PublicFavourites() {
       try {
         const results = await Promise.all(
           favorites.map(id =>
-            axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${id}`)
+            axios.get(`${import.meta.env.VITE_API_URL}/api/tmdb/details/${id}`, {
+              withCredentials: true
+            })
           )
         );
         setMovies(results.map(r => r.data));

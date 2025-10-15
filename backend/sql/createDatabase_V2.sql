@@ -25,7 +25,23 @@ ALTER TABLE IF EXISTS public.group_join_requests DROP CONSTRAINT IF EXISTS fk_gr
 
 ALTER TABLE IF EXISTS public.group_join_requests DROP CONSTRAINT IF EXISTS fk_account;
 
+ALTER TABLE IF EXISTS public.refresh_tokens DROP CONSTRAINT IF EXISTS None;
+
 DROP TYPE IF EXISTS request_status CASCADE;
+
+DROP TABLE IF EXISTS public.refresh_tokens;
+
+CREATE TABLE IF NOT EXISTS public.refresh_tokens
+(
+    id serial,
+    accountid integer NOT NULL,
+    token_hash character varying(255) NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    expires_at timestamp without time zone NOT NULL,
+    revoked boolean DEFAULT FALSE,
+    CONSTRAINT pk_accountid PRIMARY KEY (id)
+);
+
 
 DROP TABLE IF EXISTS public.account;
 
@@ -209,6 +225,13 @@ ALTER TABLE IF EXISTS public.group_join_requests
 
 ALTER TABLE IF EXISTS public.group_join_requests
     ADD CONSTRAINT fk_account FOREIGN KEY (fk_accountid)
+    REFERENCES public.account (accountid) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public.refresh_tokens
+    ADD FOREIGN KEY (accountid)
     REFERENCES public.account (accountid) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE CASCADE;

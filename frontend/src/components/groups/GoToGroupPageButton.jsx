@@ -20,7 +20,7 @@ export default function GoToGroupPageButton(group) {
         console.log(`sending request to join group ${group.group.groupid}`)
         const address = import.meta.env.VITE_API_URL + `/groupjoin/join/${account.user.id}/${group.group.groupid}`
         console.log(address)
-        axios.post(address, {}, { headers })
+        axios.post(address, {}, { headers, withCredentials: true })
             .then(result => {
                 console.log(result)
             }).catch(error => {
@@ -36,7 +36,7 @@ export default function GoToGroupPageButton(group) {
         console.log(`canceling request to join group ${group.group.groupid}`)
         const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/remove/${account.user.id}/${group.group.groupid}`
         console.log(address)
-        axios.post(address, {}, { headers })
+        axios.post(address, {}, { headers, withCredentials: true })
             .then(result => {
                 console.log(result)
             }).catch(error => {
@@ -50,7 +50,7 @@ export default function GoToGroupPageButton(group) {
         console.log(`removing earlier request to join group ${group.group.groupid}`)
         const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/removerejected/${account.user.id}/${group.group.groupid}`
         console.log(address)
-        axios.post(address, {}, { headers })
+        axios.post(address, {}, { headers, withCredentials: true })
             .then(result => {
                 console.log(result)
             }).catch(error => {
@@ -73,7 +73,7 @@ export default function GoToGroupPageButton(group) {
         }
         const address = import.meta.env.VITE_API_URL + `/groupjoin/requeststatus/${group.group.groupid}/${account.user.id}`
         //console.log(address)
-        axios.get(address, { headers })
+        axios.get(address, { headers, withCredentials: true })
             .then(result => {
                 console.log(result.data.result)
                 if (result.data.result.includes('No join request found')) {

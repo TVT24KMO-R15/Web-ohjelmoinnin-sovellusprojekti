@@ -18,7 +18,7 @@ export default function ProfileInfo() {
   const [changeUsernameOpen, setChangeUsernameOpen] = useState(false)
   const [changeEmailOpen, setChangeEmailOpen] = useState(false)
 
-  const header = { headers: { 'Authorization': `Bearer ${account.user.token}` } }
+  const header = { headers: { 'Authorization': `Bearer ${account.user.token}` }, withCredentials: true }
 
   useEffect(() => {
     axios.get(import.meta.env.VITE_API_URL + `/users/${account.user.id}`, header)

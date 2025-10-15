@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { auth } from "../helpers/authHelper.js";
-import { getAllAccounts, getAccountById, getAccountEmailById, postRegister, accountSignIn, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById } from "../controllers/accountsController.js"
+import { getAllAccounts, getAccountById, getAccountEmailById, postRegister, accountSignIn, accountLogout, postDelete, putAccountPassword, putAccountUsername, putAccountEmail, getUsernameById } from "../controllers/accountsController.js"
 
 const router = Router()
 
@@ -12,6 +12,7 @@ router.get('/:accountid', auth, getAccountById) // get account details by id wit
 router.get('/getemail/:accountid', getAccountEmailById) // get email by id without auth for AccountEmailById component 
 router.post('/signin', accountSignIn)
 router.post('/register', postRegister)
+router.post('/logout', accountLogout)
 router.post('/delete', auth, postDelete)
 router.put('/updatepassword', auth, putAccountPassword)
 router.put('/updateusername', auth, putAccountUsername)

@@ -10,7 +10,11 @@ describe("Testing groups", () => {
     it('should create a group', async () => {
         const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/post`, {
             method: "post",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
+            headers: { 
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
+            },
             body: JSON.stringify(group1)
         })
         const data = await response.json()
@@ -24,7 +28,11 @@ describe("Testing groups", () => {
     it('should not create a duplicate group', async () => {
         const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/post`, {
             method: "post",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
+            headers: { 
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
+            },
             body: JSON.stringify(group1)
         })
         const data = await response.json()
@@ -66,7 +74,11 @@ describe("Testing groups", () => {
     it('should update group', async () => {
         const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/update/${global.group1Id}`, {
             method: "put",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
+            headers: { 
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
+            },
             body: JSON.stringify({ groups: { groupname: "testGroup1Updated", groupdescription: "This is an updated description" } })
         })
         const data = await response.json()

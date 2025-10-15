@@ -15,7 +15,7 @@ export default function MyGroupsPreview() {
     useEffect(() => {
         console.log('getting groups')
         const address = import.meta.env.VITE_API_URL + `/groupjoin/pendingrequests/sent/${account.user.id}`
-        axios.get(address, { headers })
+        axios.get(address, { headers, withCredentials: true })
             .then(result => {
                 //console.log(result.data)
 

@@ -16,7 +16,9 @@ export default function TransferOwnership({ onClose, groupId }) {
     const fetchMembers = async () => {
       try {
         // get group members
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usergrouplinker/groupid/${groupId}`)
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usergrouplinker/groupid/${groupId}`, {
+          withCredentials: true
+        })
 
         // get rid of owner in list
         const filteredMembers = response.data.filter(member => member.fk_accountid !== user.id)
@@ -53,7 +55,8 @@ export default function TransferOwnership({ onClose, groupId }) {
           headers: {
             'Authorization': `Bearer ${user.token}`,
             'Content-Type': 'application/json'
-          }
+          },
+          withCredentials: true
         }
       )
 

@@ -34,7 +34,7 @@ export default function PostReview({ onClose, property, onUpdate, reload, movie 
             const headers = { Authorization: `Bearer ${account.user.token}` }
 
             if (metodi == 'post') {
-                axios.post(import.meta.env.VITE_API_URL + `/reviews/post/`, payload, {headers})
+                axios.post(import.meta.env.VITE_API_URL + `/reviews/post/`, payload, {headers, withCredentials: true })
                     .then(response => {
                         console.log(response)
                         if (response.status == 201) {
@@ -50,7 +50,7 @@ export default function PostReview({ onClose, property, onUpdate, reload, movie 
                     })
             }
             if (metodi == 'put') {
-                axios.put(import.meta.env.VITE_API_URL + `/reviews/put/`, payload, {headers})
+                axios.put(import.meta.env.VITE_API_URL + `/reviews/put/`, payload, {headers, withCredentials: true })
                     .then(response => {
                         console.log(response)
                         if (response.status == 201) {

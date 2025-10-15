@@ -47,6 +47,7 @@ The project team consists of the following members:
 - **bcrypt** – password hashing
 - **dotenv** – environment variables
 - **Mocha & Chai** – backend testing
+- **Docker** - Easy full-stack deployment
 
 
 ## Running the Application Locally
@@ -65,9 +66,21 @@ The project team consists of the following members:
 - **7. Open your browser and go to http://localhost:5173**
 
 
+## Running in Docker
+
+### Prerequisites
+ * Docker engine installed
+
+### Setup instructions
+- **1. Clone the repository.**
+- **2. Create .env file in frontend, backend and project root according to ENV_TEMPLATE's.**
+- **3. Run `docker compose up -d --build` to build and deploy the docker containers.**
+- **4. Frontend will be available in `localhost:80`.**
+- **5. To stop the containers, run `docker compose down` in project root.**
+
 ## Documentation
 
-Further details about the project’s structure and functionality can be found in the [docs] directory.
+Further details about the project’s structure and functionality can be found in the [docs](./docs) directory.
 
 
 ## License

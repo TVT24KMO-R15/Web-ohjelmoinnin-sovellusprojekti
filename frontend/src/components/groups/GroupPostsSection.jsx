@@ -108,7 +108,7 @@ export default function GroupPostsSection({ groupId, isOwner }) {
 
       const headers = { Authorization: `Bearer ${account.user.token}` }
 
-      axios.post(import.meta.env.VITE_API_URL + `/groupposts/post/`, payload, { headers })
+      axios.post(import.meta.env.VITE_API_URL + `/groupposts/post/`, payload, { headers, withCredentials: true })
         .then(response => {
           console.log(response)
           setAddNewPostHidden(true)

@@ -33,8 +33,62 @@ describe("Testing user management", () => {
         })
         const data = await response.json()
         expect(response.status).to.equal(200)
-        expect(data).to.include.all.keys(["id", "email", "username", "token"])
+        expect(data).to.include.all.keys(["id", "email", "username"])
         expect(data.email).to.equal(user1.email)
-        global.user1Token = data.token
+        
+        // grab tokens from headers
+        const authHeader = response.headers.get('Authorization')
+        expect(authHeader).to.exist
+        expect(authHeader).to.match(/^Bearer .+/)
+        global.user1Token = authHeader.replace('Bearer ', '')
+        
+        // grab token from cookies
+        const cookies = response.headers.get('set-cookie')
+        expect(cookies).to.exist
+        expect(cookies).to.include('refreshToken')
+        global.user1Cookies = cookies
+    })
+
+    it('should log out', async () => {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/users/logout`, {
+            method: "post",
+            headers: { 
+                "Content-Type": "application/json",
+                "Cookie": global.user1Cookies
+            }
+        })
+        const data = await response.json()
+        expect(response.status).to.equal(200)
+        expect(data).to.have.property('message', 'Logged out successfully')
+
+        // make sure cookie doesnt exist anymore
+        const cookies = response.headers.get('set-cookie')
+        if (cookies) {
+            expect(cookies).to.match(/refreshToken=;|refreshToken=deleted/)
+        }
+    })
+
+    it('should log back in after logout', async () => {
+        const response = await fetch(`http://localhost:${process.env.PORT}/api/users/signin`, {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ account: user1 })
+        })
+        const data = await response.json()
+        expect(response.status).to.equal(200)
+        expect(data).to.include.all.keys(["id", "email", "username"])
+        expect(data.email).to.equal(user1.email)
+
+        // see new access token from headers
+        const authHeader = response.headers.get('Authorization')
+        expect(authHeader).to.exist
+        expect(authHeader).to.match(/^Bearer .+/)
+        global.user1Token = authHeader.replace('Bearer ', '')
+
+        // see new refresh token from cookies
+        const cookies = response.headers.get('set-cookie')
+        expect(cookies).to.exist
+        expect(cookies).to.include('refreshToken')
+        global.user1Cookies = cookies
     })
 })

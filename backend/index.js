@@ -2,6 +2,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
 
 // -- route imports --
 import usersRouter from './routes/accountRouter.js'
@@ -13,12 +14,18 @@ import groupPostsRouter from './routes/groupPostsRouter.js'
 import groupJoinRouter from './routes/groupJoinRouter.js'
 import userGroupLinker from './routes/userGroupLinkerRouter.js'
 import postCommentRouter from './routes/postCommentRouter.js'
+import refreshTokenRouter from './routes/refreshTokenRouter.js'
 
 dotenv.config()
 
 // -- express config-- 
 const app = express()
-app.use(cors())
+app.use(cors({
+    origin: true,
+    credentials: true,
+    exposedHeaders: ['Authorization']
+}))
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
@@ -33,6 +40,7 @@ app.use('/api/groups', groupRouter)
 app.use('/api/postcomment', postCommentRouter)
 app.use('/api/groupposts', groupPostsRouter)
 app.use('/api/usergrouplinker', userGroupLinker)
+app.use('/api/refresh', refreshTokenRouter)
 
 // get env mode to verify test mode
 app.get('/__env', (req, res) => {

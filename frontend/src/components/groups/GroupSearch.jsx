@@ -42,7 +42,9 @@ export default function GroupSearch() {
         const address = (searchWord === '') ? `${import.meta.env.VITE_API_URL}/groups/` : import.meta.env.VITE_API_URL + `/groups/searchword/${searchWord}`
         //console.log(address)
 
-        axios.get(address)
+        axios.get(address, {
+            withCredentials: true
+        })
             .then(response => {
                 console.log(response.data);
                 if (response.status == 404) {

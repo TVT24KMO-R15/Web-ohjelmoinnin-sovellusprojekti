@@ -15,7 +15,7 @@ export default function PostCommentSection({ GroupPost, isOwner }) {
     useEffect(() => {
         const address = import.meta.env.VITE_API_URL + `/postcomment/${GroupPost.postid}`
         const headers = { Authorization: `Bearer ${account.user.token}` }
-        axios.get(address, { headers })
+        axios.get(address, { headers, withCredentials: true })
             .then(response => {
                 console.log(response)
                 setComments(response.data)
@@ -32,7 +32,7 @@ export default function PostCommentSection({ GroupPost, isOwner }) {
 
             const address = import.meta.env.VITE_API_URL + `/postcomment/${commentid}`
             const headers = { Authorization: `Bearer ${account.user.token}` }
-            axios.delete(address, { headers })
+            axios.delete(address, { headers, withCredentials: true })
                 .then(response => {
                     //console.log(response)
 
