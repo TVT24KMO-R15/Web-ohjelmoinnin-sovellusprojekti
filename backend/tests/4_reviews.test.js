@@ -19,7 +19,8 @@ describe("testing reviews", () => {
             method: "post",
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${global.user1Token}`
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
             },
             body: JSON.stringify({ review })
         })
@@ -53,7 +54,8 @@ describe("testing reviews", () => {
             method: "put",
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${global.user1Token}`
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
             },
             body: JSON.stringify({ review })
         })
@@ -66,7 +68,8 @@ describe("testing reviews", () => {
             method: "delete",
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${global.user1Token}`
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
             }
         })
         const data = await response.json()

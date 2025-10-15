@@ -10,7 +10,11 @@ describe("Cleaning up", () => {
     it("should not delete account when group owner", async () => {
         const response = await fetch(`http://localhost:${process.env.PORT}/api/users/delete`, {
             method: "post",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
+            headers: { 
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
+            },
             body: JSON.stringify({ account: user1 })
         })
         const data = await response.json()
@@ -23,7 +27,11 @@ describe("Cleaning up", () => {
     it("should delete owned group", async () => {
         const response = await fetch(`http://localhost:${process.env.PORT}/api/groups/delete/${global.group1Id}`, {
             method: "delete",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` }
+            headers: { 
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
+            }
         })
         const data = await response.json()
         expect(response.status).to.equal(200)
@@ -34,7 +42,11 @@ describe("Cleaning up", () => {
     it("should delete account", async () => {
         const response = await fetch(`http://localhost:${process.env.PORT}/api/users/delete`, {
             method: "post",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${global.user1Token}` },
+            headers: { 
+                "Content-Type": "application/json", 
+                "Authorization": `Bearer ${global.user1Token}`,
+                "Cookie": global.user1Cookies
+            },
             body: JSON.stringify({ account: user1 })
         })
         const data = await response.json()
