@@ -2,6 +2,8 @@
 
 This project is a movie website application developed as part of the Web Programming Application Project course (IN00ED15) in the Degree Programme in Information Technology at Oulu University of Applied Sciences.
 
+Project is hosted here https://movie-front-iuny.onrender.com/
+
 
 ## Goals
 
